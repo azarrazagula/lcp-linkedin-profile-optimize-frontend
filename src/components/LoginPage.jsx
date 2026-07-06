@@ -56,7 +56,7 @@ export default function LoginPage({ onLoginSuccess }) {
           const continueBtn = document.getElementById('google-continue-btn');
           if (continueBtn) {
             window.google.accounts.id.renderButton(continueBtn, {
-              theme: 'filled_black',
+              theme: 'outline',
               size: 'large',
               shape: 'pill',
               width: 360,
@@ -68,18 +68,13 @@ export default function LoginPage({ onLoginSuccess }) {
         }
       }
     };
-    document.body.appendChild(script);
+    document.head.appendChild(script);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Email/Password Login
+  // Email & Password Auth API Call
   const handleEmailLogin = async (e) => {
     e.preventDefault();
-    if (!email || !password) {
-      setErrorMsg('Please enter both email and password.');
-      return;
-    }
-
     setLoading(true);
     setErrorMsg('');
     setSuccessMsg('');
@@ -94,24 +89,24 @@ export default function LoginPage({ onLoginSuccess }) {
       const data = await res.json();
 
       if (res.ok && data.token) {
-        setSuccessMsg(`Welcome back, ${data.name || 'User'}!`);
+        setSuccessMsg('Signed in successfully!');
         localStorage.setItem('user_token', data.token);
         localStorage.setItem('user_profile', JSON.stringify(data));
         localStorage.setItem('last_login_method', 'email');
         localStorage.setItem('last_user_email', data.email || email);
         if (onLoginSuccess) onLoginSuccess(data);
       } else {
-        setErrorMsg(data.message || data.error || 'Invalid email or password.');
+        setErrorMsg(data.message || 'Invalid email or password');
       }
     } catch (err) {
-      console.error('Login error:', err);
-      setErrorMsg('Cannot connect to backend (http://localhost:5001). Make sure backend is running.');
+      console.error('Email login error:', err);
+      setErrorMsg('Cannot connect to backend server');
     } finally {
       setLoading(false);
     }
   };
 
-  // Google Auth → POST /api/auth/google
+  // Google OAuth Token Exchange with Backend API
   const postGoogleTokenToBackend = async (token) => {
     setLoading(true);
     setErrorMsg('');
@@ -149,42 +144,42 @@ export default function LoginPage({ onLoginSuccess }) {
   // ─────────────────────────────────────────────────────────────
   if (isReturningGoogleUser) {
     return (
-      <div className="min-h-screen bg-dark-bg bg-grid-pattern flex flex-col justify-center items-center p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-slate-50 bg-grid-pattern flex flex-col justify-center items-center p-4 relative overflow-hidden">
         {/* Background Glows */}
-        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
-        <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-indigo-600/15 rounded-full blur-[100px] pointer-events-none"></div>
+        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+        <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
         {/* Brand Header */}
         <div className="mb-8 text-center relative z-10 animate-float">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold tracking-wider uppercase mb-3 backdrop-blur-md">
-            <svg className="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z"/>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-xs font-semibold tracking-wider uppercase mb-3 backdrop-blur-md">
+            <svg className="w-3.5 h-3.5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4 0 .8.6 1.4 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z"/>
             </svg>
             Welcome Back
           </div>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-            Continue to <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 bg-clip-text text-transparent">Your Profile</span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
+            Continue to <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Your Profile</span>
           </h1>
           {returningUserEmail && (
-            <p className="text-slate-400 text-sm mt-2">{returningUserEmail}</p>
+            <p className="text-slate-500 text-sm font-medium mt-2">{returningUserEmail}</p>
           )}
         </div>
 
         {/* Continue with Google Card */}
-        <div className="w-full max-w-md backdrop-blur-2xl bg-slate-900/75 border border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(10,102,194,0.12)] relative z-10">
+        <div className="w-full max-w-md backdrop-blur-2xl bg-white/90 border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(10,102,194,0.06)] relative z-10">
 
           {/* Error / Success Banners */}
           {errorMsg && (
-            <div className="mb-5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-2.5">
-              <svg className="w-4 h-4 text-rose-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-start gap-2.5">
+              <svg className="w-4 h-4 text-rose-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>{errorMsg}</span>
             </div>
           )}
           {successMsg && (
-            <div className="mb-5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-start gap-2.5">
-              <svg className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="mb-5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-start gap-2.5">
+              <svg className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>{successMsg}</span>
@@ -198,9 +193,9 @@ export default function LoginPage({ onLoginSuccess }) {
 
           {/* Divider */}
           <div className="relative flex py-3 items-center">
-            <div className="flex-grow border-t border-slate-800"></div>
-            <span className="flex-shrink mx-3 text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Or sign in with email</span>
-            <div className="flex-grow border-t border-slate-800"></div>
+            <div className="flex-grow border-t border-slate-200"></div>
+            <span className="flex-shrink mx-3 text-[10px] text-slate-400 uppercase tracking-widest font-bold">Or sign in with email</span>
+            <div className="flex-grow border-t border-slate-200"></div>
           </div>
 
           {/* Small link to switch to email login */}
@@ -211,15 +206,15 @@ export default function LoginPage({ onLoginSuccess }) {
               localStorage.removeItem('last_user_email');
               window.location.reload();
             }}
-            className="w-full py-3 px-4 rounded-xl font-semibold text-sm bg-slate-800/60 hover:bg-slate-800 text-slate-300 border border-slate-700/80 transition-all flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 rounded-xl font-bold text-sm bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 shadow-2xs transition-all flex items-center justify-center gap-2 cursor-pointer"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
             Sign in with Email & Password
           </button>
 
-          <div className="mt-6 text-center text-xs text-slate-500">
+          <div className="mt-6 text-center text-xs text-slate-400 font-medium">
             Powered by Node.js, Express, MongoDB & Gemini AI
           </div>
         </div>
@@ -231,42 +226,42 @@ export default function LoginPage({ onLoginSuccess }) {
   // NEW / FIRST TIME USER → Email Sign In + Create Account (Google)
   // ─────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen bg-dark-bg bg-grid-pattern flex flex-col justify-center items-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-slate-50 bg-grid-pattern flex flex-col justify-center items-center p-4 relative overflow-hidden">
       {/* Background Glows */}
-      <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
-      <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-indigo-600/15 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+      <div className="absolute bottom-10 right-1/4 w-[400px] h-[400px] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none"></div>
 
       {/* Brand Header */}
       <div className="mb-8 text-center relative z-10 animate-float">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold tracking-wider uppercase mb-3 backdrop-blur-md">
-          <svg className="w-3.5 h-3.5 text-blue-400" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z"/>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-xs font-semibold tracking-wider uppercase mb-3 backdrop-blur-md">
+          <svg className="w-3.5 h-3.5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4 0 .8.6 1.4 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z"/>
           </svg>
           AI LinkedIn Profile Optimizer
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Elevate Your <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 bg-clip-text text-transparent">Professional Identity</span>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
+          Elevate Your <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Professional Identity</span>
         </h1>
-        <p className="text-slate-400 text-sm mt-2 max-w-sm mx-auto">
+        <p className="text-slate-500 text-sm font-medium mt-2 max-w-sm mx-auto">
           Access your optimized LinkedIn suite powered by Gemini AI
         </p>
       </div>
 
       {/* Main Glass Card */}
-      <div className="w-full max-w-md backdrop-blur-2xl bg-slate-900/75 border border-slate-800/80 rounded-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(10,102,194,0.12)] relative z-10">
+      <div className="w-full max-w-md backdrop-blur-2xl bg-white/90 border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-[0_0_50px_rgba(10,102,194,0.06)] relative z-10">
 
         {/* Error / Success Banners */}
         {errorMsg && (
-          <div className="mb-5 p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-start gap-2.5">
-            <svg className="w-4 h-4 text-rose-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold flex items-start gap-2.5">
+            <svg className="w-4 h-4 text-rose-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>{errorMsg}</span>
           </div>
         )}
         {successMsg && (
-          <div className="mb-5 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs flex items-start gap-2.5">
-            <svg className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="mb-5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-start gap-2.5">
+            <svg className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>{successMsg}</span>
@@ -276,11 +271,11 @@ export default function LoginPage({ onLoginSuccess }) {
         {/* Email & Password Login Form */}
         <form onSubmit={handleEmailLogin} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">
+            <label className="block text-xs font-bold text-slate-600 mb-1.5 uppercase tracking-wider">
               Email Address
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
@@ -292,22 +287,22 @@ export default function LoginPage({ onLoginSuccess }) {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-950/60 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                className="w-full pl-10 pr-4 py-3 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all font-medium shadow-xs"
               />
             </div>
           </div>
 
           <div>
             <div className="flex justify-between items-center mb-1.5">
-              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+              <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
                 Password
               </label>
-              <a href="#forgot" onClick={(e) => e.preventDefault()} className="text-xs text-blue-400 hover:text-blue-300 transition-colors">
+              <a href="#forgot" onClick={(e) => e.preventDefault()} className="text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors">
                 Forgot?
               </a>
             </div>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -319,12 +314,12 @@ export default function LoginPage({ onLoginSuccess }) {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="w-full pl-10 pr-10 py-3 rounded-xl bg-slate-950/60 border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all"
+                className="w-full pl-10 pr-10 py-3 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all font-medium shadow-xs"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-500 hover:text-slate-300 transition-colors"
+                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
               >
                 {showPassword ? (
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,7 +340,7 @@ export default function LoginPage({ onLoginSuccess }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-2 py-3.5 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/30 active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full mt-2 py-3.5 px-4 rounded-xl font-bold text-sm bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white shadow-md shadow-blue-600/20 active:scale-[0.99] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {loading ? (
               <>
@@ -368,9 +363,9 @@ export default function LoginPage({ onLoginSuccess }) {
 
         {/* Divider */}
         <div className="relative flex py-4 items-center">
-          <div className="flex-grow border-t border-slate-800"></div>
-          <span className="flex-shrink mx-3 text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Or create a new account</span>
-          <div className="flex-grow border-t border-slate-800"></div>
+          <div className="flex-grow border-t border-slate-200"></div>
+          <span className="flex-shrink mx-3 text-[10px] text-slate-400 uppercase tracking-widest font-bold">Or create a new account</span>
+          <div className="flex-grow border-t border-slate-200"></div>
         </div>
 
         {/* Google Sign In — Create New Account */}
@@ -379,7 +374,7 @@ export default function LoginPage({ onLoginSuccess }) {
         </div>
 
         {/* Footer */}
-        <div className="mt-6 text-center text-xs text-slate-500">
+        <div className="mt-6 text-center text-xs text-slate-400 font-medium">
           Powered by Node.js, Express, MongoDB & Gemini AI
         </div>
       </div>

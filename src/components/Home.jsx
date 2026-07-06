@@ -52,10 +52,10 @@ export default function Home({ currentUser, onLogout }) {
   };
 
   return (
-    <div className="min-h-screen bg-dark-bg bg-grid-pattern pb-16">
+    <div className="min-h-screen bg-slate-50/50 bg-grid-pattern pb-16">
 
       {/* ── Top Navbar ───────────────────────────────────────────────────── */}
-      <nav className="backdrop-blur-xl bg-slate-900/80 border-b border-slate-800 sticky top-0 z-50">
+      <nav className="backdrop-blur-xl bg-white/85 border-b border-slate-200 sticky top-0 z-50 shadow-2xs">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
@@ -64,21 +64,21 @@ export default function Home({ currentUser, onLogout }) {
               </svg>
             </div>
             <div>
-              <h1 className="text-base font-extrabold text-white leading-tight">
-                LinkedIn Profile <span className="text-blue-400">Optimizer</span>
+              <h1 className="text-base font-extrabold text-slate-800 leading-tight">
+                LinkedIn Profile <span className="text-blue-600">Optimizer</span>
               </h1>
-              <span className="text-[10px] text-slate-400">Powered by Gemini AI + MERN</span>
+              <span className="text-[10px] text-slate-500 font-medium">Powered by Gemini AI + MERN</span>
             </div>
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-950 border border-slate-800 text-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span className="text-slate-300 font-medium">{currentUser?.name || 'User'}</span>
+            <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="text-slate-700 font-bold">{currentUser?.name || 'User'}</span>
             </div>
             <button
               onClick={onLogout}
-              className="py-1.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold border border-slate-700 transition-all"
+              className="py-1.5 px-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200 shadow-3xs transition-all cursor-pointer"
             >
               Sign Out
             </button>
@@ -91,8 +91,8 @@ export default function Home({ currentUser, onLogout }) {
 
         {/* Error Banner */}
         {errorMsg && (
-          <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2">
-            <svg className="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-semibold flex items-center gap-2 shadow-3xs animate-fadeIn">
+            <svg className="w-4 h-4 text-amber-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <span>{errorMsg}</span>

@@ -34,11 +34,11 @@ export const MONTHS = [
 export const YEARS = Array.from({ length: 70 }, (_, i) => String(2030 - i));
 export const DAYS = Array.from({ length: 31 }, (_, i) => String(i + 1));
 
-// ── Shared styles ─────────────────────────────────────────────────────────────
+// ── Shared styles (Light / White Theme) ───────────────────────────────────────
 export const inputCls =
-  'w-full px-3 py-2.5 rounded-xl bg-slate-950/60 border border-slate-800 text-white placeholder-slate-600 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all';
+  'w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all shadow-xs';
 export const textareaCls =
-  'w-full px-3 py-2.5 rounded-xl bg-slate-950/60 border border-slate-800 text-white placeholder-slate-600 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all resize-none';
+  'w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all resize-none shadow-xs';
 
 export function FieldLabel({ children, required, value }) {
   const [copied, setCopied] = React.useState(false);
@@ -57,28 +57,28 @@ export function FieldLabel({ children, required, value }) {
       const parts = children.split('*');
       return (
         <span>
-          {parts[0]}<span className="text-rose-400 font-bold text-sm ml-0.5">*</span>{parts[1]}
+          {parts[0]}<span className="text-rose-500 font-bold text-sm ml-0.5">*</span>{parts[1]}
         </span>
       );
     }
     return (
       <span>
         {children}
-        {required && <span className="text-rose-400 font-bold text-sm ml-0.5">*</span>}
+        {required && <span className="text-rose-500 font-bold text-sm ml-0.5">*</span>}
       </span>
     );
   };
 
   return (
     <div className="flex items-center justify-between mb-1.5">
-      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+      <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
         {renderText()}
       </label>
       {value !== undefined && value !== null && String(value).trim() !== '' && (
         <button
           type="button"
           onClick={handleCopy}
-          className="text-[10px] font-semibold text-blue-400/90 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 px-2 py-0.5 rounded transition-all flex items-center gap-1 cursor-pointer"
+          className="text-[11px] font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200 px-2 py-0.5 rounded-md transition-all flex items-center gap-1 cursor-pointer"
         >
           {copied ? '✓ Copied' : '📋 Copy'}
         </button>
@@ -93,9 +93,9 @@ export function LIBtn({ url, label = 'Edit on LinkedIn' }) {
     <a
       href={url}
       target="linkedin_edit"
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-600/15 hover:bg-blue-600/30 text-blue-400 hover:text-blue-300 border border-blue-600/20 text-[11px] font-semibold transition-all whitespace-nowrap no-underline"
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 hover:text-blue-800 border border-blue-200 text-xs font-bold transition-all whitespace-nowrap no-underline shadow-2xs"
     >
-      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+      <svg className="w-3.5 h-3.5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z" />
       </svg>
       {label}
@@ -105,11 +105,11 @@ export function LIBtn({ url, label = 'Edit on LinkedIn' }) {
 
 export function SectionCard({ title, icon, liUrl, liLabel, children }) {
   return (
-    <div className="bg-slate-900/60 backdrop-blur-sm border border-slate-800/80 rounded-2xl p-5 space-y-4">
-      <div className="flex items-center justify-between pb-2 border-b border-slate-800/60">
+    <div className="bg-white/90 backdrop-blur-md border border-slate-200/90 rounded-2xl p-6 shadow-sm shadow-slate-200/50 space-y-4 hover:shadow-md transition-all">
+      <div className="flex items-center justify-between pb-3 border-b border-slate-100">
         <div className="flex items-center gap-2">
-          <span className="text-blue-400">{icon}</span>
-          <h3 className="text-sm font-bold text-white tracking-wide">{title}</h3>
+          <span className="text-blue-600">{icon}</span>
+          <h3 className="text-sm font-bold text-slate-800 tracking-wide">{title}</h3>
         </div>
         {liUrl && <LIBtn url={liUrl} label={liLabel} />}
       </div>
@@ -123,7 +123,7 @@ export function AddMoreBtn({ onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="w-full py-2 rounded-xl border border-dashed border-slate-700 hover:border-blue-500/50 text-slate-500 hover:text-blue-400 text-xs font-semibold transition-all flex items-center justify-center gap-1.5"
+      className="w-full py-2.5 rounded-xl border border-dashed border-slate-300 hover:border-blue-500 bg-slate-50/50 hover:bg-blue-50/50 text-slate-600 hover:text-blue-600 text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer"
     >
       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
@@ -138,7 +138,7 @@ export function RemoveBtn({ onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className="text-[10px] text-slate-600 hover:text-rose-400 transition-colors flex items-center gap-1"
+      className="text-[11px] text-slate-400 hover:text-rose-600 transition-colors flex items-center gap-1 font-semibold cursor-pointer"
     >
       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
