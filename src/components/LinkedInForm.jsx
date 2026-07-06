@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { getLIUrls } from './sections/FormHelpers';
 import BasicInfoSection from './sections/BasicInfoSection';
 import ContactInfoSection from './sections/ContactInfoSection';
-import OpenToWorkSection from './sections/OpenToWorkSection';
-import ServicesSection from './sections/ServicesSection';
 import AboutSection from './sections/AboutSection';
 import ExperienceSection from './sections/ExperienceSection';
 import EducationSection from './sections/EducationSection';
@@ -23,16 +21,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
   // Section 1b: Contact Info
   const [contactInfo, setContactInfo] = useState({
     email: '', phone: '', phoneType: 'Mobile', address: '', birthMonth: '', birthDay: '', websiteUrl: '', websiteType: 'Personal'
-  });
-
-  // Section 1c: Open to Work Preferences
-  const [openToWork, setOpenToWork] = useState({
-    jobTitles: '', jobTypes: ['Full-time'], locationTypes: ['Remote'], targetLocations: '', startDate: 'Immediately'
-  });
-
-  // Section 1d: Providing Services
-  const [services, setServices] = useState({
-    servicesOffered: '', description: ''
   });
 
   // Section 2: About
@@ -101,7 +89,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
     e.preventDefault();
     if (onGenerate) {
       onGenerate({
-        basicInfo, contactInfo, openToWork, services,
+        basicInfo, contactInfo,
         profilePhoto, coverPhoto, about,
         experiences, educations, skills, projects, certifications, languages
       });
@@ -127,20 +115,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
         contactInfo={contactInfo}
         setContactInfo={setContactInfo}
         liUrl={LI.contact}
-      />
-
-      {/* 1c. Open to Work Preferences */}
-      <OpenToWorkSection
-        openToWork={openToWork}
-        setOpenToWork={setOpenToWork}
-        liUrl={LI.openToWork}
-      />
-
-      {/* 1d. Providing Services (Freelancers) */}
-      <ServicesSection
-        services={services}
-        setServices={setServices}
-        liUrl={LI.services}
       />
 
       {/* 2. About */}

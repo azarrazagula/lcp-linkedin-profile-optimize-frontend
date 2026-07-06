@@ -22,8 +22,6 @@ export function getLIUrls(linkedinUrl) {
     contact:        `${base}/edit/forms/contact-info/new/`,
     about:          `${base}/edit/forms/summary/new/`,
     projects:       `${base}/edit/forms/project/new/`,
-    openToWork:     `${base}/edit/intro/`,
-    services:       `${base}/edit/intro/`,
   };
 }
 
