@@ -4,8 +4,8 @@ import { SectionCard, FieldLabel, AddMoreBtn, RemoveBtn, inputCls, textareaCls, 
 export default function ExperienceSection({ experiences, setExperiences, updateArr, addItem, removeItem, liUrl }) {
   const emptyExp = {
     jobTitle: '', company: '', employmentType: '', location: '', locationType: '',
-    currentlyWorking: false, startMonth: '', startYear: '', endMonth: '', endYear: '',
-    description: '', profileHeadline: '', foundVia: ''
+    currentlyWorking: false, startMonth: '', startYear: '', description: '',
+    profileHeadline: '', foundVia: ''
   };
 
   return (
@@ -21,16 +21,14 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <FieldLabel>Title *</FieldLabel>
-              <input className={inputCls} placeholder="Ex: Retail Sales Manager"
+              <FieldLabel value={exp.jobTitle}>Title *</FieldLabel>
+              <input className={inputCls} placeholder="Ex: Full Stack Developer"
                 value={exp.jobTitle}
                 onChange={(e) => updateArr(setExperiences, i, 'jobTitle', e.target.value)} />
             </div>
             <div>
-              <FieldLabel>Employment type</FieldLabel>
-              <select className={inputCls}
-                value={exp.employmentType}
-                onChange={(e) => updateArr(setExperiences, i, 'employmentType', e.target.value)}>
+              <FieldLabel value={exp.employmentType}>Employment type</FieldLabel>
+              <select className={inputCls} value={exp.employmentType} onChange={(e) => updateArr(setExperiences, i, 'employmentType', e.target.value)}>
                 <option value="">Please select</option>
                 <option value="Full-time">Full-time</option>
                 <option value="Part-time">Part-time</option>
@@ -45,24 +43,24 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
           </div>
 
           <div>
-            <FieldLabel>Company or organization *</FieldLabel>
+            <FieldLabel value={exp.company}>Company name *</FieldLabel>
             <input className={inputCls} placeholder="Ex: Microsoft"
               value={exp.company}
               onChange={(e) => updateArr(setExperiences, i, 'company', e.target.value)} />
           </div>
 
           <div className="flex items-center gap-2 py-1">
-            <input type="checkbox" id={`current-role-${i}`} className="w-4 h-4 accent-blue-500 rounded cursor-pointer"
+            <input type="checkbox" id={`current-${i}`} className="w-4 h-4 accent-blue-500 rounded cursor-pointer"
               checked={exp.currentlyWorking}
               onChange={(e) => updateArr(setExperiences, i, 'currentlyWorking', e.target.checked)} />
-            <label htmlFor={`current-role-${i}`} className="text-xs font-medium text-slate-300 cursor-pointer">
+            <label htmlFor={`current-${i}`} className="text-xs font-medium text-slate-300 cursor-pointer">
               I am currently working in this role
             </label>
           </div>
 
           {/* Start Date */}
           <div>
-            <FieldLabel>Start date</FieldLabel>
+            <FieldLabel value={exp.startMonth && exp.startYear ? `${exp.startMonth} ${exp.startYear}` : ''}>Start date</FieldLabel>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <span className="text-[11px] text-slate-400 font-medium block mb-1">Month</span>
@@ -83,16 +81,14 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <FieldLabel>Location</FieldLabel>
+              <FieldLabel value={exp.location}>Location</FieldLabel>
               <input className={inputCls} placeholder="Ex: London, United Kingdom"
                 value={exp.location}
                 onChange={(e) => updateArr(setExperiences, i, 'location', e.target.value)} />
             </div>
             <div>
-              <FieldLabel>Location type</FieldLabel>
-              <select className={inputCls}
-                value={exp.locationType}
-                onChange={(e) => updateArr(setExperiences, i, 'locationType', e.target.value)}>
+              <FieldLabel value={exp.locationType}>Location type</FieldLabel>
+              <select className={inputCls} value={exp.locationType} onChange={(e) => updateArr(setExperiences, i, 'locationType', e.target.value)}>
                 <option value="">Please select</option>
                 <option value="On-site">On-site</option>
                 <option value="Hybrid">Hybrid</option>
@@ -102,34 +98,18 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
           </div>
 
           <div>
-            <FieldLabel>Description</FieldLabel>
-            <textarea className={textareaCls} rows={3}
-              placeholder="Describe your role, responsibilities, skills used, achievements..."
+            <FieldLabel value={exp.description}>Description</FieldLabel>
+            <textarea className={textareaCls} rows={4}
+              placeholder="Describe your responsibilities, key achievements, impact..."
               value={exp.description}
               onChange={(e) => updateArr(setExperiences, i, 'description', e.target.value)} />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <FieldLabel>Profile headline</FieldLabel>
-              <input className={inputCls} placeholder="Appears below your name at the top of your profile (e.g. MERN Stack Developer)"
-                value={exp.profileHeadline}
-                onChange={(e) => updateArr(setExperiences, i, 'profileHeadline', e.target.value)} />
-            </div>
-            <div>
-              <FieldLabel>Where did you find the job?</FieldLabel>
-              <select className={inputCls}
-                value={exp.foundVia}
-                onChange={(e) => updateArr(setExperiences, i, 'foundVia', e.target.value)}>
-                <option value="">Please select</option>
-                <option value="LinkedIn">LinkedIn</option>
-                <option value="Company website">Company website</option>
-                <option value="Job board">Job board (Indeed, Glassdoor, etc.)</option>
-                <option value="Recruiter">Recruiter / Agency</option>
-                <option value="Referral">Referral / Network</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
+          <div>
+            <FieldLabel value={exp.profileHeadline}>Profile headline</FieldLabel>
+            <input className={inputCls} placeholder="Appears below your name at top of profile"
+              value={exp.profileHeadline}
+              onChange={(e) => updateArr(setExperiences, i, 'profileHeadline', e.target.value)} />
           </div>
         </div>
       ))}

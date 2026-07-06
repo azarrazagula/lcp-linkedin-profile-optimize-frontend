@@ -40,21 +40,50 @@ export const inputCls =
 export const textareaCls =
   'w-full px-3 py-2.5 rounded-xl bg-slate-950/60 border border-slate-800 text-white placeholder-slate-600 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500 transition-all resize-none';
 
-export function FieldLabel({ children, required }) {
-  if (typeof children === 'string' && children.includes('*')) {
-    const parts = children.split('*');
+export function FieldLabel({ children, required, value }) {
+  const [copied, setCopied] = React.useState(false);
+
+  const handleCopy = (e) => {
+    e.preventDefault();
+    if (!value) return;
+    const strVal = typeof value === 'object' ? JSON.stringify(value) : String(value);
+    navigator.clipboard.writeText(strVal);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const renderText = () => {
+    if (typeof children === 'string' && children.includes('*')) {
+      const parts = children.split('*');
+      return (
+        <span>
+          {parts[0]}<span className="text-rose-400 font-bold text-sm ml-0.5">*</span>{parts[1]}
+        </span>
+      );
+    }
     return (
-      <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">
-        {parts[0]}<span className="text-rose-400 font-bold text-sm ml-0.5">*</span>{parts[1]}
-      </label>
+      <span>
+        {children}
+        {required && <span className="text-rose-400 font-bold text-sm ml-0.5">*</span>}
+      </span>
     );
-  }
+  };
 
   return (
-    <label className="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">
-      {children}
-      {required && <span className="text-rose-400 font-bold text-sm ml-0.5">*</span>}
-    </label>
+    <div className="flex items-center justify-between mb-1.5">
+      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider">
+        {renderText()}
+      </label>
+      {value !== undefined && value !== null && String(value).trim() !== '' && (
+        <button
+          type="button"
+          onClick={handleCopy}
+          className="text-[10px] font-semibold text-blue-400/90 hover:text-blue-300 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/20 px-2 py-0.5 rounded transition-all flex items-center gap-1 cursor-pointer"
+        >
+          {copied ? '✓ Copied' : '📋 Copy'}
+        </button>
+      )}
+    </div>
   );
 }
 

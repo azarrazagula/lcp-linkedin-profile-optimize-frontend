@@ -6,13 +6,13 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
     <SectionCard title="Basic Info" icon={IC.user} liUrl={liUrl}>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel>Full Name *</FieldLabel>
+          <FieldLabel value={basicInfo.fullName}>Full Name *</FieldLabel>
           <input className={inputCls} placeholder="John Doe"
             value={basicInfo.fullName}
             onChange={(e) => setBasicInfo({ ...basicInfo, fullName: e.target.value })} />
         </div>
         <div>
-          <FieldLabel>Pronouns</FieldLabel>
+          <FieldLabel value={basicInfo.pronouns}>Pronouns</FieldLabel>
           <select className={inputCls}
             value={basicInfo.pronouns || ''}
             onChange={(e) => setBasicInfo({ ...basicInfo, pronouns: e.target.value })}>
@@ -27,13 +27,13 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel>Location</FieldLabel>
+          <FieldLabel value={basicInfo.location}>Location</FieldLabel>
           <input className={inputCls} placeholder="Chennai, India"
             value={basicInfo.location}
             onChange={(e) => setBasicInfo({ ...basicInfo, location: e.target.value })} />
         </div>
         <div>
-          <FieldLabel>Industry</FieldLabel>
+          <FieldLabel value={basicInfo.industry}>Industry</FieldLabel>
           <input className={inputCls} placeholder="Ex: Technology, Information and Internet"
             value={basicInfo.industry || ''}
             onChange={(e) => setBasicInfo({ ...basicInfo, industry: e.target.value })} />
@@ -41,7 +41,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
       </div>
 
       <div>
-        <FieldLabel>Headline *</FieldLabel>
+        <FieldLabel value={basicInfo.headline}>Headline *</FieldLabel>
         <input className={inputCls} placeholder="Full Stack Developer | React · Node.js · MongoDB"
           value={basicInfo.headline}
           onChange={(e) => setBasicInfo({ ...basicInfo, headline: e.target.value })} />
@@ -61,7 +61,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
       </div>
 
       <div>
-        <FieldLabel>LinkedIn Profile URL *</FieldLabel>
+        <FieldLabel value={basicInfo.linkedinUrl}>LinkedIn Profile URL *</FieldLabel>
         <input className={inputCls} placeholder="https://linkedin.com/in/yourname"
           value={basicInfo.linkedinUrl}
           onChange={(e) => setBasicInfo({ ...basicInfo, linkedinUrl: e.target.value })} />

@@ -21,14 +21,14 @@ export default function CertificationsSection({ certifications, setCertification
           </div>
 
           <div>
-            <FieldLabel>Name *</FieldLabel>
+            <FieldLabel value={cert.name}>Name *</FieldLabel>
             <input className={inputCls} placeholder="Ex: Microsoft certified network associate security"
               value={cert.name}
               onChange={(e) => updateArr(setCertifications, i, 'name', e.target.value)} />
           </div>
 
           <div>
-            <FieldLabel>Issuing organization *</FieldLabel>
+            <FieldLabel value={cert.issuedBy}>Issuing organization *</FieldLabel>
             <input className={inputCls} placeholder="Ex: Microsoft"
               value={cert.issuedBy}
               onChange={(e) => updateArr(setCertifications, i, 'issuedBy', e.target.value)} />
@@ -37,7 +37,7 @@ export default function CertificationsSection({ certifications, setCertification
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {/* Issue Date */}
             <div>
-              <FieldLabel>Issue date</FieldLabel>
+              <FieldLabel value={cert.issueMonth && cert.issueYear ? `${cert.issueMonth} ${cert.issueYear}` : ''}>Issue date</FieldLabel>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <span className="text-[10px] text-slate-500 font-medium block mb-1">Month</span>
@@ -58,7 +58,7 @@ export default function CertificationsSection({ certifications, setCertification
 
             {/* Expiration Date */}
             <div>
-              <FieldLabel>Expiration date</FieldLabel>
+              <FieldLabel value={cert.expirationMonth && cert.expirationYear ? `${cert.expirationMonth} ${cert.expirationYear}` : ''}>Expiration date</FieldLabel>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <span className="text-[10px] text-slate-500 font-medium block mb-1">Month</span>
@@ -80,13 +80,13 @@ export default function CertificationsSection({ certifications, setCertification
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <FieldLabel>Credential ID</FieldLabel>
+              <FieldLabel value={cert.credentialId}>Credential ID</FieldLabel>
               <input className={inputCls} placeholder="e.g. ABC-123456"
                 value={cert.credentialId || ''}
                 onChange={(e) => updateArr(setCertifications, i, 'credentialId', e.target.value)} />
             </div>
             <div>
-              <FieldLabel>Credential URL</FieldLabel>
+              <FieldLabel value={cert.credentialUrl}>Credential URL</FieldLabel>
               <input className={inputCls} placeholder="https://certificate-url.com"
                 value={cert.credentialUrl || ''}
                 onChange={(e) => updateArr(setCertifications, i, 'credentialUrl', e.target.value)} />

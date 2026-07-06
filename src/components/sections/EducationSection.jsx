@@ -19,31 +19,32 @@ export default function EducationSection({ educations, setEducations, updateArr,
             {educations.length > 1 && <RemoveBtn onClick={() => removeItem(setEducations, i)} />}
           </div>
 
+          <div>
+            <FieldLabel value={edu.school}>School *</FieldLabel>
+            <input className={inputCls} placeholder="Ex: Boston University"
+              value={edu.school}
+              onChange={(e) => updateArr(setEducations, i, 'school', e.target.value)} />
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <FieldLabel>School *</FieldLabel>
-              <input className={inputCls} placeholder="Ex: Boston University / Anna University"
-                value={edu.school}
-                onChange={(e) => updateArr(setEducations, i, 'school', e.target.value)} />
-            </div>
-            <div>
-              <FieldLabel>Degree</FieldLabel>
-              <input className={inputCls} placeholder="Ex: Bachelor of Science / B.E."
+              <FieldLabel value={edu.degree}>Degree</FieldLabel>
+              <input className={inputCls} placeholder="Ex: Bachelor's"
                 value={edu.degree}
                 onChange={(e) => updateArr(setEducations, i, 'degree', e.target.value)} />
             </div>
-          </div>
-
-          <div>
-            <FieldLabel>Field of study</FieldLabel>
-            <input className={inputCls} placeholder="Ex: Business / Computer Science"
-              value={edu.fieldOfStudy}
-              onChange={(e) => updateArr(setEducations, i, 'fieldOfStudy', e.target.value)} />
+            <div>
+              <FieldLabel value={edu.fieldOfStudy}>Field of study</FieldLabel>
+              <input className={inputCls} placeholder="Ex: Business"
+                value={edu.fieldOfStudy}
+                onChange={(e) => updateArr(setEducations, i, 'fieldOfStudy', e.target.value)} />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Start Date */}
             <div>
-              <FieldLabel>Start date</FieldLabel>
+              <FieldLabel value={edu.startMonth && edu.startYear ? `${edu.startMonth} ${edu.startYear}` : ''}>Start date</FieldLabel>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <span className="text-[10px] text-slate-500 font-medium block mb-1">Month</span>
@@ -62,8 +63,9 @@ export default function EducationSection({ educations, setEducations, updateArr,
               </div>
             </div>
 
+            {/* End Date */}
             <div>
-              <FieldLabel>End date (or expected)</FieldLabel>
+              <FieldLabel value={edu.endMonth && edu.endYear ? `${edu.endMonth} ${edu.endYear}` : ''}>End date (or expected)</FieldLabel>
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <span className="text-[10px] text-slate-500 font-medium block mb-1">Month</span>
@@ -83,26 +85,26 @@ export default function EducationSection({ educations, setEducations, updateArr,
             </div>
           </div>
 
-          <div>
-            <FieldLabel>Grade</FieldLabel>
-            <input className={inputCls} placeholder="Ex: 8.5 CGPA / First Class"
-              value={edu.grade || ''}
-              onChange={(e) => updateArr(setEducations, i, 'grade', e.target.value)} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <FieldLabel value={edu.grade}>Grade</FieldLabel>
+              <input className={inputCls} placeholder="Ex: First Class / 3.8 GPA"
+                value={edu.grade}
+                onChange={(e) => updateArr(setEducations, i, 'grade', e.target.value)} />
+            </div>
+            <div>
+              <FieldLabel value={edu.activities}>Activities and societies</FieldLabel>
+              <input className={inputCls} placeholder="Ex: Chess Club, Tech Lead"
+                value={edu.activities}
+                onChange={(e) => updateArr(setEducations, i, 'activities', e.target.value)} />
+            </div>
           </div>
 
           <div>
-            <FieldLabel>Activities and societies</FieldLabel>
-            <textarea className={textareaCls} rows={2}
-              placeholder="Ex: Alpha Phi Omega, Marching Band, Volleyball, Coding Club..."
-              value={edu.activities || ''}
-              onChange={(e) => updateArr(setEducations, i, 'activities', e.target.value)} />
-          </div>
-
-          <div>
-            <FieldLabel>Description</FieldLabel>
+            <FieldLabel value={edu.description}>Description</FieldLabel>
             <textarea className={textareaCls} rows={3}
               placeholder="Describe your coursework, honors, projects, thesis..."
-              value={edu.description || ''}
+              value={edu.description}
               onChange={(e) => updateArr(setEducations, i, 'description', e.target.value)} />
           </div>
         </div>

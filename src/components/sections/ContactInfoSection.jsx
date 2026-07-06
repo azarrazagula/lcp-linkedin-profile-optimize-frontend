@@ -6,7 +6,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
     <SectionCard title="Contact Info" icon={IC.user} liUrl={liUrl}>
       {/* Email */}
       <div>
-        <FieldLabel>Email</FieldLabel>
+        <FieldLabel value={contactInfo.email}>Email</FieldLabel>
         <input type="email" className={inputCls} placeholder="e.g. azarrazagula@gmail.com"
           value={contactInfo.email || ''}
           onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })} />
@@ -15,13 +15,13 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
       {/* Phone Number & Phone Type */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel>Phone number</FieldLabel>
+          <FieldLabel value={contactInfo.phone}>Phone number</FieldLabel>
           <input className={inputCls} placeholder="e.g. 6385725727"
             value={contactInfo.phone || ''}
             onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })} />
         </div>
         <div>
-          <FieldLabel>Phone type</FieldLabel>
+          <FieldLabel value={contactInfo.phoneType}>Phone type</FieldLabel>
           <select className={inputCls}
             value={contactInfo.phoneType || 'Mobile'}
             onChange={(e) => setContactInfo({ ...contactInfo, phoneType: e.target.value })}>
@@ -34,7 +34,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
 
       {/* Address */}
       <div>
-        <FieldLabel>Address</FieldLabel>
+        <FieldLabel value={contactInfo.address}>Address</FieldLabel>
         <textarea className={textareaCls} rows={2} placeholder="Ex: Coimbatore, Tamil Nadu, India"
           value={contactInfo.address || ''}
           onChange={(e) => setContactInfo({ ...contactInfo, address: e.target.value })} />
@@ -42,7 +42,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
 
       {/* Birthday */}
       <div>
-        <FieldLabel>Birthday</FieldLabel>
+        <FieldLabel value={contactInfo.birthMonth && contactInfo.birthDay ? `${contactInfo.birthMonth} ${contactInfo.birthDay}` : ''}>Birthday</FieldLabel>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <span className="text-[11px] text-slate-400 font-medium block mb-1">Month</span>
@@ -68,13 +68,13 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
       {/* Website */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel>Website URL</FieldLabel>
+          <FieldLabel value={contactInfo.websiteUrl}>Website URL</FieldLabel>
           <input className={inputCls} placeholder="https://yourportfolio.com"
             value={contactInfo.websiteUrl || ''}
             onChange={(e) => setContactInfo({ ...contactInfo, websiteUrl: e.target.value })} />
         </div>
         <div>
-          <FieldLabel>Website Type</FieldLabel>
+          <FieldLabel value={contactInfo.websiteType}>Website Type</FieldLabel>
           <select className={inputCls}
             value={contactInfo.websiteType || 'Personal'}
             onChange={(e) => setContactInfo({ ...contactInfo, websiteType: e.target.value })}>

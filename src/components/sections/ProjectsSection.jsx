@@ -19,14 +19,14 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
           </div>
 
           <div>
-            <FieldLabel>Project Name *</FieldLabel>
+            <FieldLabel value={proj.name}>Project Name *</FieldLabel>
             <input className={inputCls} placeholder="LinkedIn Optimizer"
               value={proj.name}
               onChange={(e) => updateArr(setProjects, i, 'name', e.target.value)} />
           </div>
 
           <div>
-            <FieldLabel>Description</FieldLabel>
+            <FieldLabel value={proj.description}>Description</FieldLabel>
             <textarea className={textareaCls} rows={3}
               placeholder="What does this project do? What problem does it solve?"
               value={proj.description}
@@ -44,7 +44,7 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
 
           {/* Start Date */}
           <div>
-            <FieldLabel>Start date</FieldLabel>
+            <FieldLabel value={proj.startMonth && proj.startYear ? `${proj.startMonth} ${proj.startYear}` : ''}>Start date</FieldLabel>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <span className="text-[11px] text-slate-400 font-medium block mb-1">Month</span>
@@ -66,7 +66,7 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
           {/* End Date - Only shown if NOT currently working */}
           {!proj.currentlyWorking && (
             <div>
-              <FieldLabel>End date</FieldLabel>
+              <FieldLabel value={proj.endMonth && proj.endYear ? `${proj.endMonth} ${proj.endYear}` : ''}>End date</FieldLabel>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <span className="text-[11px] text-slate-400 font-medium block mb-1">Month</span>
