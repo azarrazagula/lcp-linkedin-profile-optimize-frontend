@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Result({ result }) {
+export default function GenerateAI({ result }) {
   const [copiedSection, setCopiedSection] = useState('');
 
   if (!result) return null;
