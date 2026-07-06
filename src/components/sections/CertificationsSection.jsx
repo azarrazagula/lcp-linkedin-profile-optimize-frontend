@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionCard, FieldLabel, AddMoreBtn, RemoveBtn, inputCls, IC, MONTHS, YEARS } from './FormHelpers';
+import { SectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, IC, MONTHS, YEARS } from './FormHelpers';
 
 export default function CertificationsSection({ certifications, setCertifications, updateArr, addItem, removeItem, liUrl }) {
   const emptyCert = {
@@ -10,91 +10,106 @@ export default function CertificationsSection({ certifications, setCertification
   };
 
   return (
-    <SectionCard title="Licenses & Certifications" icon={IC.cert} liUrl={liUrl}>
-      {certifications.map((cert, i) => (
-        <div key={i} className="space-y-3.5 pb-5 border-b border-slate-800/60 last:border-0 last:pb-0">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-blue-400/80 uppercase tracking-widest">
-              Certification {i + 1}
-            </span>
-            {certifications.length > 1 && <RemoveBtn onClick={() => removeItem(setCertifications, i)} />}
-          </div>
-
-          <div>
-            <FieldLabel value={cert.name}>Name *</FieldLabel>
-            <input className={inputCls} placeholder="Ex: Microsoft certified network associate security"
-              value={cert.name}
-              onChange={(e) => updateArr(setCertifications, i, 'name', e.target.value)} />
-          </div>
-
-          <div>
-            <FieldLabel value={cert.issuedBy}>Issuing organization *</FieldLabel>
-            <input className={inputCls} placeholder="Ex: Microsoft"
-              value={cert.issuedBy}
-              onChange={(e) => updateArr(setCertifications, i, 'issuedBy', e.target.value)} />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {/* Issue Date */}
+    <SectionCard
+      title="Licenses & Certifications"
+      icon={IC.cert}
+      liUrl={liUrl}
+      badge="recommended"
+      description="Add your professional certifications, course completions, licenses, or credentials."
+      tip="Recruiters actively search for candidates with specific certifications. It helps validate your expertise immediately."
+    >
+      <div className="space-y-4">
+        {certifications.map((cert, i) => (
+          <CollapsibleItem
+            key={i}
+            index={i}
+            label={cert.name}
+            subtitle={cert.issuedBy}
+            canRemove={certifications.length > 1}
+            onRemove={() => removeItem(setCertifications, i)}
+          >
             <div>
-              <FieldLabel value={cert.issueMonth && cert.issueYear ? `${cert.issueMonth} ${cert.issueYear}` : ''}>Issue date</FieldLabel>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <span className="text-[10px] text-slate-500 font-medium block mb-1">Month</span>
-                  <select className={inputCls} value={cert.issueMonth || ''} onChange={(e) => updateArr(setCertifications, i, 'issueMonth', e.target.value)}>
-                    <option value="">Month</option>
-                    {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
-                  </select>
+              <FieldLabel value={cert.name}>Name *</FieldLabel>
+              <input className={inputCls} placeholder="e.g. AWS Certified Solutions Architect"
+                value={cert.name}
+                onChange={(e) => updateArr(setCertifications, i, 'name', e.target.value)} />
+              <HelperText>Enter the full official certification name.</HelperText>
+            </div>
+
+            <div>
+              <FieldLabel value={cert.issuedBy}>Issuing organization *</FieldLabel>
+              <input className={inputCls} placeholder="e.g. Amazon Web Services"
+                value={cert.issuedBy}
+                onChange={(e) => updateArr(setCertifications, i, 'issuedBy', e.target.value)} />
+              <HelperText>Ex: Microsoft, Google, Udemy, Coursera.</HelperText>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Issue Date */}
+              <div>
+                <FieldLabel value={cert.issueMonth && cert.issueYear ? `${cert.issueMonth} ${cert.issueYear}` : ''}>Issue date</FieldLabel>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
+                    <select className={inputCls} value={cert.issueMonth || ''} onChange={(e) => updateArr(setCertifications, i, 'issueMonth', e.target.value)}>
+                      <option value="">Month</option>
+                      {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year</span>
+                    <select className={inputCls} value={cert.issueYear || ''} onChange={(e) => updateArr(setCertifications, i, 'issueYear', e.target.value)}>
+                      <option value="">Year</option>
+                      {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
+                    </select>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-[10px] text-slate-500 font-medium block mb-1">Year</span>
-                  <select className={inputCls} value={cert.issueYear || ''} onChange={(e) => updateArr(setCertifications, i, 'issueYear', e.target.value)}>
-                    <option value="">Year</option>
-                    {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
-                  </select>
+              </div>
+
+              {/* Expiration Date */}
+              <div>
+                <FieldLabel value={cert.expirationMonth && cert.expirationYear ? `${cert.expirationMonth} ${cert.expirationYear}` : ''}>Expiration date</FieldLabel>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
+                    <select className={inputCls} value={cert.expirationMonth || ''} onChange={(e) => updateArr(setCertifications, i, 'expirationMonth', e.target.value)}>
+                      <option value="">Month</option>
+                      {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year</span>
+                    <select className={inputCls} value={cert.expirationYear || ''} onChange={(e) => updateArr(setCertifications, i, 'expirationYear', e.target.value)}>
+                      <option value="">Year</option>
+                      {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Expiration Date */}
-            <div>
-              <FieldLabel value={cert.expirationMonth && cert.expirationYear ? `${cert.expirationMonth} ${cert.expirationYear}` : ''}>Expiration date</FieldLabel>
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <span className="text-[10px] text-slate-500 font-medium block mb-1">Month</span>
-                  <select className={inputCls} value={cert.expirationMonth || ''} onChange={(e) => updateArr(setCertifications, i, 'expirationMonth', e.target.value)}>
-                    <option value="">Month</option>
-                    {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <span className="text-[10px] text-slate-500 font-medium block mb-1">Year</span>
-                  <select className={inputCls} value={cert.expirationYear || ''} onChange={(e) => updateArr(setCertifications, i, 'expirationYear', e.target.value)}>
-                    <option value="">Year</option>
-                    {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
-                  </select>
-                </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <FieldLabel value={cert.credentialId}>Credential ID</FieldLabel>
+                <input className={inputCls} placeholder="e.g. ABC-123456"
+                  value={cert.credentialId || ''}
+                  onChange={(e) => updateArr(setCertifications, i, 'credentialId', e.target.value)} />
+                <HelperText>Verification ID of the certificate if available.</HelperText>
+              </div>
+              <div>
+                <FieldLabel value={cert.credentialUrl}>Credential URL</FieldLabel>
+                <input className={inputCls} placeholder="https://certificate-url.com"
+                  value={cert.credentialUrl || ''}
+                  onChange={(e) => updateArr(setCertifications, i, 'credentialUrl', e.target.value)} />
+                <HelperText>Direct URL to verify certificate online.</HelperText>
               </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <FieldLabel value={cert.credentialId}>Credential ID</FieldLabel>
-              <input className={inputCls} placeholder="e.g. ABC-123456"
-                value={cert.credentialId || ''}
-                onChange={(e) => updateArr(setCertifications, i, 'credentialId', e.target.value)} />
-            </div>
-            <div>
-              <FieldLabel value={cert.credentialUrl}>Credential URL</FieldLabel>
-              <input className={inputCls} placeholder="https://certificate-url.com"
-                value={cert.credentialUrl || ''}
-                onChange={(e) => updateArr(setCertifications, i, 'credentialUrl', e.target.value)} />
-            </div>
-          </div>
-        </div>
-      ))}
-      <AddMoreBtn onClick={() => addItem(setCertifications, emptyCert)} />
+          </CollapsibleItem>
+        ))}
+      </div>
+      <div className="mt-4">
+        <AddMoreBtn onClick={() => addItem(setCertifications, emptyCert)} label="Add Certification" />
+      </div>
     </SectionCard>
   );
 }

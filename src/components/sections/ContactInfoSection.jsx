@@ -1,44 +1,57 @@
 import React from 'react';
-import { SectionCard, FieldLabel, inputCls, textareaCls, IC, MONTHS, DAYS } from './FormHelpers';
+import { SectionCard, FieldLabel, HelperText, inputCls, textareaCls, IC, MONTHS, DAYS } from './FormHelpers';
 
 export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl }) {
+  const set = (field, val) => setContactInfo({ ...contactInfo, [field]: val });
+
   return (
-    <SectionCard title="Contact Info" icon={IC.user} liUrl={liUrl}>
+    <SectionCard
+      title="Contact Info"
+      icon={IC.contact}
+      liUrl={liUrl}
+      badge="recommended"
+      description="Help recruiters and clients contact you directly for opportunities, contract roles, or partnerships."
+      tip="Adding an active email and phone number makes you 4× more likely to be contacted by headhunters directly."
+    >
       {/* Email */}
       <div>
         <FieldLabel value={contactInfo.email}>Email</FieldLabel>
-        <input type="email" className={inputCls} placeholder="e.g. azarrazagula@gmail.com"
+        <input type="email" className={inputCls} placeholder="e.g. yourname@example.com"
           value={contactInfo.email || ''}
-          onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })} />
+          onChange={(e) => set('email', e.target.value)} />
+        <HelperText>A professional email address is highly recommended.</HelperText>
       </div>
 
       {/* Phone Number & Phone Type */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel value={contactInfo.phone}>Phone number</FieldLabel>
-          <input className={inputCls} placeholder="e.g. 6385725727"
+          <input className={inputCls} placeholder="e.g. +91 98765 43210"
             value={contactInfo.phone || ''}
-            onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })} />
+            onChange={(e) => set('phone', e.target.value)} />
+          <HelperText>Include country code for international recruiters.</HelperText>
         </div>
         <div>
           <FieldLabel value={contactInfo.phoneType}>Phone type</FieldLabel>
           <select className={inputCls}
             value={contactInfo.phoneType || ''}
-            onChange={(e) => setContactInfo({ ...contactInfo, phoneType: e.target.value })}>
+            onChange={(e) => set('phoneType', e.target.value)}>
             <option value="">Please select</option>
             <option value="Mobile">Mobile</option>
             <option value="Home">Home</option>
             <option value="Work">Work</option>
           </select>
+          <HelperText>Most recruiters prefer Mobile for quick contact.</HelperText>
         </div>
       </div>
 
       {/* Address */}
       <div>
         <FieldLabel value={contactInfo.address}>Address</FieldLabel>
-        <textarea className={textareaCls} rows={2} placeholder="Ex: Coimbatore, Tamil Nadu, India"
+        <textarea className={textareaCls} rows={2} placeholder="e.g. Coimbatore, Tamil Nadu, India"
           value={contactInfo.address || ''}
-          onChange={(e) => setContactInfo({ ...contactInfo, address: e.target.value })} />
+          onChange={(e) => set('address', e.target.value)} />
+        <HelperText>Your location will help match jobs in your commuting zone.</HelperText>
       </div>
 
       {/* Birthday */}
@@ -46,24 +59,25 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
         <FieldLabel value={contactInfo.birthMonth && contactInfo.birthDay ? `${contactInfo.birthMonth} ${contactInfo.birthDay}` : ''}>Birthday</FieldLabel>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <span className="text-[11px] text-slate-400 font-medium block mb-1">Month</span>
+            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Month</span>
             <select className={inputCls}
               value={contactInfo.birthMonth || ''}
-              onChange={(e) => setContactInfo({ ...contactInfo, birthMonth: e.target.value })}>
+              onChange={(e) => set('birthMonth', e.target.value)}>
               <option value="">Month</option>
               {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
             </select>
           </div>
           <div>
-            <span className="text-[11px] text-slate-400 font-medium block mb-1">Day</span>
+            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Day</span>
             <select className={inputCls}
               value={contactInfo.birthDay || ''}
-              onChange={(e) => setContactInfo({ ...contactInfo, birthDay: e.target.value })}>
+              onChange={(e) => set('birthDay', e.target.value)}>
               <option value="">Day</option>
               {DAYS.map((d) => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
         </div>
+        <HelperText>LinkedIn only displays your birthday (not birth year) to your connections.</HelperText>
       </div>
 
       {/* Website */}
@@ -72,13 +86,14 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
           <FieldLabel value={contactInfo.websiteUrl}>Website URL</FieldLabel>
           <input className={inputCls} placeholder="https://yourportfolio.com"
             value={contactInfo.websiteUrl || ''}
-            onChange={(e) => setContactInfo({ ...contactInfo, websiteUrl: e.target.value })} />
+            onChange={(e) => set('websiteUrl', e.target.value)} />
+          <HelperText>Add your portfolio, blog, or company website.</HelperText>
         </div>
         <div>
           <FieldLabel value={contactInfo.websiteType}>Website Type</FieldLabel>
           <select className={inputCls}
             value={contactInfo.websiteType || ''}
-            onChange={(e) => setContactInfo({ ...contactInfo, websiteType: e.target.value })}>
+            onChange={(e) => set('websiteType', e.target.value)}>
             <option value="">Please select</option>
             <option value="Personal">Personal</option>
             <option value="Company">Company</option>
@@ -87,6 +102,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
             <option value="RSS">RSS</option>
             <option value="Other">Other</option>
           </select>
+          <HelperText>Categorizing your link helps viewers know what to expect.</HelperText>
         </div>
       </div>
     </SectionCard>

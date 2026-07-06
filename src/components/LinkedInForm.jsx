@@ -10,6 +10,17 @@ import ProjectsSection from './sections/ProjectsSection';
 import CertificationsSection from './sections/CertificationsSection';
 import LanguagesSection from './sections/LanguagesSection';
 
+// New Sections
+import CareerPreferencesSection from './sections/CareerPreferencesSection';
+import VolunteerSection from './sections/VolunteerSection';
+import AwardsSection from './sections/AwardsSection';
+import CoursesSection from './sections/CoursesSection';
+import RecommendationsSection from './sections/RecommendationsSection';
+import OrganizationsSection from './sections/OrganizationsSection';
+import PublicationsSection from './sections/PublicationsSection';
+import PatentsSection from './sections/PatentsSection';
+import TestScoresSection from './sections/TestScoresSection';
+
 export default function LinkedInForm({ onGenerate, loading }) {
   // Section 1: Basic Info
   const [basicInfo, setBasicInfo] = useState({
@@ -30,7 +41,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
   const [experiences, setExperiences] = useState([
     {
       jobTitle: '', company: '', employmentType: '', location: '', locationType: '',
-      currentlyWorking: false, startDate: '', endDate: '', description: '',
+      currentlyWorking: false, startMonth: '', startYear: '', description: '',
       profileHeadline: '', foundVia: ''
     },
   ]);
@@ -69,6 +80,61 @@ export default function LinkedInForm({ onGenerate, loading }) {
   // Section 8: Languages
   const [languages, setLanguages] = useState('');
 
+  // Section 9: Career Preferences
+  const [careerPreferences, setCareerPreferences] = useState({
+    openToWork: {
+      desiredTitles: [],
+      jobTypes: [],
+      workplaceTypes: [],
+      preferredLocations: [],
+      availability: '',
+    },
+    providingServices: {
+      servicesOffered: [],
+      serviceDescription: '',
+    }
+  });
+
+  // Optional Section 1: Volunteer
+  const [volunteerExp, setVolunteerExp] = useState([
+    { organization: '', role: '', cause: '', currentlyVolunteering: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' }
+  ]);
+
+  // Optional Section 2: Awards
+  const [awards, setAwards] = useState([
+    { title: '', issuer: '', issueMonth: '', issueYear: '', description: '' }
+  ]);
+
+  // Optional Section 3: Courses
+  const [courses, setCourses] = useState([
+    { name: '', associatedWith: '', courseNumber: '' }
+  ]);
+
+  // Optional Section 4: Recommendations
+  const [recommendations, setRecommendations] = useState([
+    { recommenderName: '', relationship: '', text: '' }
+  ]);
+
+  // Optional Section 5: Organizations
+  const [organizations, setOrganizations] = useState([
+    { name: '', position: '', currentlyMember: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' }
+  ]);
+
+  // Optional Section 6: Publications
+  const [publications, setPublications] = useState([
+    { title: '', publisher: '', url: '', pubMonth: '', pubYear: '', description: '' }
+  ]);
+
+  // Optional Section 7: Patents
+  const [patents, setPatents] = useState([
+    { title: '', patentNumber: '', url: '', patentMonth: '', patentYear: '', description: '' }
+  ]);
+
+  // Optional Section 8: Test Scores
+  const [testScores, setTestScores] = useState([
+    { name: '', score: '', testMonth: '', testYear: '', description: '' }
+  ]);
+
   // ── Array Helper Functions ────────────────────────────────────────────────
   const updateArr = (setter, i, field, val) =>
     setter((prev) => prev.map((item, idx) => (idx === i ? { ...item, [field]: val } : item)));
@@ -84,6 +150,50 @@ export default function LinkedInForm({ onGenerate, loading }) {
     }
   };
 
+  // ── Profile Completion Score Calculation ──────────────────────────────────
+  const calculateProgress = () => {
+    let score = 0;
+    
+    // Required (Total: 70 pts)
+    if (basicInfo.fullName.trim()) score += 10;
+    if (basicInfo.headline.trim()) score += 10;
+    if (basicInfo.linkedinUrl.trim()) score += 10;
+    if (about.trim()) score += 10;
+    if (skills.length >= 3) score += 10;
+    if (experiences.some(exp => exp.jobTitle.trim() && exp.company.trim())) score += 10;
+    if (educations.some(edu => edu.school.trim())) score += 10;
+
+    // Recommended (Total: 20 pts)
+    if (contactInfo.email.trim() || contactInfo.phone.trim()) score += 5;
+    if (certifications.some(c => c.name.trim())) score += 5;
+    if (languages.trim()) score += 5;
+    if (careerPreferences.openToWork.desiredTitles.length > 0 || careerPreferences.providingServices.servicesOffered.length > 0) score += 5;
+
+    // Standout / Optional (Total: 10 pts)
+    if (projects.some(p => p.name.trim())) score += 4;
+    if (volunteerExp.some(v => v.organization.trim())) score += 1;
+    if (awards.some(a => a.title.trim())) score += 1;
+    if (courses.some(c => c.name.trim())) score += 1;
+    if (recommendations.some(r => r.recommenderName.trim())) score += 1;
+    if (organizations.some(o => o.name.trim())) score += 1;
+    if (publications.some(p => p.title.trim())) score += 1;
+
+    return Math.min(score, 100);
+  };
+
+  const completionPct = calculateProgress();
+  
+  const getCompletionBadge = (pct) => {
+    if (pct < 20) return { label: 'Starter', emoji: '🥚', color: 'text-slate-400 border-slate-200 bg-slate-50' };
+    if (pct < 40) return { label: 'Getting Started', emoji: '🌱', color: 'text-amber-600 border-amber-200 bg-amber-50' };
+    if (pct < 60) return { label: 'Good Progress', emoji: '📈', color: 'text-blue-600 border-blue-200 bg-blue-50' };
+    if (pct < 80) return { label: 'Professional', emoji: '💼', color: 'text-emerald-600 border-emerald-200 bg-emerald-50' };
+    if (pct < 100) return { label: 'Strong Candidate', emoji: '🌟', color: 'text-indigo-600 border-indigo-200 bg-indigo-50' };
+    return { label: 'Outstanding Profile', emoji: '🏆', color: 'text-purple-600 border-purple-200 bg-purple-50' };
+  };
+
+  const badgeInfo = getCompletionBadge(completionPct);
+
   // ── Submit ────────────────────────────────────────────────────────────────
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -91,7 +201,9 @@ export default function LinkedInForm({ onGenerate, loading }) {
       onGenerate({
         basicInfo, contactInfo,
         profilePhoto, coverPhoto, about,
-        experiences, educations, skills, projects, certifications, languages
+        experiences, educations, skills, projects, certifications, languages,
+        careerPreferences, volunteerExp, awards, courses, recommendations,
+        organizations, publications, patents, testScores
       });
     }
   };
@@ -100,110 +212,211 @@ export default function LinkedInForm({ onGenerate, loading }) {
   const LI = getLIUrls(basicInfo.linkedinUrl);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      {/* 1. Basic Info */}
-      <BasicInfoSection
-        basicInfo={basicInfo}
-        setBasicInfo={setBasicInfo}
-        setProfilePhoto={setProfilePhoto}
-        setCoverPhoto={setCoverPhoto}
-        liUrl={LI.intro}
-      />
+    <div className="space-y-6">
+      {/* Sticky Progress Indicator */}
+      <div className="sticky top-[64px] z-40 bg-white/95 backdrop-blur-md border border-slate-200/80 rounded-2xl p-4 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3 animate-fadeIn">
+        <div className="flex items-center gap-2">
+          <span className="text-xl">{badgeInfo.emoji}</span>
+          <div>
+            <h4 className="text-xs font-extrabold text-slate-800 tracking-wide uppercase">Profile Completeness</h4>
+            <span className={`inline-block text-[10px] font-extrabold border px-1.5 py-0.5 rounded-md mt-0.5 ${badgeInfo.color}`}>
+              {badgeInfo.label} ({completionPct}%)
+            </span>
+          </div>
+        </div>
+        <div className="flex-1 w-full max-w-md">
+          <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+            <div
+              className="bg-gradient-to-r from-blue-500 to-indigo-600 h-2.5 rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${completionPct}%` }}
+            ></div>
+          </div>
+        </div>
+      </div>
 
-      {/* 1b. Contact Info */}
-      <ContactInfoSection
-        contactInfo={contactInfo}
-        setContactInfo={setContactInfo}
-        liUrl={LI.contact}
-      />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* 1. Basic Info */}
+        <BasicInfoSection
+          basicInfo={basicInfo}
+          setBasicInfo={setBasicInfo}
+          setProfilePhoto={setProfilePhoto}
+          setCoverPhoto={setCoverPhoto}
+          liUrl={LI.intro}
+        />
 
-      {/* 2. About */}
-      <AboutSection
-        about={about}
-        setAbout={setAbout}
-        liUrl={LI.about}
-      />
+        {/* 2. Contact Info */}
+        <ContactInfoSection
+          contactInfo={contactInfo}
+          setContactInfo={setContactInfo}
+          liUrl={LI.contact}
+        />
 
-      {/* 3. Experience */}
-      <ExperienceSection
-        experiences={experiences}
-        setExperiences={setExperiences}
-        updateArr={updateArr}
-        addItem={addItem}
-        removeItem={removeItem}
-        liUrl={LI.experience}
-      />
+        {/* 3. About */}
+        <AboutSection
+          about={about}
+          setAbout={setAbout}
+          liUrl={LI.about}
+        />
 
-      {/* 4. Education */}
-      <EducationSection
-        educations={educations}
-        setEducations={setEducations}
-        updateArr={updateArr}
-        addItem={addItem}
-        removeItem={removeItem}
-        liUrl={LI.education}
-      />
+        {/* 4. Experience */}
+        <ExperienceSection
+          experiences={experiences}
+          setExperiences={setExperiences}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+          liUrl={LI.experience}
+        />
 
-      {/* 5. Skills */}
-      <SkillsSection
-        skills={skills}
-        setSkills={setSkills}
-        skillInput={skillInput}
-        setSkillInput={setSkillInput}
-        handleSkillKeyDown={handleSkillKeyDown}
-        liUrl={LI.skills}
-      />
+        {/* 5. Education */}
+        <EducationSection
+          educations={educations}
+          setEducations={setEducations}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+          liUrl={LI.education}
+        />
 
-      {/* 6. Projects */}
-      <ProjectsSection
-        projects={projects}
-        setProjects={setProjects}
-        updateArr={updateArr}
-        addItem={addItem}
-        removeItem={removeItem}
-        liUrl={LI.projects}
-      />
+        {/* 6. Skills */}
+        <SkillsSection
+          skills={skills}
+          setSkills={setSkills}
+          skillInput={skillInput}
+          setSkillInput={setSkillInput}
+          handleSkillKeyDown={handleSkillKeyDown}
+          liUrl={LI.skills}
+        />
 
-      {/* 7. Certifications */}
-      <CertificationsSection
-        certifications={certifications}
-        setCertifications={setCertifications}
-        updateArr={updateArr}
-        addItem={addItem}
-        removeItem={removeItem}
-        liUrl={LI.certifications}
-      />
+        {/* 7. Projects */}
+        <ProjectsSection
+          projects={projects}
+          setProjects={setProjects}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+          liUrl={LI.projects}
+        />
 
-      {/* 8. Languages */}
-      <LanguagesSection
-        languages={languages}
-        setLanguages={setLanguages}
-        liUrl={LI.languages}
-      />
+        {/* 8. Certifications */}
+        <CertificationsSection
+          certifications={certifications}
+          setCertifications={setCertifications}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+          liUrl={LI.certifications}
+        />
 
-      {/* Generate Button */}
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full py-4 px-6 rounded-2xl font-bold text-base bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/30 active:scale-[0.99] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {loading ? (
-          <>
-            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-            </svg>
-            Generating with Gemini AI...
-          </>
-        ) : (
-          <>
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            Generate with AI
-          </>
-        )}
-      </button>
-    </form>
+        {/* 9. Languages */}
+        <LanguagesSection
+          languages={languages}
+          setLanguages={setLanguages}
+          liUrl={LI.languages}
+        />
+
+        {/* 10. Career Preferences */}
+        <CareerPreferencesSection
+          careerPreferences={careerPreferences}
+          setCareerPreferences={setCareerPreferences}
+        />
+
+        {/* 11. Volunteer Experience */}
+        <VolunteerSection
+          volunteerExp={volunteerExp}
+          setVolunteerExp={setVolunteerExp}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+
+        {/* 12. Awards */}
+        <AwardsSection
+          awards={awards}
+          setAwards={setAwards}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+
+        {/* 13. Courses */}
+        <CoursesSection
+          courses={courses}
+          setCourses={setCourses}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+
+        {/* 14. Recommendations */}
+        <RecommendationsSection
+          recommendations={recommendations}
+          setRecommendations={setRecommendations}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+
+        {/* 15. Organizations */}
+        <OrganizationsSection
+          organizations={organizations}
+          setOrganizations={setOrganizations}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+
+        {/* 16. Publications */}
+        <PublicationsSection
+          publications={publications}
+          setPublications={setPublications}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+
+        {/* 17. Patents */}
+        <PatentsSection
+          patents={patents}
+          setPatents={setPatents}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+
+        {/* 18. Test Scores */}
+        <TestScoresSection
+          testScores={testScores}
+          setTestScores={setTestScores}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+
+        {/* Generate Button */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full py-4 px-6 rounded-2xl font-bold text-base bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/30 active:scale-[0.99] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        >
+          {loading ? (
+            <>
+              <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+              </svg>
+              Generating with Gemini AI...
+            </>
+          ) : (
+            <>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+              Generate with AI
+            </>
+          )}
+        </button>
+      </form>
+    </div>
   );
 }
