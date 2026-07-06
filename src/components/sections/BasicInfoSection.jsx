@@ -12,10 +12,31 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
             onChange={(e) => setBasicInfo({ ...basicInfo, fullName: e.target.value })} />
         </div>
         <div>
+          <FieldLabel>Pronouns</FieldLabel>
+          <select className={inputCls}
+            value={basicInfo.pronouns || ''}
+            onChange={(e) => setBasicInfo({ ...basicInfo, pronouns: e.target.value })}>
+            <option value="">Please select</option>
+            <option value="He/Him">He/Him</option>
+            <option value="She/Her">She/Her</option>
+            <option value="They/Them">They/Them</option>
+            <option value="Custom">Custom</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
           <FieldLabel>Location</FieldLabel>
           <input className={inputCls} placeholder="Chennai, India"
             value={basicInfo.location}
             onChange={(e) => setBasicInfo({ ...basicInfo, location: e.target.value })} />
+        </div>
+        <div>
+          <FieldLabel>Industry</FieldLabel>
+          <input className={inputCls} placeholder="Ex: Technology, Information and Internet"
+            value={basicInfo.industry || ''}
+            onChange={(e) => setBasicInfo({ ...basicInfo, industry: e.target.value })} />
         </div>
       </div>
 
