@@ -20,7 +20,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
 
   // Section 1b: Contact Info
   const [contactInfo, setContactInfo] = useState({
-    email: '', phone: '', phoneType: 'Mobile', address: '', birthMonth: '', birthDay: '', websiteUrl: '', websiteType: 'Personal'
+    email: '', phone: '', phoneType: '', address: '', birthMonth: '', birthDay: '', websiteUrl: '', websiteType: ''
   });
 
   // Section 2: About

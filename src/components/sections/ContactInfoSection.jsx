@@ -23,8 +23,9 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
         <div>
           <FieldLabel value={contactInfo.phoneType}>Phone type</FieldLabel>
           <select className={inputCls}
-            value={contactInfo.phoneType || 'Mobile'}
+            value={contactInfo.phoneType || ''}
             onChange={(e) => setContactInfo({ ...contactInfo, phoneType: e.target.value })}>
+            <option value="">Please select</option>
             <option value="Mobile">Mobile</option>
             <option value="Home">Home</option>
             <option value="Work">Work</option>
@@ -76,8 +77,9 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
         <div>
           <FieldLabel value={contactInfo.websiteType}>Website Type</FieldLabel>
           <select className={inputCls}
-            value={contactInfo.websiteType || 'Personal'}
+            value={contactInfo.websiteType || ''}
             onChange={(e) => setContactInfo({ ...contactInfo, websiteType: e.target.value })}>
+            <option value="">Please select</option>
             <option value="Personal">Personal</option>
             <option value="Company">Company</option>
             <option value="Portfolio">Portfolio</option>
