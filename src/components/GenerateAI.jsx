@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 
 export default function GenerateAI({ result }) {
-  const [copiedSection, setCopiedSection] = useState('');
+  const [copiedKey, setCopiedKey] = useState('');
 
   if (!result) return null;
 
-  const copyToClipboard = (text, sectionName) => {
+  const copyToClipboard = (text, key) => {
+    if (!text) return;
     navigator.clipboard.writeText(text);
-    setCopiedSection(sectionName);
-    setTimeout(() => setCopiedSection(''), 2000);
+    setCopiedKey(key);
+    setTimeout(() => setCopiedKey(''), 2000);
   };
 
+  const skillsList = Array.isArray(result.skills)
+    ? result.skills
+    : typeof result.skills === 'string'
+    ? result.skills.split(',').map((s) => s.trim()).filter(Boolean)
+    : [];
+
   return (
-    <div className="backdrop-blur-xl bg-slate-900/90 border border-indigo-500/30 rounded-3xl p-6 shadow-2xl space-y-5 animate-fadeIn">
+    <div className="backdrop-blur-xl bg-slate-900/90 border border-indigo-500/30 rounded-3xl p-6 shadow-2xl space-y-6 animate-fadeIn">
+      {/* Header */}
       <div className="flex items-center justify-between border-b border-slate-800 pb-4">
         <div>
           <h2 className="text-lg font-bold text-white flex items-center gap-2">
@@ -21,82 +29,148 @@ export default function GenerateAI({ result }) {
             </svg>
             Gemini AI Optimized Profile
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">Copy & paste these optimized sections directly into LinkedIn</p>
+          <p className="text-xs text-slate-400 mt-0.5">Copy & paste these optimized inputs directly into LinkedIn</p>
         </div>
-        <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[11px] font-semibold border border-emerald-500/20">
+        <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[11px] font-semibold border border-emerald-500/20 flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
           Ready to Copy
         </span>
       </div>
 
       <div className="space-y-4">
-        {/* Optimized Headline */}
+        {/* 1. Optimized Headline */}
         {result.headline && (
           <div className="bg-slate-950/70 p-4 rounded-2xl border border-slate-800 space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">
-                Optimized Headline
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                <span>📌</span> Headline
               </span>
               <button
+                type="button"
                 onClick={() => copyToClipboard(result.headline, 'headline')}
                 className="px-3 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-xs font-semibold border border-blue-500/30 transition-all flex items-center gap-1.5"
               >
-                {copiedSection === 'headline' ? '✓ Copied!' : 'Copy Headline'}
+                {copiedKey === 'headline' ? '✓ Copied!' : 'Copy Headline'}
               </button>
             </div>
-            <p className="text-sm font-medium text-white leading-snug">{result.headline}</p>
+            <p className="text-sm font-medium text-white leading-snug bg-slate-900/60 p-3 rounded-xl border border-slate-800/80">
+              {result.headline}
+            </p>
           </div>
         )}
 
-        {/* Optimized About Section */}
+        {/* 2. Optimized About Section */}
         {result.about && (
           <div className="bg-slate-950/70 p-4 rounded-2xl border border-slate-800 space-y-2">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">
-                Optimized About Section
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                <span>📝</span> About / Summary
               </span>
               <button
+                type="button"
                 onClick={() => copyToClipboard(result.about, 'about')}
                 className="px-3 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-xs font-semibold border border-blue-500/30 transition-all flex items-center gap-1.5"
               >
-                {copiedSection === 'about' ? '✓ Copied!' : 'Copy About'}
+                {copiedKey === 'about' ? '✓ Copied!' : 'Copy About'}
               </button>
             </div>
-            <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-line">{result.about}</p>
+            <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-line bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80">
+              {result.about}
+            </p>
           </div>
         )}
 
-        {/* Optimized Skills */}
-        {result.skills && (
-          <div className="bg-slate-950/70 p-4 rounded-2xl border border-slate-800 space-y-2">
+        {/* 3. Recommended Skills */}
+        {skillsList.length > 0 && (
+          <div className="bg-slate-950/70 p-4 rounded-2xl border border-slate-800 space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">
-                Recommended Skills
+              <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+                <span>💡</span> Recommended Skills
               </span>
               <button
-                onClick={() =>
-                  copyToClipboard(
-                    Array.isArray(result.skills) ? result.skills.join(', ') : result.skills,
-                    'skills'
-                  )
-                }
+                type="button"
+                onClick={() => copyToClipboard(skillsList.join(', '), 'all-skills')}
                 className="px-3 py-1 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-xs font-semibold border border-blue-500/30 transition-all flex items-center gap-1.5"
               >
-                {copiedSection === 'skills' ? '✓ Copied!' : 'Copy Skills'}
+                {copiedKey === 'all-skills' ? '✓ Copied All!' : 'Copy All Skills'}
               </button>
             </div>
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {(Array.isArray(result.skills)
-                ? result.skills
-                : result.skills.split(',')
-              ).map((skill, idx) => (
-                <span
+            <div className="flex flex-wrap gap-2">
+              {skillsList.map((skill, idx) => (
+                <button
                   key={idx}
-                  className="px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-medium"
+                  type="button"
+                  onClick={() => copyToClipboard(skill, `skill-${idx}`)}
+                  title="Click to copy single skill"
+                  className="group px-3 py-1.5 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 text-indigo-300 text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer"
                 >
-                  {typeof skill === 'string' ? skill.trim() : skill}
-                </span>
+                  <span>{skill}</span>
+                  <span className="text-[10px] text-indigo-400/70 group-hover:text-indigo-200">
+                    {copiedKey === `skill-${idx}` ? '✓' : '📋'}
+                  </span>
+                </button>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* 4. Optimized Experiences */}
+        {Array.isArray(result.experiences) && result.experiences.length > 0 && (
+          <div className="bg-slate-950/70 p-4 rounded-2xl border border-slate-800 space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+              <span>💼</span> Optimized Experience Descriptions
+            </span>
+            {result.experiences.map((exp, idx) => (
+              <div key={idx} className="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-semibold text-slate-300">
+                    {exp.jobTitle || `Experience ${idx + 1}`} {exp.company ? `at ${exp.company}` : ''}
+                  </span>
+                  {exp.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(exp.description, `exp-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-[11px] font-semibold border border-blue-500/30 transition-all"
+                    >
+                      {copiedKey === `exp-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {exp.description && (
+                  <p className="text-xs text-slate-300 whitespace-pre-line leading-relaxed">{exp.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 5. Optimized Projects */}
+        {Array.isArray(result.projects) && result.projects.length > 0 && (
+          <div className="bg-slate-950/70 p-4 rounded-2xl border border-slate-800 space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
+              <span>🚀</span> Optimized Project Descriptions
+            </span>
+            {result.projects.map((proj, idx) => (
+              <div key={idx} className="bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-semibold text-slate-300">
+                    {proj.name || `Project ${idx + 1}`}
+                  </span>
+                  {proj.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(proj.description, `proj-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-[11px] font-semibold border border-blue-500/30 transition-all"
+                    >
+                      {copiedKey === `proj-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {proj.description && (
+                  <p className="text-xs text-slate-300 whitespace-pre-line leading-relaxed">{proj.description}</p>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>
