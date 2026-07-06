@@ -34,11 +34,11 @@ export const MONTHS = [
 export const YEARS = Array.from({ length: 70 }, (_, i) => String(2030 - i));
 export const DAYS = Array.from({ length: 31 }, (_, i) => String(i + 1));
 
-// ── Shared styles (Light / White Theme) ───────────────────────────────────────
+// ── Shared styles (Light / White Theme - Elite UI/UX) ────────────────────────
 export const inputCls =
-  'w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all shadow-xs';
+  'w-full px-4 py-3 rounded-2xl bg-slate-50/50 hover:bg-slate-50/20 focus:bg-white border border-slate-200/80 hover:border-slate-300 focus:border-blue-600 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all shadow-xs';
 export const textareaCls =
-  'w-full px-3.5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-all resize-none shadow-xs';
+  'w-full px-4 py-3 rounded-2xl bg-slate-50/50 hover:bg-slate-50/20 focus:bg-white border border-slate-200/80 hover:border-slate-300 focus:border-blue-600 text-slate-800 placeholder-slate-400 text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all resize-none shadow-xs';
 
 export function FieldLabel({ children, required, value }) {
   const [copied, setCopied] = React.useState(false);
@@ -105,11 +105,11 @@ export function LIBtn({ url, label = 'Edit on LinkedIn' }) {
 
 export function SectionCard({ title, icon, liUrl, liLabel, children }) {
   return (
-    <div className="bg-white/90 backdrop-blur-md border border-slate-200/90 rounded-2xl p-6 shadow-sm shadow-slate-200/50 space-y-4 hover:shadow-md transition-all">
-      <div className="flex items-center justify-between pb-3 border-b border-slate-100">
-        <div className="flex items-center gap-2">
-          <span className="text-blue-600">{icon}</span>
-          <h3 className="text-sm font-bold text-slate-800 tracking-wide">{title}</h3>
+    <div className="bg-white border border-slate-100 rounded-[22px] p-6 sm:p-7 shadow-[0_8px_30px_rgb(148,163,184,0.05)] space-y-4 hover:shadow-[0_8px_30px_rgb(148,163,184,0.08)] transition-all duration-300">
+      <div className="flex items-center justify-between pb-3.5 border-b border-slate-100/80">
+        <div className="flex items-center gap-2.5">
+          <span className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 font-bold shrink-0">{icon}</span>
+          <h3 className="text-sm font-extrabold text-slate-800 tracking-wide">{title}</h3>
         </div>
         {liUrl && <LIBtn url={liUrl} label={liLabel} />}
       </div>
