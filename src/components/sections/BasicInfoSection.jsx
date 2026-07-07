@@ -77,7 +77,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
       </div>
 
       <div className="mt-4 p-4 rounded-2xl border border-blue-100 bg-blue-50/30 transition-all shadow-3xs">
-        <FieldLabel value={basicInfo.linkedinUrl}>LinkedIn Profile URL *</FieldLabel>
+        <FieldLabel>LinkedIn Profile URL *</FieldLabel>
         <input 
           className={`${inputCls} ${
             !basicInfo.linkedinUrl 
