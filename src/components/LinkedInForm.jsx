@@ -115,7 +115,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
 
   // Optional Section 6: Publications
   const [publications, setPublications] = useState([
-    { title: '', publisher: '', url: '', pubMonth: '', pubYear: '', description: '' }
+    { title: '', publisher: '', url: '', pubDate: '', pubMonth: '', pubYear: '', description: '', author: '' }
   ]);
 
   // Optional Section 7: Patents
@@ -189,6 +189,30 @@ export default function LinkedInForm({ onGenerate, loading }) {
       const skillsArray = typeof skills === 'string' ? skills.split(',').map(s => s.trim()).filter(Boolean) : skills;
       const desiredTitlesArray = typeof jobPreferences.desiredTitles === 'string' ? jobPreferences.desiredTitles.split(',').map(s => s.trim()).filter(Boolean) : [];
       const preferredLocationsArray = typeof jobPreferences.preferredLocations === 'string' ? jobPreferences.preferredLocations.split(',').map(s => s.trim()).filter(Boolean) : [];
+      const mappedPublications = publications.map(pub => {
+        let pubMonth = pub.pubMonth;
+        let pubYear = pub.pubYear;
+        if (pub.pubDate) {
+          const dateParts = pub.pubDate.split('-');
+          if (dateParts[0]) pubYear = dateParts[0];
+          if (dateParts[1]) {
+            const monthIdx = parseInt(dateParts[1], 10) - 1;
+            const monthNames = [
+              'January', 'February', 'March', 'April', 'May', 'June',
+              'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            if (monthNames[monthIdx]) pubMonth = monthNames[monthIdx];
+          }
+        }
+        return {
+          title: pub.title,
+          publisher: pub.publisher,
+          url: pub.url,
+          pubMonth,
+          pubYear,
+          description: pub.description
+        };
+      });
 
       onGenerate({
         basicInfo, contactInfo,
@@ -210,7 +234,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           }
         },
         volunteerExp, awards, courses, recommendations,
-        organizations, publications, patents, testScores
+        organizations, publications: mappedPublications, patents, testScores
       });
     }
   };
@@ -385,6 +409,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           updateArr={updateArr}
           addItem={addItem}
           removeItem={removeItem}
+          liUrl={LI.publications}
         />
 
         {/* 17. Patents */}

@@ -1,16 +1,16 @@
 import React from 'react';
-import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, DateRow, inputCls, IC } from './FormHelpers';
+import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC } from './FormHelpers';
 
-export default function PublicationsSection({ publications, setPublications, updateArr, addItem, removeItem }) {
+export default function PublicationsSection({ publications, setPublications, updateArr, addItem, removeItem, liUrl }) {
   const emptyPub = {
-    title: '', publisher: '', url: '',
-    pubMonth: '', pubYear: '', description: ''
+    title: '', publisher: '', url: '', pubDate: '', pubMonth: '', pubYear: '', description: '', author: ''
   };
 
   return (
     <OptionalSectionCard
       title="Publications"
       icon={IC.pub}
+      liUrl={liUrl}
       badge="optional"
       description="Showcase academic papers, books, blog posts, white papers, or research articles you have published."
       tip="Publishing demonstrates subject matter expertise and increases your visibility as a thought leader."
@@ -25,22 +25,44 @@ export default function PublicationsSection({ publications, setPublications, upd
             canRemove={publications.length > 1}
             onRemove={() => removeItem(setPublications, i)}
           >
-            <div>
-              <FieldLabel value={pub.title}>Publication Title *</FieldLabel>
-              <input className={inputCls} placeholder="e.g. Scaling React apps using WebWorkers"
-                value={pub.title}
-                onChange={(e) => updateArr(setPublications, i, 'title', e.target.value)} />
-              <HelperText>The title of your paper, article, or book.</HelperText>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-4">
+              {/* Title */}
               <div>
-                <FieldLabel value={pub.publisher}>Publisher / Journal</FieldLabel>
-                <input className={inputCls} placeholder="e.g. Medium, IEEE Journal"
+                <FieldLabel value={pub.title}>Title *</FieldLabel>
+                <input className={inputCls} placeholder="Ex: Giving and receiving feedback"
+                  value={pub.title}
+                  onChange={(e) => updateArr(setPublications, i, 'title', e.target.value)} />
+                <HelperText>The title of your paper, article, or book.</HelperText>
+              </div>
+
+              {/* Publication/Publisher */}
+              <div>
+                <FieldLabel value={pub.publisher}>Publication/Publisher</FieldLabel>
+                <input className={inputCls} placeholder="Ex: Harvard Business Review"
                   value={pub.publisher}
                   onChange={(e) => updateArr(setPublications, i, 'publisher', e.target.value)} />
                 <HelperText>The journal, website, or publishing company.</HelperText>
               </div>
+
+              {/* Publication date */}
+              <div>
+                <FieldLabel value={pub.pubDate}>Publication date</FieldLabel>
+                <input type="date" className={inputCls}
+                  value={pub.pubDate || ''}
+                  onChange={(e) => updateArr(setPublications, i, 'pubDate', e.target.value)} />
+                <HelperText>Select the date this work was published.</HelperText>
+              </div>
+
+              {/* Author */}
+              <div>
+                <FieldLabel value={pub.author}>Author</FieldLabel>
+                <input className={inputCls} placeholder="Add author or contributors"
+                  value={pub.author || ''}
+                  onChange={(e) => updateArr(setPublications, i, 'author', e.target.value)} />
+                <HelperText>Specify authors or contributors to the publication.</HelperText>
+              </div>
+
+              {/* Publication URL */}
               <div>
                 <FieldLabel value={pub.url}>Publication URL</FieldLabel>
                 <input className={inputCls} placeholder="https://journal.com/article"
@@ -48,25 +70,16 @@ export default function PublicationsSection({ publications, setPublications, upd
                   onChange={(e) => updateArr(setPublications, i, 'url', e.target.value)} />
                 <HelperText>Link to read the publication online.</HelperText>
               </div>
-            </div>
 
-            <div>
-              <FieldLabel value={pub.pubMonth && pub.pubYear ? `${pub.pubMonth} ${pub.pubYear}` : ''}>Publication Date</FieldLabel>
-              <DateRow
-                monthVal={pub.pubMonth}
-                yearVal={pub.pubYear}
-                onMonthChange={(e) => updateArr(setPublications, i, 'pubMonth', e.target.value)}
-                onYearChange={(e) => updateArr(setPublications, i, 'pubYear', e.target.value)}
-              />
-            </div>
-
-            <div>
-              <FieldLabel value={pub.description}>Description</FieldLabel>
-              <textarea className={inputCls} rows={2}
-                placeholder="Give a short summary of the publication, key findings, or impact..."
-                value={pub.description || ''}
-                onChange={(e) => updateArr(setPublications, i, 'description', e.target.value)} />
-              <HelperText>Summarize the topic and findings of your publication.</HelperText>
+              {/* Description */}
+              <div>
+                <FieldLabel value={pub.description}>Description</FieldLabel>
+                <textarea className={textareaCls} rows={3}
+                  placeholder="Give a short summary of the publication, key findings, or impact..."
+                  value={pub.description || ''}
+                  onChange={(e) => updateArr(setPublications, i, 'description', e.target.value)} />
+                <HelperText>Summarize the topic and findings of your publication.</HelperText>
+              </div>
             </div>
           </CollapsibleItem>
         ))}

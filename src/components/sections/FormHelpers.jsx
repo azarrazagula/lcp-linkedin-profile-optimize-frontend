@@ -26,6 +26,7 @@ export function getLIUrls(linkedinUrl) {
       awards:         null,
       organizations:  null,
       courses:        null,
+      publications:   null,
     };
   }
   let user = 'me';
@@ -50,6 +51,7 @@ export function getLIUrls(linkedinUrl) {
     awards:         `${base}/edit/forms/honor/new/`,
     organizations:  `${base}/edit/forms/organization/new/`,
     courses:        `${base}/edit/forms/course/new/`,
+    publications:   `${base}/edit/forms/publication/new/`,
   };
 }
 
