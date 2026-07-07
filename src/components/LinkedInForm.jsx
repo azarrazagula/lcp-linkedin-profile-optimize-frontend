@@ -354,6 +354,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           updateArr={updateArr}
           addItem={addItem}
           removeItem={removeItem}
+          liUrl={LI.courses}
         />
 
         {/* 14. Recommendations */}

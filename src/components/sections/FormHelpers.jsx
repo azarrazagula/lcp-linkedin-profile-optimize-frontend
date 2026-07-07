@@ -25,6 +25,7 @@ export function getLIUrls(linkedinUrl) {
       volunteer:      null,
       awards:         null,
       organizations:  null,
+      courses:        null,
     };
   }
   let user = 'me';
@@ -48,6 +49,7 @@ export function getLIUrls(linkedinUrl) {
     volunteer:      `${base}/details/volunteer-experiences/edit/forms/new/`,
     awards:         `${base}/edit/forms/honor/new/`,
     organizations:  `${base}/edit/forms/organization/new/`,
+    courses:        `${base}/edit/forms/course/new/`,
   };
 }
 

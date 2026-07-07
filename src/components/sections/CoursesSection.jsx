@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, IC } from './FormHelpers';
 
-export default function CoursesSection({ courses, setCourses, updateArr, addItem, removeItem }) {
+export default function CoursesSection({ courses, setCourses, updateArr, addItem, removeItem, liUrl }) {
   const emptyCourse = {
     name: '', associatedWith: '', courseNumber: ''
   };
@@ -10,6 +10,7 @@ export default function CoursesSection({ courses, setCourses, updateArr, addItem
     <OptionalSectionCard
       title="Courses"
       icon={IC.course}
+      liUrl={liUrl}
       badge="optional"
       description="Add relevant coursework you completed during school, university, bootcamps, or online platforms."
       tip="Listing specialized courses (e.g., 'Advanced Algorithms') shows your theoretical strength to recruiters."
@@ -24,29 +25,33 @@ export default function CoursesSection({ courses, setCourses, updateArr, addItem
             canRemove={courses.length > 1}
             onRemove={() => removeItem(setCourses, i)}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-4">
+              {/* Course name */}
               <div>
-                <FieldLabel value={course.name}>Course Name *</FieldLabel>
-                <input className={inputCls} placeholder="e.g. Data Structures and Algorithms"
+                <FieldLabel value={course.name}>Course name *</FieldLabel>
+                <input className={inputCls} placeholder="Ex: World History"
                   value={course.name}
                   onChange={(e) => updateArr(setCourses, i, 'name', e.target.value)} />
                 <HelperText>The name of the course or subject.</HelperText>
               </div>
+
+              {/* Number */}
               <div>
-                <FieldLabel value={course.associatedWith}>Associated With</FieldLabel>
-                <input className={inputCls} placeholder="e.g. Boston University, Self-Employed"
+                <FieldLabel value={course.courseNumber}>Number</FieldLabel>
+                <input className={inputCls} placeholder="Ex: HIST 101"
+                  value={course.courseNumber || ''}
+                  onChange={(e) => updateArr(setCourses, i, 'courseNumber', e.target.value)} />
+                <HelperText>The course code or number, if applicable.</HelperText>
+              </div>
+
+              {/* Associated with */}
+              <div>
+                <FieldLabel value={course.associatedWith}>Associated with</FieldLabel>
+                <input className={inputCls} placeholder="Ex: Boston University"
                   value={course.associatedWith}
                   onChange={(e) => updateArr(setCourses, i, 'associatedWith', e.target.value)} />
-                <HelperText>The school or college where you took this course.</HelperText>
+                <HelperText>The school, university, or company where you took this course.</HelperText>
               </div>
-            </div>
-
-            <div>
-              <FieldLabel value={course.courseNumber}>Course Number</FieldLabel>
-              <input className={inputCls} placeholder="e.g. CS-101"
-                value={course.courseNumber || ''}
-                onChange={(e) => updateArr(setCourses, i, 'courseNumber', e.target.value)} />
-              <HelperText>The course code or number, if applicable.</HelperText>
             </div>
           </CollapsibleItem>
         ))}
