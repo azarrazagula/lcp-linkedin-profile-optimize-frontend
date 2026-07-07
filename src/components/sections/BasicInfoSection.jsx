@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SectionCard, FieldLabel, HelperText, inputCls, fileInputCls, IC, isValidLinkedInUrl } from './FormHelpers';
 
 // Maps postal code prefixes to list of matching cities
@@ -27,11 +27,62 @@ const getCitiesByPostalCode = (postcode) => {
   return ['Chennai', 'Coimbatore', 'Bengaluru', 'Mumbai', 'New Delhi', 'Hyderabad', 'Pune', 'Kolkata'];
 };
 
+// Popular LinkedIn Industry options
+const INDUSTRIES = [
+  'Software Development',
+  'IT Services and IT Consulting',
+  'Technology, Information and Internet',
+  'Design Services',
+  'Graphic Design',
+  'Broadcast Media Production and Distribution',
+  'Defense and Space Manufacturing',
+  'International Trade and Development',
+  'Dairy Product Manufacturing',
+  'Computer Software',
+  'Financial Services',
+  'Hospital & Health Care',
+  'Education Management',
+  'Marketing & Advertising',
+  'Real Estate',
+  'Retail',
+  'Management Consulting',
+  'Human Resources',
+  'Writing & Editing',
+  'Staffing & Recruiting',
+  'Telecommunications',
+  'Accounting',
+  'Airlines/Aviation',
+  'Architecture & Planning',
+  'Automotive',
+  'Banking',
+  'Biotechnology',
+  'Civil Engineering',
+  'Construction',
+  'Entertainment',
+  'Environmental Services',
+  'Food & Beverages',
+  'Government Administration',
+  'Higher Education',
+  'Hospitality',
+  'Insurance',
+  'Law Practice',
+  'Legal Services',
+  'Logistics and Supply Chain',
+  'Medical Practice',
+  'Nonprofit Organization Management',
+  'Pharmaceuticals',
+  'Public Relations and Communications',
+  'Renewable Energy Semiconductor Manufacturing',
+  'Venture Capital & Private Equity'
+];
+
 export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePhoto, setCoverPhoto, liUrl }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
 
   const showCity = !!basicInfo.postalCode && !!basicInfo.postalCode.trim();
   const cities = getCitiesByPostalCode(basicInfo.postalCode);
+
+  const [showSuggestions, setShowSuggestions] = useState(false);
 
   return (
     <SectionCard
@@ -75,9 +126,38 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         </div>
         <div>
           <FieldLabel value={basicInfo.industry}>Industry</FieldLabel>
-          <input className={inputCls} placeholder="e.g. Technology, Information and Internet"
-            value={basicInfo.industry || ''}
-            onChange={e => set('industry', e.target.value)} />
+          <div className="relative">
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none z-10">
+              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+            <input 
+              className={`${inputCls} !pl-11`} 
+              placeholder="e.g. Software Development"
+              value={basicInfo.industry || ''}
+              onChange={e => set('industry', e.target.value)}
+              onFocus={() => setShowSuggestions(true)}
+              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+            />
+            {showSuggestions && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200/80 rounded-2xl shadow-lg max-h-60 overflow-y-auto z-50 py-1.5 animate-fadeIn">
+                {INDUSTRIES.filter(ind => 
+                  !basicInfo.industry || 
+                  ind.toLowerCase().includes(basicInfo.industry.toLowerCase())
+                ).slice(0, 10).map((ind) => (
+                  <button
+                    key={ind}
+                    type="button"
+                    onMouseDown={() => set('industry', ind)}
+                    className="w-full text-left px-4 py-2 hover:bg-slate-50 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors block"
+                  >
+                    {ind}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <HelperText>Your industry helps LinkedIn show you relevant jobs and people.</HelperText>
         </div>
       </div>
