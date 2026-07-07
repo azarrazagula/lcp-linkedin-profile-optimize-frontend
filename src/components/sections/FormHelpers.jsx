@@ -2,12 +2,24 @@ import React from 'react';
 
 // ── Dynamic LinkedIn URLs helper ──────────────────────────────────────────────
 export function getLIUrls(linkedinUrl) {
-  let user = 'me';
-  if (linkedinUrl && linkedinUrl.trim()) {
-    const clean = linkedinUrl.trim().replace(/\/$/, '');
-    const parts = clean.split('/in/');
-    if (parts[1]) user = parts[1].split('/')[0];
+  if (!linkedinUrl || !linkedinUrl.trim()) {
+    return {
+      intro:          null,
+      experience:     null,
+      education:      null,
+      skills:         null,
+      certifications: null,
+      languages:      null,
+      contact:        null,
+      about:          null,
+      projects:       null,
+    };
   }
+  let user = 'me';
+  const clean = linkedinUrl.trim().replace(/\/$/, '');
+  const parts = clean.split('/in/');
+  if (parts[1]) user = parts[1].split('/')[0];
+
   const base = `https://www.linkedin.com/in/${user}`;
   return {
     intro:          `${base}/edit/intro/`,
@@ -130,6 +142,21 @@ export function FieldLabel({ children, required, value }) {
 
 // ── LinkedIn Edit Button ───────────────────────────────────────────────────────
 export function LIBtn({ url, label = 'Edit on LinkedIn' }) {
+  if (!url) {
+    return (
+      <button
+        type="button"
+        disabled
+        title="Please paste your LinkedIn Profile URL in Basic Info to unlock"
+        className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-slate-50 text-slate-400 border border-slate-200 text-[10px] font-bold cursor-not-allowed opacity-65 whitespace-nowrap shadow-3xs"
+      >
+        <span className="text-[11px] shrink-0">🔒</span>
+        <span className="hidden sm:inline">{label}</span>
+        <span className="inline sm:hidden">Edit</span>
+      </button>
+    );
+  }
+
   return (
     <a href={url} target="linkedin_edit"
       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 hover:text-blue-800 border border-blue-200 text-xs font-bold transition-all whitespace-nowrap no-underline shadow-2xs">
@@ -161,7 +188,7 @@ export function SectionCard({ title, icon, liUrl, liLabel, badge, description, t
               </div>
             </div>
           </div>
-          {liUrl && <LIBtn url={liUrl} label={liLabel} />}
+          {liUrl !== undefined && <LIBtn url={liUrl} label={liLabel} />}
         </div>
 
         {/* Row 2: Audience Hint & Description (Full width, never squeezed!) */}
