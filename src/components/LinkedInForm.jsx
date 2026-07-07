@@ -95,7 +95,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
 
   // Optional Section 2: Awards
   const [awards, setAwards] = useState([
-    { title: '', issuer: '', issueMonth: '', issueYear: '', description: '' }
+    { title: '', associatedWith: '', issuer: '', issueMonth: '', issueYear: '', description: '' }
   ]);
 
   // Optional Section 3: Courses
@@ -342,6 +342,9 @@ export default function LinkedInForm({ onGenerate, loading }) {
           updateArr={updateArr}
           addItem={addItem}
           removeItem={removeItem}
+          experiences={experiences}
+          educations={educations}
+          liUrl={LI.awards}
         />
 
         {/* 13. Courses */}
