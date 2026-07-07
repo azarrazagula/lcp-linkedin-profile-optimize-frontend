@@ -136,7 +136,8 @@ export function LIBtn({ url, label = 'Edit on LinkedIn' }) {
       <svg className="w-3.5 h-3.5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z" />
       </svg>
-      {label}
+      <span className="hidden sm:inline">{label}</span>
+      <span className="inline sm:hidden">Edit</span>
     </a>
   );
 }
@@ -147,24 +148,36 @@ export function SectionCard({ title, icon, liUrl, liLabel, badge, description, t
     <div className="bg-white border border-slate-100 rounded-[22px] shadow-[0_4px_24px_rgb(148,163,184,0.06)] hover:shadow-[0_8px_32px_rgb(148,163,184,0.10)] transition-all duration-300 overflow-hidden">
       {/* Header */}
       <div className="px-6 sm:px-7 pt-6 pb-4 border-b border-slate-100/80">
-        <div className="flex items-start justify-between gap-3">
+        {/* Row 1: Icon + Title/Badge + Edit button */}
+        <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
             <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
               {icon}
             </span>
             <div className="min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-1.5 flex-wrap">
                 <h3 className="text-sm font-extrabold text-slate-800 tracking-wide">{title}</h3>
                 {badge && <Badge type={badge} />}
-                {audienceHint && <AudienceHint>{audienceHint}</AudienceHint>}
               </div>
-              {description && (
-                <p className="text-xs text-slate-500 font-medium mt-1 leading-relaxed">{description}</p>
-              )}
             </div>
           </div>
           {liUrl && <LIBtn url={liUrl} label={liLabel} />}
         </div>
+
+        {/* Row 2: Audience Hint & Description (Full width, never squeezed!) */}
+        {(audienceHint || description) && (
+          <div className="mt-3.5 space-y-2">
+            {audienceHint && (
+              <div>
+                <AudienceHint>{audienceHint}</AudienceHint>
+              </div>
+            )}
+            {description && (
+              <p className="text-xs text-slate-500 font-medium leading-relaxed">{description}</p>
+            )}
+          </div>
+        )}
+
         {tip && (
           <div className="mt-3">
             <SmartTip>{tip}</SmartTip>
@@ -270,30 +283,42 @@ export function OptionalSectionCard({ title, icon, badge = 'optional', descripti
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-6 sm:px-7 py-4 hover:bg-slate-50/60 transition-colors text-left group"
       >
-        <div className="flex items-center gap-3">
-          <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 shrink-0 group-hover:from-blue-50 group-hover:to-indigo-50 group-hover:border-blue-100 group-hover:text-blue-600 transition-all">
-            {icon}
-          </span>
-          <div>
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-sm font-extrabold text-slate-700 tracking-wide group-hover:text-slate-800 transition-colors">{title}</h3>
-              {badge && <Badge type={badge} />}
-              {audienceHint && <AudienceHint>{audienceHint}</AudienceHint>}
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 shrink-0 group-hover:from-blue-50 group-hover:to-indigo-50 group-hover:border-blue-100 group-hover:text-blue-600 transition-all">
+              {icon}
+            </span>
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <h3 className="text-sm font-extrabold text-slate-700 tracking-wide group-hover:text-slate-800 transition-colors">{title}</h3>
+                {badge && <Badge type={badge} />}
+              </div>
             </div>
-            {description && !open && (
-              <p className="text-[11px] text-slate-400 font-medium mt-0.5">{description}</p>
-            )}
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <span className={`text-[10px] font-bold px-2 py-1 rounded-lg border transition-all ${open ? 'text-blue-600 bg-blue-50 border-blue-200' : 'text-slate-400 bg-slate-50 border-slate-200 group-hover:text-blue-500 group-hover:bg-blue-50/50 group-hover:border-blue-200/50'}`}>
+              {open ? 'Collapse' : 'Add ➕'}
+            </span>
+            <svg className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+            </svg>
           </div>
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          <span className={`text-[10px] font-bold px-2 py-1 rounded-lg border transition-all ${open ? 'text-blue-600 bg-blue-50 border-blue-200' : 'text-slate-400 bg-slate-50 border-slate-200 group-hover:text-blue-500 group-hover:bg-blue-50/50 group-hover:border-blue-200/50'}`}>
-            {open ? 'Collapse' : 'Add ➕'}
-          </span>
-          <svg className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </div>
+
+        {/* Closed Sub-row for Description & Audience Hint */}
+        {!open && (audienceHint || description) && (
+          <div className="mt-2.5 space-y-1.5 pl-12 pr-4">
+            {audienceHint && (
+              <div>
+                <AudienceHint>{audienceHint}</AudienceHint>
+              </div>
+            )}
+            {description && (
+              <p className="text-[11px] text-slate-400 font-medium leading-relaxed truncate">{description}</p>
+            )}
+          </div>
+        )}
       </button>
 
       {/* Expanded Content */}
