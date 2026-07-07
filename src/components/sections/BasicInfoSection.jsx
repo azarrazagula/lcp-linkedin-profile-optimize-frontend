@@ -1,8 +1,37 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, inputCls, fileInputCls, IC, isValidLinkedInUrl } from './FormHelpers';
 
+// Maps postal code prefixes to list of matching cities
+const getCitiesByPostalCode = (postcode) => {
+  if (!postcode) return [];
+  const code = postcode.trim();
+  
+  if (code.startsWith('641')) {
+    return ['Coimbatore', 'Greater Coimbatore Area', 'Pollachi', 'Tiruppur'];
+  }
+  if (code.startsWith('600')) {
+    return ['Chennai', 'Greater Chennai Area', 'Tambaram', 'Ambattur'];
+  }
+  if (code.startsWith('560')) {
+    return ['Bengaluru', 'Bengaluru East', 'Bengaluru South'];
+  }
+  if (code.startsWith('400')) {
+    return ['Mumbai', 'Mumbai Suburban', 'Thane', 'Navi Mumbai'];
+  }
+  if (code.startsWith('110')) {
+    return ['New Delhi', 'Delhi', 'Dwarka', 'Rohini'];
+  }
+  if (code.startsWith('6')) {
+    return ['Coimbatore', 'Chennai', 'Madurai', 'Trichy', 'Salem'];
+  }
+  return ['Chennai', 'Coimbatore', 'Bengaluru', 'Mumbai', 'New Delhi', 'Hyderabad', 'Pune', 'Kolkata'];
+};
+
 export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePhoto, setCoverPhoto, liUrl }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
+
+  const showCity = !!basicInfo.postalCode && !!basicInfo.postalCode.trim();
+  const cities = getCitiesByPostalCode(basicInfo.postalCode);
 
   return (
     <SectionCard
@@ -13,6 +42,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
       description="Tell recruiters who you are and what you do. This information appears at the very top of your LinkedIn profile and is the first thing anyone sees."
       tip="A strong, keyword-rich Headline can increase your profile views by 3×. Think of it as your personal slogan."
     >
+      {/* Row 1: Full Name & Pronouns */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel value={basicInfo.fullName}>Full Name *</FieldLabel>
@@ -34,13 +64,14 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         </div>
       </div>
 
+      {/* Row 2: Country/Region & Industry */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel value={basicInfo.location}>Location</FieldLabel>
-          <input className={inputCls} placeholder="e.g. Chennai, India"
-            value={basicInfo.location}
-            onChange={e => set('location', e.target.value)} />
-          <HelperText>City, State, Country — helps recruiters find local talent.</HelperText>
+          <FieldLabel value={basicInfo.countryRegion}>Country/Region *</FieldLabel>
+          <input className={inputCls} placeholder="e.g. India"
+            value={basicInfo.countryRegion || ''}
+            onChange={e => set('countryRegion', e.target.value)} />
+          <HelperText>Where you currently reside.</HelperText>
         </div>
         <div>
           <FieldLabel value={basicInfo.industry}>Industry</FieldLabel>
@@ -51,6 +82,34 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         </div>
       </div>
 
+      {/* Row 3: Postal Code & City (Dynamic reveal) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <FieldLabel value={basicInfo.postalCode}>Postal Code</FieldLabel>
+          <input className={inputCls} placeholder="e.g. 641026"
+            value={basicInfo.postalCode || ''}
+            onChange={e => {
+              set('postalCode', e.target.value);
+              // Clear city if postcode is cleared
+              if (!e.target.value.trim()) {
+                setBasicInfo(prev => ({ ...prev, postalCode: '', city: '' }));
+              }
+            }} />
+          <HelperText>Used to determine your location area.</HelperText>
+        </div>
+        {showCity && (
+          <div className="animate-fadeIn">
+            <FieldLabel value={basicInfo.city}>City *</FieldLabel>
+            <select className={inputCls} value={basicInfo.city || ''} onChange={e => set('city', e.target.value)}>
+              <option value="">Select a city</option>
+              {cities.map(c => <option key={c} value={c}>{c}</option>)}
+            </select>
+            <HelperText>Select the matching city for your postal code.</HelperText>
+          </div>
+        )}
+      </div>
+
+      {/* Row 4: Headline */}
       <div>
         <FieldLabel value={basicInfo.headline}>Headline *</FieldLabel>
         <input className={inputCls} placeholder="e.g. Full Stack Developer | React · Node.js · MongoDB"
@@ -59,6 +118,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         <HelperText>Include your role + top skills. Recruiters search for these keywords.</HelperText>
       </div>
 
+      {/* Row 5: Profile & Cover Photo */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <FieldLabel>Profile Photo</FieldLabel>
@@ -76,6 +136,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         </div>
       </div>
 
+      {/* Row 6: LinkedIn Profile URL */}
       <div className="mt-4 p-4 rounded-2xl border border-blue-100 bg-blue-50/30 transition-all shadow-3xs">
         <FieldLabel>LinkedIn Profile URL *</FieldLabel>
         <input 

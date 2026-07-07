@@ -24,7 +24,7 @@ import TestScoresSection from './sections/TestScoresSection';
 export default function LinkedInForm({ onGenerate, loading }) {
   // Section 1: Basic Info
   const [basicInfo, setBasicInfo] = useState({
-    fullName: '', pronouns: '', industry: '', headline: '', location: '', linkedinUrl: '',
+    fullName: '', pronouns: '', industry: '', headline: '', countryRegion: '', postalCode: '', city: '', linkedinUrl: '',
   });
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [coverPhoto, setCoverPhoto] = useState(null);
@@ -153,7 +153,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
   // ── Profile Completion Score Calculation ──────────────────────────────────
   const calculateProgress = () => {
     let score = 0;
-    
+
     // Required (Total: 70 pts)
     if (basicInfo.fullName.trim()) score += 10;
     if (basicInfo.headline.trim()) score += 10;
@@ -182,7 +182,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
   };
 
   const completionPct = calculateProgress();
-  
+
   const getCompletionBadge = (pct) => {
     if (pct < 20) return { label: 'Starter', emoji: '🥚', color: 'text-slate-400 border-slate-200 bg-slate-50' };
     if (pct < 40) return { label: 'Getting Started', emoji: '🌱', color: 'text-amber-600 border-amber-200 bg-amber-50' };
@@ -248,7 +248,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
         <ContactInfoSection
           contactInfo={contactInfo}
           setContactInfo={setContactInfo}
-          liUrl={LI.intro}
+          liUrl={LI.contact}
         />
 
         {/* 3. About */}
