@@ -323,7 +323,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
         <JobPreferenceSection
           jobPreferences={jobPreferences}
           setJobPreferences={setJobPreferences}
-          liUrl={LI.career}
         />
 
         {/* 11. Volunteer Experience */}

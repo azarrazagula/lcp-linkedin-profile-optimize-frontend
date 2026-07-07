@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CheckboxRow, inputCls, IC } from './FormHelpers';
 
-export default function JobPreferenceSection({ jobPreferences, setJobPreferences, liUrl }) {
+export default function JobPreferenceSection({ jobPreferences, setJobPreferences }) {
   const set = (field, val) => {
     setJobPreferences(prev => ({
       ...prev,
@@ -21,7 +21,6 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
     <SectionCard
       title="Job Preferences"
       icon={IC.career}
-      liUrl={liUrl}
       badge="recommended"
       audienceHint="Recommended for Job Seekers"
       description="Specify your job search choices and preferences to get optimized recommendations."
