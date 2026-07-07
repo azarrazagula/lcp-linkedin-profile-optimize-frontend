@@ -125,7 +125,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
 
   // Optional Section 8: Test Scores
   const [testScores, setTestScores] = useState([
-    { name: '', score: '', testMonth: '', testYear: '', description: '' }
+    { name: '', score: '', associatedWith: '', testMonth: '', testYear: '', description: '' }
   ]);
 
   // ── Array Helper Functions ────────────────────────────────────────────────
@@ -454,6 +454,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           updateArr={updateArr}
           addItem={addItem}
           removeItem={removeItem}
+          liUrl={LI.testScores}
         />
 
         {/* Generate Button */}

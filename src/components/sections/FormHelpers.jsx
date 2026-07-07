@@ -28,6 +28,7 @@ export function getLIUrls(linkedinUrl) {
       courses:        null,
       publications:   null,
       patents:        null,
+      testScores:     null,
     };
   }
   let user = 'me';
@@ -54,6 +55,7 @@ export function getLIUrls(linkedinUrl) {
     courses:        `${base}/edit/forms/course/new/`,
     publications:   `${base}/edit/forms/publication/new/`,
     patents:        `${base}/edit/forms/patent/new/`,
+    testScores:     `${base}/edit/forms/test-score/new/`,
   };
 }
 
