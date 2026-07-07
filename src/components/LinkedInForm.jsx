@@ -110,7 +110,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
 
   // Optional Section 5: Organizations
   const [organizations, setOrganizations] = useState([
-    { name: '', position: '', currentlyMember: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' }
+    { name: '', position: '', associatedWith: '', currentlyMember: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' }
   ]);
 
   // Optional Section 6: Publications
@@ -372,6 +372,9 @@ export default function LinkedInForm({ onGenerate, loading }) {
           updateArr={updateArr}
           addItem={addItem}
           removeItem={removeItem}
+          experiences={experiences}
+          educations={educations}
+          liUrl={LI.organizations}
         />
 
         {/* 16. Publications */}
