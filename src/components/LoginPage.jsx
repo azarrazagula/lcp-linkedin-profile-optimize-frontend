@@ -22,7 +22,44 @@ export default function LoginPage({ onLoginSuccess }) {
 
   // Load Google Identity Services SDK
   useEffect(() => {
-    if (document.getElementById('google-gsi-script')) return;
+    const handleResize = () => {
+      if (window.google && window.google.accounts) {
+        const calculatedWidth = Math.min(360, Math.max(200, window.innerWidth - 80));
+
+        // Render the button for "Create new account" flow
+        const createBtn = document.getElementById('google-create-btn');
+        if (createBtn) {
+          window.google.accounts.id.renderButton(createBtn, {
+            theme: 'filled_blue',
+            size: 'large',
+            shape: 'pill',
+            width: calculatedWidth,
+            text: 'signup_with',
+          });
+        }
+
+        // Render the button for "Continue with" flow (returning user)
+        const continueBtn = document.getElementById('google-continue-btn');
+        if (continueBtn) {
+          window.google.accounts.id.renderButton(continueBtn, {
+            theme: 'outline',
+            size: 'large',
+            shape: 'pill',
+            width: calculatedWidth,
+            text: 'continue_with',
+          });
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    if (document.getElementById('google-gsi-script')) {
+      // If script already exists, just trigger render
+      setTimeout(handleResize, 100);
+      return () => window.removeEventListener('resize', handleResize);
+    }
+
     const script = document.createElement('script');
     script.id = 'google-gsi-script';
     script.src = 'https://accounts.google.com/gsi/client';
@@ -40,37 +77,16 @@ export default function LoginPage({ onLoginSuccess }) {
             },
           });
 
-          const calculatedWidth = Math.min(360, Math.max(200, window.innerWidth - 80));
-
-          // Render the button for "Create new account" flow
-          const createBtn = document.getElementById('google-create-btn');
-          if (createBtn) {
-            window.google.accounts.id.renderButton(createBtn, {
-              theme: 'filled_blue',
-              size: 'large',
-              shape: 'pill',
-              width: calculatedWidth,
-              text: 'signup_with',
-            });
-          }
-
-          // Render the button for "Continue with" flow (returning user)
-          const continueBtn = document.getElementById('google-continue-btn');
-          if (continueBtn) {
-            window.google.accounts.id.renderButton(continueBtn, {
-              theme: 'outline',
-              size: 'large',
-              shape: 'pill',
-              width: calculatedWidth,
-              text: 'continue_with',
-            });
-          }
+          // Trigger initial render
+          handleResize();
         } catch (e) {
           console.log('Google Identity init:', e);
         }
       }
     };
     document.head.appendChild(script);
+
+    return () => window.removeEventListener('resize', handleResize);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -155,12 +171,12 @@ export default function LoginPage({ onLoginSuccess }) {
         <div className="mb-8 text-center relative z-10 animate-float">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-xs font-semibold tracking-wider uppercase mb-3 backdrop-blur-md">
             <svg className="w-3.5 h-3.5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4 0 .8.6 1.4 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z"/>
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z" />
             </svg>
             Welcome Back
           </div>
           <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
-            Continue to <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Your Profile</span>
+            Continue to <span className="text-blue-600">Your Profile</span>
           </h1>
           {returningUserEmail && (
             <p className="text-slate-500 text-sm font-medium mt-2">{returningUserEmail}</p>
@@ -180,7 +196,7 @@ export default function LoginPage({ onLoginSuccess }) {
             </div>
           )}
           {successMsg && (
-            <div className="mb-5 p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-start gap-2.5">
+            <div className="mb-5 p-3.5 rounded-xl bg-emerald-55 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-start gap-2.5">
               <svg className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
@@ -237,12 +253,12 @@ export default function LoginPage({ onLoginSuccess }) {
       <div className="mb-8 text-center relative z-10 animate-float">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-600 text-xs font-semibold tracking-wider uppercase mb-3 backdrop-blur-md">
           <svg className="w-3.5 h-3.5 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4 0 .8.6 1.4 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z"/>
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H6.5v-7H9v7zM7.7 8.7c-.8 0-1.4-.6-1.4-1.4 0-.8.6-1.4 1.4-1.4.8 0 1.4.6 1.4 1.4 0 .8-.6 1.4-1.4 1.4zM18 17h-2.4v-3.8c0-1.1-.4-1.8-1.3-1.8-.7 0-1.2.5-1.4 1-.1.2-.1.5-.1.8V17H10.4s.1-6.3 0-7h2.4v1c.3-.5 1-1.2 2.3-1.2 1.7 0 3 1.1 3 3.5V17z" />
           </svg>
           AI LinkedIn Profile Optimizer
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-800 tracking-tight">
-          Elevate Your <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Professional Identity</span>
+          Elevate Your <span className="text-blue-600">Professional Identity</span>
         </h1>
         <p className="text-slate-500 text-sm font-medium mt-2 max-w-sm mx-auto">
           Access your optimized LinkedIn suite powered by Gemini AI
