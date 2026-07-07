@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import LoginPage from './components/LoginPage';
 import Home from './components/Home';
 
 const API_BASE_URL = 'http://localhost:5001/api';
@@ -83,12 +82,12 @@ function App() {
   }
 
   return (
-    <div className="App min-h-screen bg-dark-bg text-slate-100 font-sans">
-      {currentUser ? (
-        <Home currentUser={currentUser} onLogout={handleLogout} />
-      ) : (
-        <LoginPage onLoginSuccess={handleLoginSuccess} />
-      )}
+    <div className="App min-h-screen bg-slate-50 text-slate-800 font-sans">
+      <Home 
+        currentUser={currentUser} 
+        onLoginSuccess={handleLoginSuccess}
+        onLogout={handleLogout} 
+      />
     </div>
   );
 }

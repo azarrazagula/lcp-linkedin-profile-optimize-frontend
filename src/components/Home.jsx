@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
 import LinkedInForm from './LinkedInForm';
 import GenerateAI from './GenerateAI';
+import LoginPage from './LoginPage';
 
 const API_BASE_URL = 'http://localhost:5001/api';
 
-export default function Home({ currentUser, onLogout }) {
+export default function Home({ currentUser, onLoginSuccess, onLogout }) {
   const [loading, setLoading] = useState(false);
   const [aiResult, setAiResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleGenerate = async (formData) => {
+  // Modal flow states
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [pendingFormData, setPendingFormData] = useState(null);
+
+  const handleGenerate = async (formData, userOverride = null) => {
+    const activeUser = userOverride || currentUser;
+
+    if (!activeUser) {
+      // User is not logged in: save form data and prompt login
+      setPendingFormData(formData);
+      setShowLoginModal(true);
+      return;
+    }
+
     setLoading(true);
     setErrorMsg('');
     setAiResult(null);
 
     try {
-      const token = currentUser?.token || localStorage.getItem('user_token');
+      const token = activeUser.token || localStorage.getItem('user_token');
 
       const res = await fetch(`${API_BASE_URL}/optimize`, {
         method: 'POST',
@@ -51,6 +65,17 @@ export default function Home({ currentUser, onLogout }) {
     }
   };
 
+  const handleLoginSuccessWrapper = (userData) => {
+    onLoginSuccess(userData);
+    setShowLoginModal(false);
+
+    // If there is pending form data, trigger generation immediately
+    if (pendingFormData) {
+      handleGenerate(pendingFormData, userData);
+      setPendingFormData(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-50/50 bg-grid-pattern pb-16">
 
@@ -72,16 +97,27 @@ export default function Home({ currentUser, onLogout }) {
           </div>
 
           <div className="flex items-center space-x-3">
-            <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="text-slate-700 font-bold">{currentUser?.name || 'User'}</span>
-            </div>
-            <button
-              onClick={onLogout}
-              className="py-1.5 px-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200 shadow-3xs transition-all cursor-pointer"
-            >
-              Sign Out
-            </button>
+            {currentUser ? (
+              <>
+                <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                  <span className="text-slate-700 font-bold">{currentUser?.name || 'User'}</span>
+                </div>
+                <button
+                  onClick={onLogout}
+                  className="py-1.5 px-3 rounded-xl bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold border border-slate-200 shadow-3xs transition-all cursor-pointer"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => setShowLoginModal(true)}
+                className="py-1.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold shadow-sm transition-all cursor-pointer"
+              >
+                Sign In
+              </button>
+            )}
           </div>
         </div>
       </nav>
@@ -105,6 +141,32 @@ export default function Home({ currentUser, onLogout }) {
         {/* AI Result */}
         {aiResult && <GenerateAI result={aiResult} />}
       </main>
+
+      {/* ── Login Modal Overlay ──────────────────────────────────────────── */}
+      {showLoginModal && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn">
+          <div className="relative w-full max-w-md bg-white border border-slate-200 rounded-[28px] shadow-2xl p-6 sm:p-8 animate-slideUp overflow-hidden">
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                setShowLoginModal(false);
+                setPendingFormData(null); // Clear pending generation request
+              }}
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors z-20 cursor-pointer"
+              aria-label="Close modal"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* LoginPage as inner content */}
+            <div className="mt-2">
+              <LoginPage onLoginSuccess={handleLoginSuccessWrapper} isModal={true} />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
