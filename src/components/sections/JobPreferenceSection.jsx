@@ -50,7 +50,7 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
 
         {/* Location types */}
         <div>
-          <FieldLabel value={jobPreferences.locationTypes && jobPreferences.locationTypes.length > 0 ? 'filled' : ''}>Location types *</FieldLabel>
+          <FieldLabel>Location types *</FieldLabel>
           <div className="flex flex-wrap gap-4 py-1">
             {['On-site', 'Hybrid', 'Remote'].map(type => (
               <CheckboxRow
