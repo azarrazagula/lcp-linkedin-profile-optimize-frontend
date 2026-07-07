@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function VolunteerSection({ volunteerExp, setVolunteerExp, updateArr, addItem, removeItem }) {
+export default function VolunteerSection({ volunteerExp, setVolunteerExp, updateArr, addItem, removeItem, liUrl }) {
   const emptyVol = {
     organization: '', role: '', cause: '',
     currentlyVolunteering: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: ''
@@ -11,6 +11,7 @@ export default function VolunteerSection({ volunteerExp, setVolunteerExp, update
     <OptionalSectionCard
       title="Volunteer Experience"
       icon={IC.volunteer}
+      liUrl={liUrl}
       badge="optional"
       description="Highlight your community service, local volunteering, or leadership work outside of work hours."
       tip="More than 40% of recruiters view volunteer experience as equivalent to paid work experience."

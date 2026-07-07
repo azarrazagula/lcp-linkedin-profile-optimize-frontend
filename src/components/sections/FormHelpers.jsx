@@ -22,6 +22,7 @@ export function getLIUrls(linkedinUrl) {
       about:          null,
       projects:       null,
       career:         null,
+      volunteer:      null,
     };
   }
   let user = 'me';
@@ -42,6 +43,7 @@ export function getLIUrls(linkedinUrl) {
     about:          `${base}/edit/forms/summary/new/`,
     projects:       `${base}/edit/forms/project/new/`,
     career:         base,
+    volunteer:      `${base}/details/volunteer-experiences/edit/forms/new/`,
   };
 }
 
@@ -311,17 +313,16 @@ export function RemoveBtn({ onClick }) {
 }
 
 // ── Optional Section Wrapper (collapsed by default) ────────────────────────────
-export function OptionalSectionCard({ title, icon, badge = 'optional', description, tip, audienceHint, children }) {
+export function OptionalSectionCard({ title, icon, liUrl, liLabel, badge = 'optional', description, tip, audienceHint, children }) {
   const [open, setOpen] = React.useState(false);
   return (
     <div className="bg-white border border-slate-100 rounded-[22px] shadow-[0_4px_24px_rgb(148,163,184,0.04)] hover:shadow-[0_8px_32px_rgb(148,163,184,0.08)] transition-all duration-300 overflow-hidden">
       {/* Collapsed Header */}
-      <button
-        type="button"
+      <div
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between px-6 sm:px-7 py-4 hover:bg-slate-50/60 transition-colors text-left group"
+        className="w-full flex flex-col px-6 sm:px-7 py-4 hover:bg-slate-50/60 transition-colors text-left group cursor-pointer"
       >
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center justify-between gap-3 w-full">
           <div className="flex items-center gap-3 min-w-0">
             <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 shrink-0 group-hover:from-blue-50 group-hover:to-indigo-50 group-hover:border-blue-100 group-hover:text-blue-600 transition-all">
               {icon}
@@ -333,7 +334,12 @@ export function OptionalSectionCard({ title, icon, badge = 'optional', descripti
               </div>
             </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-3 shrink-0">
+            {liUrl !== undefined && (
+              <div onClick={e => e.stopPropagation()} className="cursor-default">
+                <LIBtn url={liUrl} label={liLabel} />
+              </div>
+            )}
             <svg className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
               fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
@@ -354,7 +360,7 @@ export function OptionalSectionCard({ title, icon, badge = 'optional', descripti
             )}
           </div>
         )}
-      </button>
+      </div>
 
       {/* Expanded Content */}
       {open && (

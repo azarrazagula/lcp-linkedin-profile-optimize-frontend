@@ -332,6 +332,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           updateArr={updateArr}
           addItem={addItem}
           removeItem={removeItem}
+          liUrl={LI.volunteer}
         />
 
         {/* 12. Awards */}
