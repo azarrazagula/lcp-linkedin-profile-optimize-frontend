@@ -40,6 +40,8 @@ export default function LoginPage({ onLoginSuccess }) {
             },
           });
 
+          const calculatedWidth = Math.min(360, Math.max(200, window.innerWidth - 80));
+
           // Render the button for "Create new account" flow
           const createBtn = document.getElementById('google-create-btn');
           if (createBtn) {
@@ -47,7 +49,7 @@ export default function LoginPage({ onLoginSuccess }) {
               theme: 'filled_blue',
               size: 'large',
               shape: 'pill',
-              width: 360,
+              width: calculatedWidth,
               text: 'signup_with',
             });
           }
@@ -59,7 +61,7 @@ export default function LoginPage({ onLoginSuccess }) {
               theme: 'outline',
               size: 'large',
               shape: 'pill',
-              width: 360,
+              width: calculatedWidth,
               text: 'continue_with',
             });
           }
