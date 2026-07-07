@@ -334,9 +334,6 @@ export function OptionalSectionCard({ title, icon, badge = 'optional', descripti
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            <span className={`text-[10px] font-bold px-2 py-1 rounded-lg border transition-all ${open ? 'text-blue-600 bg-blue-50 border-blue-200' : 'text-slate-400 bg-slate-50 border-slate-200 group-hover:text-blue-500 group-hover:bg-blue-50/50 group-hover:border-blue-200/50'}`}>
-              {open ? 'Collapse' : 'Add ➕'}
-            </span>
             <svg className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
               fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
