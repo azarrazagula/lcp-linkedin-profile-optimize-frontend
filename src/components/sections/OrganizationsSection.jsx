@@ -64,16 +64,6 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
                 <HelperText>Associate this membership with a job or education from your profile.</HelperText>
               </div>
 
-              {/* Membership ongoing */}
-              <div className="flex items-center gap-2.5 py-1">
-                <input type="checkbox" id={`org-current-${i}`} className="w-4 h-4 accent-blue-600 rounded cursor-pointer"
-                  checked={org.currentlyMember}
-                  onChange={(e) => updateArr(setOrganizations, i, 'currentlyMember', e.target.checked)} />
-                <label htmlFor={`org-current-${i}`} className="text-xs font-bold text-slate-700 cursor-pointer select-none">
-                  Membership ongoing
-                </label>
-              </div>
-
               {/* Start Date */}
               <div>
                 <FieldLabel value={org.startMonth && org.startYear ? `${org.startMonth} ${org.startYear}` : ''}>Start date</FieldLabel>
@@ -96,27 +86,25 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
               </div>
 
               {/* End Date */}
-              {!org.currentlyMember && (
-                <div>
-                  <FieldLabel value={org.endMonth && org.endYear ? `${org.endMonth} ${org.endYear}` : ''}>End date</FieldLabel>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                      <select className={inputCls} value={org.endMonth || ''} onChange={(e) => updateArr(setOrganizations, i, 'endMonth', e.target.value)}>
-                        <option value="">Month</option>
-                        {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year *</span>
-                      <select className={inputCls} value={org.endYear || ''} onChange={(e) => updateArr(setOrganizations, i, 'endYear', e.target.value)}>
-                        <option value="">Year</option>
-                        {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
-                      </select>
-                    </div>
+              <div>
+                <FieldLabel value={org.endMonth && org.endYear ? `${org.endMonth} ${org.endYear}` : ''}>End date</FieldLabel>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
+                    <select className={inputCls} value={org.endMonth || ''} onChange={(e) => updateArr(setOrganizations, i, 'endMonth', e.target.value)}>
+                      <option value="">Month</option>
+                      {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year *</span>
+                    <select className={inputCls} value={org.endYear || ''} onChange={(e) => updateArr(setOrganizations, i, 'endYear', e.target.value)}>
+                      <option value="">Year</option>
+                      {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
+                    </select>
                   </div>
                 </div>
-              )}
+              </div>
 
               {/* Description */}
               <div>
