@@ -1,5 +1,5 @@
 import React from 'react';
-import { SectionCard, FieldLabel, HelperText, inputCls, fileInputCls, IC } from './FormHelpers';
+import { SectionCard, FieldLabel, HelperText, inputCls, fileInputCls, IC, isValidLinkedInUrl } from './FormHelpers';
 
 export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePhoto, setCoverPhoto, liUrl }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
@@ -80,9 +80,11 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         <FieldLabel>LinkedIn Profile URL *</FieldLabel>
         <input 
           className={`${inputCls} ${
-            !basicInfo.linkedinUrl 
-              ? 'border-amber-300 focus:border-amber-500 focus:ring-amber-500/10 bg-amber-50/10' 
-              : '!border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50/10'
+            !basicInfo.linkedinUrl
+              ? 'border-amber-300 focus:border-amber-500 focus:ring-amber-500/10 bg-amber-50/10'
+              : !isValidLinkedInUrl(basicInfo.linkedinUrl)
+                ? 'border-rose-300 focus:border-rose-500 focus:ring-rose-500/10 bg-rose-50/10'
+                : '!border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50/10'
           }`}
           placeholder="https://www.linkedin.com/in/yourname"
           value={basicInfo.linkedinUrl}
@@ -93,6 +95,11 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
           <div className="mt-2.5 flex items-start gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200/60 rounded-xl p-3 font-semibold">
             <span className="text-sm shrink-0">⚠️</span>
             <span>Important: Paste your exact LinkedIn URL here. This unlocks the direct "Edit on LinkedIn" buttons for all sections in the form.</span>
+          </div>
+        ) : !isValidLinkedInUrl(basicInfo.linkedinUrl) ? (
+          <div className="mt-2.5 flex items-start gap-2 text-xs text-rose-700 bg-rose-50 border border-rose-200/60 rounded-xl p-3 font-semibold animate-fadeIn">
+            <span className="text-sm shrink-0">❌</span>
+            <span>Invalid LinkedIn URL. Please enter a valid profile link (e.g. https://www.linkedin.com/in/yourname).</span>
           </div>
         ) : (
           <div className="mt-2.5 flex items-start gap-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/60 rounded-xl p-3 font-semibold animate-fadeIn">

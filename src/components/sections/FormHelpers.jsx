@@ -1,8 +1,16 @@
 import React from 'react';
 
 // ── Dynamic LinkedIn URLs helper ──────────────────────────────────────────────
+export function isValidLinkedInUrl(url) {
+  if (!url) return false;
+  const trimmed = url.trim();
+  // Validates standard LinkedIn profile URL formats
+  const regex = /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[A-Za-z0-9_-]{3,100}\/?(\?.*)?$/i;
+  return regex.test(trimmed);
+}
+
 export function getLIUrls(linkedinUrl) {
-  if (!linkedinUrl || !linkedinUrl.trim()) {
+  if (!isValidLinkedInUrl(linkedinUrl)) {
     return {
       intro:          null,
       experience:     null,
@@ -16,7 +24,8 @@ export function getLIUrls(linkedinUrl) {
     };
   }
   let user = 'me';
-  const clean = linkedinUrl.trim().replace(/\/$/, '');
+  let clean = linkedinUrl.trim().split('?')[0]; // Remove query params
+  clean = clean.replace(/\/$/, ''); // Remove trailing slash
   const parts = clean.split('/in/');
   if (parts[1]) user = parts[1].split('/')[0];
 
