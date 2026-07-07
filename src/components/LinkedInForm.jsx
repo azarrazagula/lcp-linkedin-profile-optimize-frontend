@@ -11,7 +11,7 @@ import CertificationsSection from './sections/CertificationsSection';
 import LanguagesSection from './sections/LanguagesSection';
 
 // New Sections
-import CareerPreferencesSection from './sections/CareerPreferencesSection';
+import JobPreferenceSection from './sections/JobPreferenceSection';
 import VolunteerSection from './sections/VolunteerSection';
 import AwardsSection from './sections/AwardsSection';
 import CoursesSection from './sections/CoursesSection';
@@ -79,19 +79,13 @@ export default function LinkedInForm({ onGenerate, loading }) {
   // Section 8: Languages
   const [languages, setLanguages] = useState('');
 
-  // Section 9: Career Preferences
-  const [careerPreferences, setCareerPreferences] = useState({
-    openToWork: {
-      desiredTitles: '',
-      jobTypes: [],
-      workplaceTypes: [],
-      preferredLocations: '',
-      availability: '',
-    },
-    providingServices: {
-      servicesOffered: '',
-      serviceDescription: '',
-    }
+  // Section 9: Job Preferences
+  const [jobPreferences, setJobPreferences] = useState({
+    desiredTitles: '',
+    locationTypes: [],
+    preferredLocations: '',
+    noticePeriod: '',
+    expectedSalary: '',
   });
 
   // Optional Section 1: Volunteer
@@ -160,9 +154,8 @@ export default function LinkedInForm({ onGenerate, loading }) {
     if (contactInfo.email.trim() || contactInfo.phone.trim()) score += 5;
     if (certifications.some(c => c.name.trim())) score += 5;
     if (languages.trim()) score += 5;
-    const desiredTitlesCount = typeof careerPreferences.openToWork.desiredTitles === 'string' ? careerPreferences.openToWork.desiredTitles.split(',').map(s => s.trim()).filter(Boolean).length : (Array.isArray(careerPreferences.openToWork.desiredTitles) ? careerPreferences.openToWork.desiredTitles.length : 0);
-    const servicesCount = typeof careerPreferences.providingServices.servicesOffered === 'string' ? careerPreferences.providingServices.servicesOffered.split(',').map(s => s.trim()).filter(Boolean).length : (Array.isArray(careerPreferences.providingServices.servicesOffered) ? careerPreferences.providingServices.servicesOffered.length : 0);
-    if (desiredTitlesCount > 0 || servicesCount > 0) score += 5;
+    const desiredTitlesCount = typeof jobPreferences.desiredTitles === 'string' ? jobPreferences.desiredTitles.split(',').map(s => s.trim()).filter(Boolean).length : 0;
+    if (desiredTitlesCount > 0) score += 5;
 
     // Standout / Optional (Total: 10 pts)
     if (projects.some(p => p.name.trim())) score += 4;
@@ -194,9 +187,8 @@ export default function LinkedInForm({ onGenerate, loading }) {
     e.preventDefault();
     if (onGenerate) {
       const skillsArray = typeof skills === 'string' ? skills.split(',').map(s => s.trim()).filter(Boolean) : skills;
-      const desiredTitlesArray = typeof careerPreferences.openToWork.desiredTitles === 'string' ? careerPreferences.openToWork.desiredTitles.split(',').map(s => s.trim()).filter(Boolean) : careerPreferences.openToWork.desiredTitles;
-      const preferredLocationsArray = typeof careerPreferences.openToWork.preferredLocations === 'string' ? careerPreferences.openToWork.preferredLocations.split(',').map(s => s.trim()).filter(Boolean) : careerPreferences.openToWork.preferredLocations;
-      const servicesOfferedArray = typeof careerPreferences.providingServices.servicesOffered === 'string' ? careerPreferences.providingServices.servicesOffered.split(',').map(s => s.trim()).filter(Boolean) : careerPreferences.providingServices.servicesOffered;
+      const desiredTitlesArray = typeof jobPreferences.desiredTitles === 'string' ? jobPreferences.desiredTitles.split(',').map(s => s.trim()).filter(Boolean) : [];
+      const preferredLocationsArray = typeof jobPreferences.preferredLocations === 'string' ? jobPreferences.preferredLocations.split(',').map(s => s.trim()).filter(Boolean) : [];
 
       onGenerate({
         basicInfo, contactInfo,
@@ -205,15 +197,16 @@ export default function LinkedInForm({ onGenerate, loading }) {
         skills: skillsArray,
         projects, certifications, languages,
         careerPreferences: {
-          ...careerPreferences,
           openToWork: {
-            ...careerPreferences.openToWork,
             desiredTitles: desiredTitlesArray,
+            jobTypes: [],
+            workplaceTypes: jobPreferences.locationTypes,
             preferredLocations: preferredLocationsArray,
+            availability: jobPreferences.noticePeriod,
           },
           providingServices: {
-            ...careerPreferences.providingServices,
-            servicesOffered: servicesOfferedArray,
+            servicesOffered: [],
+            serviceDescription: '',
           }
         },
         volunteerExp, awards, courses, recommendations,
@@ -326,10 +319,10 @@ export default function LinkedInForm({ onGenerate, loading }) {
           liUrl={LI.languages}
         />
 
-        {/* 10. Career Preferences */}
-        <CareerPreferencesSection
-          careerPreferences={careerPreferences}
-          setCareerPreferences={setCareerPreferences}
+        {/* 10. Job Preferences */}
+        <JobPreferenceSection
+          jobPreferences={jobPreferences}
+          setJobPreferences={setJobPreferences}
           liUrl={LI.career}
         />
 
