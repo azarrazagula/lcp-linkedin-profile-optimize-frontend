@@ -248,7 +248,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
         <ContactInfoSection
           contactInfo={contactInfo}
           setContactInfo={setContactInfo}
-          liUrl={LI.contact}
+          liUrl={LI.intro}
         />
 
         {/* 3. About */}
