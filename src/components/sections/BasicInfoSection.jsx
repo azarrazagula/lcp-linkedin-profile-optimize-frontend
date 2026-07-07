@@ -76,12 +76,30 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         </div>
       </div>
 
-      <div>
+      <div className="mt-4 p-4 rounded-2xl border border-blue-100 bg-blue-50/30 transition-all shadow-3xs">
         <FieldLabel value={basicInfo.linkedinUrl}>LinkedIn Profile URL *</FieldLabel>
-        <input className={inputCls} placeholder="https://linkedin.com/in/yourname"
+        <input 
+          className={`${inputCls} ${
+            !basicInfo.linkedinUrl 
+              ? 'border-amber-300 focus:border-amber-500 focus:ring-amber-500/10 bg-amber-50/10' 
+              : '!border-emerald-300 focus:border-emerald-500 focus:ring-emerald-500/10 bg-emerald-50/10'
+          }`}
+          placeholder="https://www.linkedin.com/in/yourname"
           value={basicInfo.linkedinUrl}
-          onChange={e => set('linkedinUrl', e.target.value)} />
-        <HelperText>Paste your full LinkedIn URL to enable one-click Edit buttons throughout this form.</HelperText>
+          onChange={e => set('linkedinUrl', e.target.value)} 
+        />
+        
+        {!basicInfo.linkedinUrl ? (
+          <div className="mt-2.5 flex items-start gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200/60 rounded-xl p-3 font-semibold">
+            <span className="text-sm shrink-0">⚠️</span>
+            <span>Important: Paste your exact LinkedIn URL here. This unlocks the direct "Edit on LinkedIn" buttons for all sections in the form.</span>
+          </div>
+        ) : (
+          <div className="mt-2.5 flex items-start gap-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/60 rounded-xl p-3 font-semibold animate-fadeIn">
+            <span className="text-sm shrink-0">🎉</span>
+            <span>URL Connected! One-click direct edit buttons are now active for all sections.</span>
+          </div>
+        )}
       </div>
     </SectionCard>
   );
