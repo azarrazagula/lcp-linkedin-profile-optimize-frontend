@@ -1,16 +1,16 @@
 import React from 'react';
-import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, DateRow, inputCls, IC } from './FormHelpers';
+import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC } from './FormHelpers';
 
-export default function PatentsSection({ patents, setPatents, updateArr, addItem, removeItem }) {
+export default function PatentsSection({ patents, setPatents, updateArr, addItem, removeItem, liUrl }) {
   const emptyPatent = {
-    title: '', patentNumber: '', url: '',
-    patentMonth: '', patentYear: '', description: ''
+    title: '', patentNumber: '', url: '', patentDate: '', patentMonth: '', patentYear: '', description: '', inventor: ''
   };
 
   return (
     <OptionalSectionCard
       title="Patents"
       icon={IC.patent}
+      liUrl={liUrl}
       badge="optional"
       description="List patents you've filed, received, or contributed to as an inventor."
       tip="Patents showcase elite problem-solving, innovative design capabilities, and high-value research skills."
@@ -25,48 +25,61 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
             canRemove={patents.length > 1}
             onRemove={() => removeItem(setPatents, i)}
           >
-            <div>
-              <FieldLabel value={patent.title}>Patent Title *</FieldLabel>
-              <input className={inputCls} placeholder="e.g. System for automated LinkedIn profile optimization"
-                value={patent.title}
-                onChange={(e) => updateArr(setPatents, i, 'title', e.target.value)} />
-              <HelperText>The title of the patent.</HelperText>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-4">
+              {/* Patent title */}
               <div>
-                <FieldLabel value={patent.patentNumber}>Patent Number</FieldLabel>
-                <input className={inputCls} placeholder="e.g. US-123456-A"
+                <FieldLabel value={patent.title}>Patent title *</FieldLabel>
+                <input className={inputCls} placeholder="Ex: Technologies for ascribing..."
+                  value={patent.title}
+                  onChange={(e) => updateArr(setPatents, i, 'title', e.target.value)} />
+                <HelperText>The title of the patent.</HelperText>
+              </div>
+
+              {/* Patent or application number */}
+              <div>
+                <FieldLabel value={patent.patentNumber}>Patent or application number *</FieldLabel>
+                <input className={inputCls} placeholder="Ex: US 9229900"
                   value={patent.patentNumber}
                   onChange={(e) => updateArr(setPatents, i, 'patentNumber', e.target.value)} />
                 <HelperText>The unique patent number or application number.</HelperText>
               </div>
+
+              {/* Inventor */}
               <div>
-                <FieldLabel value={patent.url}>Patent URL / Link</FieldLabel>
+                <FieldLabel value={patent.inventor}>Inventor</FieldLabel>
+                <input className={inputCls} placeholder="Ex: Search for people / Enter inventor name"
+                  value={patent.inventor || ''}
+                  onChange={(e) => updateArr(setPatents, i, 'inventor', e.target.value)} />
+                <HelperText>Specify inventors or contributors to the patent.</HelperText>
+              </div>
+
+              {/* Issue date */}
+              <div>
+                <FieldLabel value={patent.patentDate}>Issue date</FieldLabel>
+                <input type="date" className={inputCls}
+                  value={patent.patentDate || ''}
+                  onChange={(e) => updateArr(setPatents, i, 'patentDate', e.target.value)} />
+                <HelperText>Select the filing or issue date of the patent.</HelperText>
+              </div>
+
+              {/* Patent URL */}
+              <div>
+                <FieldLabel value={patent.url}>Patent URL</FieldLabel>
                 <input className={inputCls} placeholder="https://patents.google.com/patent/..."
                   value={patent.url}
                   onChange={(e) => updateArr(setPatents, i, 'url', e.target.value)} />
                 <HelperText>Link to view the patent documents online.</HelperText>
               </div>
-            </div>
 
-            <div>
-              <FieldLabel value={patent.patentMonth && patent.patentYear ? `${patent.patentMonth} ${patent.patentYear}` : ''}>Filing / Issue Date</FieldLabel>
-              <DateRow
-                monthVal={patent.patentMonth}
-                yearVal={patent.patentYear}
-                onMonthChange={(e) => updateArr(setPatents, i, 'patentMonth', e.target.value)}
-                onYearChange={(e) => updateArr(setPatents, i, 'patentYear', e.target.value)}
-              />
-            </div>
-
-            <div>
-              <FieldLabel value={patent.description}>Description</FieldLabel>
-              <textarea className={inputCls} rows={2}
-                placeholder="Briefly explain the invention, technology area, or utility..."
-                value={patent.description || ''}
-                onChange={(e) => updateArr(setPatents, i, 'description', e.target.value)} />
-              <HelperText>Describe the invention and what problem it solves.</HelperText>
+              {/* Description */}
+              <div>
+                <FieldLabel value={patent.description}>Description</FieldLabel>
+                <textarea className={textareaCls} rows={3}
+                  placeholder="Briefly explain the invention, technology area, or utility..."
+                  value={patent.description || ''}
+                  onChange={(e) => updateArr(setPatents, i, 'description', e.target.value)} />
+                <HelperText>Describe the invention and what problem it solves.</HelperText>
+              </div>
             </div>
           </CollapsibleItem>
         ))}

@@ -120,7 +120,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
 
   // Optional Section 7: Patents
   const [patents, setPatents] = useState([
-    { title: '', patentNumber: '', url: '', patentMonth: '', patentYear: '', description: '' }
+    { title: '', patentNumber: '', url: '', patentDate: '', patentMonth: '', patentYear: '', description: '', inventor: '' }
   ]);
 
   // Optional Section 8: Test Scores
@@ -214,6 +214,31 @@ export default function LinkedInForm({ onGenerate, loading }) {
         };
       });
 
+      const mappedPatents = patents.map(pat => {
+        let patentMonth = pat.patentMonth;
+        let patentYear = pat.patentYear;
+        if (pat.patentDate) {
+          const dateParts = pat.patentDate.split('-');
+          if (dateParts[0]) patentYear = dateParts[0];
+          if (dateParts[1]) {
+            const monthIdx = parseInt(dateParts[1], 10) - 1;
+            const monthNames = [
+              'January', 'February', 'March', 'April', 'May', 'June',
+              'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            if (monthNames[monthIdx]) patentMonth = monthNames[monthIdx];
+          }
+        }
+        return {
+          title: pat.title,
+          patentNumber: pat.patentNumber,
+          url: pat.url,
+          patentMonth,
+          patentYear,
+          description: pat.description
+        };
+      });
+
       onGenerate({
         basicInfo, contactInfo,
         profilePhoto, coverPhoto, about,
@@ -234,7 +259,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           }
         },
         volunteerExp, awards, courses, recommendations,
-        organizations, publications: mappedPublications, patents, testScores
+        organizations, publications: mappedPublications, patents: mappedPatents, testScores
       });
     }
   };
@@ -419,6 +444,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           updateArr={updateArr}
           addItem={addItem}
           removeItem={removeItem}
+          liUrl={LI.patents}
         />
 
         {/* 18. Test Scores */}
