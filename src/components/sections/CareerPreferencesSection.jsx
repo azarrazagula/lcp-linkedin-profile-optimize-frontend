@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CheckboxRow, inputCls, textareaCls, IC } from './FormHelpers';
 
-export default function CareerPreferencesSection({ careerPreferences, setCareerPreferences }) {
+export default function CareerPreferencesSection({ careerPreferences, setCareerPreferences, liUrl }) {
   // Helpers to update nested state
   const updateOTW = (field, val) => {
     setCareerPreferences(prev => ({
@@ -29,7 +29,7 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
     const updated = list.includes(value)
       ? list.filter(item => item !== value)
       : [...list, value];
-    
+
     if (isOTW) {
       updateOTW(listField, updated);
     }
@@ -42,6 +42,7 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
     <SectionCard
       title="Career Preferences"
       icon={IC.career}
+      liUrl={liUrl}
       badge="recommended"
       audienceHint="Recommended for Job Seekers & Freelancers"
       description="Specify your work preferences and freelancing options to get better matched with employers or clients."
@@ -52,7 +53,7 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
         <h4 className="text-xs font-extrabold text-blue-600 uppercase tracking-widest flex items-center gap-1.5">
           <span>💼</span> Open to Work Preferences
         </h4>
-        
+
         <div>
           <FieldLabel value={careerPreferences.openToWork.desiredTitles}>Desired Job Titles</FieldLabel>
           <input className={inputCls} placeholder="e.g. Full Stack Developer, React Developer"
@@ -116,7 +117,7 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
       {/* Providing Services block */}
       <div className="space-y-4 pt-2">
         <h4 className="text-xs font-extrabold text-blue-600 uppercase tracking-widest flex items-center gap-1.5">
-          <span>🛠️</span> Providing Services Section (Freelancers-க்கு)
+          <span>🛠️</span> Providing Services Section (Freelancers)
         </h4>
 
         <div>

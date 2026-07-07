@@ -21,6 +21,7 @@ export function getLIUrls(linkedinUrl) {
       contact:        null,
       about:          null,
       projects:       null,
+      career:         null,
     };
   }
   let user = 'me';
@@ -40,6 +41,7 @@ export function getLIUrls(linkedinUrl) {
     contact:        `${base}/edit/forms/contact-info/new/`,
     about:          `${base}/edit/forms/summary/new/`,
     projects:       `${base}/edit/forms/project/new/`,
+    career:         base,
   };
 }
 
