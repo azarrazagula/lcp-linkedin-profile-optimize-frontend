@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
-import { SectionCard, FieldLabel, HelperText, TagInput, CheckboxRow, inputCls, textareaCls, IC } from './FormHelpers';
+import React from 'react';
+import { SectionCard, FieldLabel, HelperText, CheckboxRow, inputCls, textareaCls, IC } from './FormHelpers';
 
 export default function CareerPreferencesSection({ careerPreferences, setCareerPreferences }) {
-  const [titleInput, setTitleInput] = useState('');
-  const [locInput, setLocInput] = useState('');
-  const [serviceInput, setServiceInput] = useState('');
-
   // Helpers to update nested state
   const updateOTW = (field, val) => {
     setCareerPreferences(prev => ({
@@ -25,54 +21,6 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
         [field]: val
       }
     }));
-  };
-
-  // Job Titles tags
-  const handleTitleKeyDown = (e) => {
-    if ((e.key === 'Enter' || e.key === ',') && titleInput.trim()) {
-      e.preventDefault();
-      const val = titleInput.trim().replace(/,$/, '');
-      if (val && !careerPreferences.openToWork.desiredTitles.includes(val)) {
-        updateOTW('desiredTitles', [...careerPreferences.openToWork.desiredTitles, val]);
-      }
-      setTitleInput('');
-    }
-  };
-
-  const removeTitle = (idx) => {
-    updateOTW('desiredTitles', careerPreferences.openToWork.desiredTitles.filter((_, i) => i !== idx));
-  };
-
-  // Locations tags
-  const handleLocKeyDown = (e) => {
-    if ((e.key === 'Enter' || e.key === ',') && locInput.trim()) {
-      e.preventDefault();
-      const val = locInput.trim().replace(/,$/, '');
-      if (val && !careerPreferences.openToWork.preferredLocations.includes(val)) {
-        updateOTW('preferredLocations', [...careerPreferences.openToWork.preferredLocations, val]);
-      }
-      setLocInput('');
-    }
-  };
-
-  const removeLoc = (idx) => {
-    updateOTW('preferredLocations', careerPreferences.openToWork.preferredLocations.filter((_, i) => i !== idx));
-  };
-
-  // Services tags
-  const handleServiceKeyDown = (e) => {
-    if ((e.key === 'Enter' || e.key === ',') && serviceInput.trim()) {
-      e.preventDefault();
-      const val = serviceInput.trim().replace(/,$/, '');
-      if (val && !careerPreferences.providingServices.servicesOffered.includes(val)) {
-        updateServices('servicesOffered', [...careerPreferences.providingServices.servicesOffered, val]);
-      }
-      setServiceInput('');
-    }
-  };
-
-  const removeService = (idx) => {
-    updateServices('servicesOffered', careerPreferences.providingServices.servicesOffered.filter((_, i) => i !== idx));
   };
 
   // Checkbox helpers
@@ -106,16 +54,11 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
         </h4>
         
         <div>
-          <FieldLabel value={careerPreferences.openToWork.desiredTitles.length > 0 ? careerPreferences.openToWork.desiredTitles.join(', ') : ''}>Desired Job Titles</FieldLabel>
-          <TagInput
-            tags={careerPreferences.openToWork.desiredTitles}
-            tagInput={titleInput}
-            setTagInput={setTitleInput}
-            onKeyDown={handleTitleKeyDown}
-            onRemove={removeTitle}
-            placeholder="e.g. Full Stack Developer, React Developer"
-          />
-          <HelperText>Add up to 5 job titles to let recruiters know what roles you want.</HelperText>
+          <FieldLabel value={careerPreferences.openToWork.desiredTitles}>Desired Job Titles</FieldLabel>
+          <input className={inputCls} placeholder="e.g. Full Stack Developer, React Developer"
+            value={careerPreferences.openToWork.desiredTitles}
+            onChange={e => updateOTW('desiredTitles', e.target.value)} />
+          <HelperText>Add up to 5 job roles you are looking for.</HelperText>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -150,16 +93,11 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
         </div>
 
         <div>
-          <FieldLabel value={careerPreferences.openToWork.preferredLocations.length > 0 ? careerPreferences.openToWork.preferredLocations.join(', ') : ''}>Preferred Locations</FieldLabel>
-          <TagInput
-            tags={careerPreferences.openToWork.preferredLocations}
-            tagInput={locInput}
-            setTagInput={setLocInput}
-            onKeyDown={handleLocKeyDown}
-            onRemove={removeLoc}
-            placeholder="e.g. Chennai, Bengaluru, Remote"
-          />
-          <HelperText>Add locations you want to work in or specify Remote.</HelperText>
+          <FieldLabel value={careerPreferences.openToWork.preferredLocations}>Preferred Locations</FieldLabel>
+          <input className={inputCls} placeholder="e.g. Chennai, Bengaluru, Remote"
+            value={careerPreferences.openToWork.preferredLocations}
+            onChange={e => updateOTW('preferredLocations', e.target.value)} />
+          <HelperText>Cities you want to work in, or specify 'Remote'.</HelperText>
         </div>
 
         <div>
@@ -171,7 +109,7 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
             <option value="Immediately">Immediately (actively applying)</option>
             <option value="Flexible">Flexible (just browsing)</option>
           </select>
-          <HelperText>Let recruiters know how soon you are ready to join.</HelperText>
+          <HelperText>Let employers know how soon you can start working.</HelperText>
         </div>
       </div>
 
@@ -182,16 +120,11 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
         </h4>
 
         <div>
-          <FieldLabel value={careerPreferences.providingServices.servicesOffered.length > 0 ? careerPreferences.providingServices.servicesOffered.join(', ') : ''}>Services Offered</FieldLabel>
-          <TagInput
-            tags={careerPreferences.providingServices.servicesOffered}
-            tagInput={serviceInput}
-            setTagInput={setServiceInput}
-            onKeyDown={handleServiceKeyDown}
-            onRemove={removeService}
-            placeholder="e.g. Web Development, UI/UX Design, Consulting"
-          />
-          <HelperText>List the service offerings you provide to clients.</HelperText>
+          <FieldLabel value={careerPreferences.providingServices.servicesOffered}>Services Offered</FieldLabel>
+          <input className={inputCls} placeholder="e.g. Web Development, UI/UX Design, Consulting"
+            value={careerPreferences.providingServices.servicesOffered}
+            onChange={e => updateServices('servicesOffered', e.target.value)} />
+          <HelperText>The freelance services you provide.</HelperText>
         </div>
 
         <div>
@@ -200,7 +133,7 @@ export default function CareerPreferencesSection({ careerPreferences, setCareerP
             placeholder="Describe your services, pricing guidelines, portfolio links, or work terms..."
             value={careerPreferences.providingServices.serviceDescription}
             onChange={e => updateServices('serviceDescription', e.target.value)} />
-          <HelperText>Briefly explain your freelance offerings and work style.</HelperText>
+          <HelperText>Describe your service rates, terms, or freelance portfolio.</HelperText>
         </div>
       </div>
     </SectionCard>

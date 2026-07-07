@@ -1,5 +1,5 @@
 import React from 'react';
-import { OptionalSectionCard, FieldLabel, CollapsibleItem, AddMoreBtn, DateRow, inputCls, IC } from './FormHelpers';
+import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, DateRow, inputCls, IC } from './FormHelpers';
 
 export default function PatentsSection({ patents, setPatents, updateArr, addItem, removeItem }) {
   const emptyPatent = {
@@ -30,6 +30,7 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
               <input className={inputCls} placeholder="e.g. System for automated LinkedIn profile optimization"
                 value={patent.title}
                 onChange={(e) => updateArr(setPatents, i, 'title', e.target.value)} />
+              <HelperText>The title of the patent.</HelperText>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -38,12 +39,14 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
                 <input className={inputCls} placeholder="e.g. US-123456-A"
                   value={patent.patentNumber}
                   onChange={(e) => updateArr(setPatents, i, 'patentNumber', e.target.value)} />
+                <HelperText>The unique patent number or application number.</HelperText>
               </div>
               <div>
                 <FieldLabel value={patent.url}>Patent URL / Link</FieldLabel>
                 <input className={inputCls} placeholder="https://patents.google.com/patent/..."
                   value={patent.url}
                   onChange={(e) => updateArr(setPatents, i, 'url', e.target.value)} />
+                <HelperText>Link to view the patent documents online.</HelperText>
               </div>
             </div>
 
@@ -63,6 +66,7 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
                 placeholder="Briefly explain the invention, technology area, or utility..."
                 value={patent.description || ''}
                 onChange={(e) => updateArr(setPatents, i, 'description', e.target.value)} />
+              <HelperText>Describe the invention and what problem it solves.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

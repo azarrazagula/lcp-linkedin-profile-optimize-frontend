@@ -25,7 +25,7 @@ export default function AboutSection({ about, setAbout, liUrl }) {
           placeholder="Write a brief summary of your career, skills, achievements, and goals. Ex: 'I am a passionate Full Stack Developer with 3+ years of experience building responsive web applications...'"
           value={about}
           onChange={(e) => setAbout(e.target.value)} />
-        <HelperText>Aim for 3-5 short paragraphs. Highlight what problems you solve and what technologies you use.</HelperText>
+        <HelperText>Write a short 3-4 paragraph summary of your experience, key skills, and career goals.</HelperText>
       </div>
     </SectionCard>
   );

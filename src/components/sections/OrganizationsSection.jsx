@@ -1,5 +1,5 @@
 import React from 'react';
-import { OptionalSectionCard, FieldLabel, CollapsibleItem, AddMoreBtn, CheckboxRow, DateRow, inputCls, IC } from './FormHelpers';
+import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, CheckboxRow, DateRow, inputCls, IC } from './FormHelpers';
 
 export default function OrganizationsSection({ organizations, setOrganizations, updateArr, addItem, removeItem }) {
   const emptyOrg = {
@@ -31,12 +31,14 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
                 <input className={inputCls} placeholder="e.g. IEEE, Toastmasters"
                   value={org.name}
                   onChange={(e) => updateArr(setOrganizations, i, 'name', e.target.value)} />
+                <HelperText>The name of the club, association, or professional society.</HelperText>
               </div>
               <div>
                 <FieldLabel value={org.position}>Position / Role</FieldLabel>
                 <input className={inputCls} placeholder="e.g. Member, Vice President"
                   value={org.position}
                   onChange={(e) => updateArr(setOrganizations, i, 'position', e.target.value)} />
+                <HelperText>Your role or title.</HelperText>
               </div>
             </div>
 
@@ -77,6 +79,7 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
                 placeholder="Describe your role, key contributions, or events organized..."
                 value={org.description || ''}
                 onChange={(e) => updateArr(setOrganizations, i, 'description', e.target.value)} />
+              <HelperText>Describe your involvement and contributions to the group.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

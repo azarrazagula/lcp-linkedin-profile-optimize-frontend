@@ -33,7 +33,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
                 <input className={inputCls} placeholder="e.g. Full Stack Developer"
                   value={exp.jobTitle}
                   onChange={(e) => updateArr(setExperiences, i, 'jobTitle', e.target.value)} />
-                <HelperText>Write a clear, widely recognized job title.</HelperText>
+                <HelperText>Your official designation.</HelperText>
               </div>
               <div>
                 <FieldLabel value={exp.employmentType}>Employment type</FieldLabel>
@@ -48,7 +48,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
                   <option value="Apprenticeship">Apprenticeship</option>
                   <option value="Seasonal">Seasonal</option>
                 </select>
-                <HelperText>Choose how you were contracted for this role.</HelperText>
+                <HelperText>Choose how this role was structured.</HelperText>
               </div>
             </div>
 
@@ -57,7 +57,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
               <input className={inputCls} placeholder="e.g. Microsoft"
                 value={exp.company}
                 onChange={(e) => updateArr(setExperiences, i, 'company', e.target.value)} />
-              <HelperText>Write the official company name to auto-link company logo on LinkedIn.</HelperText>
+              <HelperText>Use the official company name so their logo appears on your profile.</HelperText>
             </div>
 
             <div className="flex items-center gap-2.5 py-1">
@@ -96,7 +96,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
                 <input className={inputCls} placeholder="e.g. London, United Kingdom"
                   value={exp.location}
                   onChange={(e) => updateArr(setExperiences, i, 'location', e.target.value)} />
-                <HelperText>City and country or region.</HelperText>
+                <HelperText>The city and country where this job was located.</HelperText>
               </div>
               <div>
                 <FieldLabel value={exp.locationType}>Location type</FieldLabel>
@@ -106,7 +106,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
                   <option value="Hybrid">Hybrid</option>
                   <option value="Remote">Remote</option>
                 </select>
-                <HelperText>Choose the workplace arrangement style.</HelperText>
+                <HelperText>Choose where you worked.</HelperText>
               </div>
             </div>
 
@@ -116,7 +116,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
                 placeholder="Describe your responsibilities, key achievements, impact..."
                 value={exp.description}
                 onChange={(e) => updateArr(setExperiences, i, 'description', e.target.value)} />
-              <HelperText>Describe your responsibilities, key projects, and accomplishments.</HelperText>
+              <HelperText>List your key responsibilities and accomplishments in bullet points.</HelperText>
             </div>
 
             <div>
@@ -124,7 +124,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
               <input className={inputCls} placeholder="Appears below your name at top of profile"
                 value={exp.profileHeadline}
                 onChange={(e) => updateArr(setExperiences, i, 'profileHeadline', e.target.value)} />
-              <HelperText>Leave blank to automatically inherit your main profile headline.</HelperText>
+              <HelperText>An optional headline for this role. Leave blank to use your main profile headline.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { OptionalSectionCard, FieldLabel, CollapsibleItem, AddMoreBtn, DateRow, inputCls, IC } from './FormHelpers';
+import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, DateRow, inputCls, IC } from './FormHelpers';
 
 export default function PublicationsSection({ publications, setPublications, updateArr, addItem, removeItem }) {
   const emptyPub = {
@@ -30,6 +30,7 @@ export default function PublicationsSection({ publications, setPublications, upd
               <input className={inputCls} placeholder="e.g. Scaling React apps using WebWorkers"
                 value={pub.title}
                 onChange={(e) => updateArr(setPublications, i, 'title', e.target.value)} />
+              <HelperText>The title of your paper, article, or book.</HelperText>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -38,12 +39,14 @@ export default function PublicationsSection({ publications, setPublications, upd
                 <input className={inputCls} placeholder="e.g. Medium, IEEE Journal"
                   value={pub.publisher}
                   onChange={(e) => updateArr(setPublications, i, 'publisher', e.target.value)} />
+                <HelperText>The journal, website, or publishing company.</HelperText>
               </div>
               <div>
                 <FieldLabel value={pub.url}>Publication URL</FieldLabel>
                 <input className={inputCls} placeholder="https://journal.com/article"
                   value={pub.url}
                   onChange={(e) => updateArr(setPublications, i, 'url', e.target.value)} />
+                <HelperText>Link to read the publication online.</HelperText>
               </div>
             </div>
 
@@ -63,6 +66,7 @@ export default function PublicationsSection({ publications, setPublications, upd
                 placeholder="Give a short summary of the publication, key findings, or impact..."
                 value={pub.description || ''}
                 onChange={(e) => updateArr(setPublications, i, 'description', e.target.value)} />
+              <HelperText>Summarize the topic and findings of your publication.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

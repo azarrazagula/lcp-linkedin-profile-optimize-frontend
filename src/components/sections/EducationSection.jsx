@@ -32,7 +32,7 @@ export default function EducationSection({ educations, setEducations, updateArr,
               <input className={inputCls} placeholder="e.g. Harvard University"
                 value={edu.school}
                 onChange={(e) => updateArr(setEducations, i, 'school', e.target.value)} />
-              <HelperText>Enter the full name of the university, college, or school.</HelperText>
+              <HelperText>The official name of your school, college, or university.</HelperText>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -41,14 +41,14 @@ export default function EducationSection({ educations, setEducations, updateArr,
                 <input className={inputCls} placeholder="e.g. Bachelor of Science"
                   value={edu.degree}
                   onChange={(e) => updateArr(setEducations, i, 'degree', e.target.value)} />
-                <HelperText>Degree, diploma, or certificate earned.</HelperText>
+                 <HelperText>The degree or diploma you earned.</HelperText>
               </div>
               <div>
                 <FieldLabel value={edu.fieldOfStudy}>Field of study</FieldLabel>
                 <input className={inputCls} placeholder="e.g. Computer Science"
                   value={edu.fieldOfStudy}
                   onChange={(e) => updateArr(setEducations, i, 'fieldOfStudy', e.target.value)} />
-                <HelperText>Ex: Business Administration, Economics, Engineering.</HelperText>
+                 <HelperText>Your major or specialization.</HelperText>
               </div>
             </div>
 
@@ -102,14 +102,14 @@ export default function EducationSection({ educations, setEducations, updateArr,
                 <input className={inputCls} placeholder="e.g. 8.5 CGPA / 3.8 GPA"
                   value={edu.grade}
                   onChange={(e) => updateArr(setEducations, i, 'grade', e.target.value)} />
-                <HelperText>Your final GPA or classification score.</HelperText>
+                 <HelperText>Your final score or GPA.</HelperText>
               </div>
               <div>
                 <FieldLabel value={edu.activities}>Activities and societies</FieldLabel>
                 <input className={inputCls} placeholder="e.g. Debate Club, Basketball Team"
                   value={edu.activities}
                   onChange={(e) => updateArr(setEducations, i, 'activities', e.target.value)} />
-                <HelperText>Clubs, student groups, or campus organizations.</HelperText>
+                 <HelperText>Clubs, sports, or student organizations you participated in.</HelperText>
               </div>
             </div>
 
@@ -119,7 +119,7 @@ export default function EducationSection({ educations, setEducations, updateArr,
                 placeholder="Describe your coursework, honors, key academic projects, thesis..."
                 value={edu.description}
                 onChange={(e) => updateArr(setEducations, i, 'description', e.target.value)} />
-              <HelperText>Detail special coursework, majors, achievements, or honors received.</HelperText>
+              <HelperText>Summarize your key courses, academic projects, or achievements.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

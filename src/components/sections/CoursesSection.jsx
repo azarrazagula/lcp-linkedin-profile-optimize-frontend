@@ -30,13 +30,14 @@ export default function CoursesSection({ courses, setCourses, updateArr, addItem
                 <input className={inputCls} placeholder="e.g. Data Structures and Algorithms"
                   value={course.name}
                   onChange={(e) => updateArr(setCourses, i, 'name', e.target.value)} />
+                <HelperText>The name of the course or subject.</HelperText>
               </div>
               <div>
                 <FieldLabel value={course.associatedWith}>Associated With</FieldLabel>
                 <input className={inputCls} placeholder="e.g. Boston University, Self-Employed"
                   value={course.associatedWith}
                   onChange={(e) => updateArr(setCourses, i, 'associatedWith', e.target.value)} />
-                <HelperText>Specify the degree, school, or experience this course belongs to.</HelperText>
+                <HelperText>The school or college where you took this course.</HelperText>
               </div>
             </div>
 
@@ -45,6 +46,7 @@ export default function CoursesSection({ courses, setCourses, updateArr, addItem
               <input className={inputCls} placeholder="e.g. CS-101"
                 value={course.courseNumber || ''}
                 onChange={(e) => updateArr(setCourses, i, 'courseNumber', e.target.value)} />
+              <HelperText>The course code or number, if applicable.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

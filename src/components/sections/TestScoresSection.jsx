@@ -1,5 +1,5 @@
 import React from 'react';
-import { OptionalSectionCard, FieldLabel, CollapsibleItem, AddMoreBtn, DateRow, inputCls, IC } from './FormHelpers';
+import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, DateRow, inputCls, IC } from './FormHelpers';
 
 export default function TestScoresSection({ testScores, setTestScores, updateArr, addItem, removeItem }) {
   const emptyScore = {
@@ -31,12 +31,14 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
                 <input className={inputCls} placeholder="e.g. GRE, GMAT, TOEFL"
                   value={scoreObj.name}
                   onChange={(e) => updateArr(setTestScores, i, 'name', e.target.value)} />
+                <HelperText>The name of the exam or test.</HelperText>
               </div>
               <div>
                 <FieldLabel value={scoreObj.score}>Score *</FieldLabel>
                 <input className={inputCls} placeholder="e.g. 330/340, Band 8.5"
                   value={scoreObj.score}
                   onChange={(e) => updateArr(setTestScores, i, 'score', e.target.value)} />
+                <HelperText>Your test score or percentile.</HelperText>
               </div>
             </div>
 
@@ -56,6 +58,7 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
                 placeholder="Ex: Percentiles or sections breakdown (e.g. Quantitative: 170, Verbal: 160)..."
                 value={scoreObj.description || ''}
                 onChange={(e) => updateArr(setTestScores, i, 'description', e.target.value)} />
+              <HelperText>Any additional details about the test or your performance.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

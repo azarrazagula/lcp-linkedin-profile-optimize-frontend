@@ -1,11 +1,6 @@
-import React from 'react';
-import { SectionCard, FieldLabel, HelperText, TagInput, IC } from './FormHelpers';
+import { SectionCard, FieldLabel, HelperText, inputCls, IC } from './FormHelpers';
 
-export default function SkillsSection({ skills, setSkills, skillInput, setSkillInput, handleSkillKeyDown, liUrl }) {
-  const removeSkill = (index) => {
-    setSkills(skills.filter((_, idx) => idx !== index));
-  };
-
+export default function SkillsSection({ skills, setSkills, liUrl }) {
   return (
     <SectionCard
       title="Skills"
@@ -16,16 +11,11 @@ export default function SkillsSection({ skills, setSkills, skillInput, setSkillI
       tip="Aim for at least 5 skills. Profiles with 5 or more skills are discovered up to 27× more by recruiters searching on LinkedIn."
     >
       <div>
-        <FieldLabel value={skills.length > 0 ? skills.join(', ') : ''}>Skills * (Press Enter or , to Add)</FieldLabel>
-        <TagInput
-          tags={skills}
-          tagInput={skillInput}
-          setTagInput={setSkillInput}
-          onKeyDown={handleSkillKeyDown}
-          onRemove={removeSkill}
-          placeholder="e.g. React, JavaScript, Node.js, Project Management"
-        />
-        <HelperText>Add hard skills (like programming languages, tools) as well as soft skills (like leadership, negotiation).</HelperText>
+        <FieldLabel value={skills}>Skills * (comma-separated)</FieldLabel>
+        <input className={inputCls} placeholder="e.g. React, JavaScript, Node.js, Project Management"
+          value={skills}
+          onChange={(e) => setSkills(e.target.value)} />
+        <HelperText>The skills you want to highlight. (Note: On LinkedIn, you must search and add these skills one by one.)</HelperText>
       </div>
     </SectionCard>
   );

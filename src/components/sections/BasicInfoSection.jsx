@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SectionCard, FieldLabel, HelperText, inputCls, fileInputCls, IC, isValidLinkedInUrl } from './FormHelpers';
 
 // Maps postal code prefixes to list of matching cities
@@ -27,165 +27,49 @@ const getCitiesByPostalCode = (postcode) => {
   return ['Chennai', 'Coimbatore', 'Bengaluru', 'Mumbai', 'New Delhi', 'Hyderabad', 'Pune', 'Kolkata'];
 };
 
-// Official LinkedIn Industry options
-const INDUSTRIES = [
-  "Accounting",
-  "Airlines/Aviation",
-  "Alternative Dispute Resolution",
-  "Alternative Medicine",
-  "Animation",
-  "Apparel & Fashion",
-  "Architecture & Planning",
-  "Arts and Crafts",
-  "Automotive",
-  "Aviation & Aerospace",
-  "Banking",
-  "Biotechnology",
-  "Broadcast Media",
-  "Building Materials",
-  "Business Supplies and Equipment",
-  "Capital Markets",
-  "Chemicals",
-  "Civic & Social Organization",
-  "Civil Engineering",
-  "Commercial Real Estate",
-  "Computer & Network Security",
-  "Computer Games",
-  "Computer Hardware",
-  "Computer Networking",
-  "Computer Software",
-  "Construction",
-  "Consumer Electronics",
-  "Consumer Goods",
-  "Consumer Services",
-  "Cosmetics",
-  "Dairy",
-  "Defense & Space",
-  "Design",
-  "Education Management",
-  "E-Learning",
-  "Electrical/Electronic Manufacturing",
-  "Entertainment",
-  "Environmental Services",
-  "Events Services",
-  "Executive Office",
-  "Facilities Services",
-  "Farming",
-  "Financial Services",
-  "Fine Art",
-  "Fishery",
-  "Food & Beverages",
-  "Food Production",
-  "Fund-Raising",
-  "Furniture",
-  "Gambling & Casinos",
-  "Glass, Ceramics & Concrete",
-  "Government Administration",
-  "Government Relations",
-  "Graphic Design",
-  "Health, Wellness and Fitness",
-  "Higher Education",
-  "Hospital & Health Care",
-  "Hospitality",
-  "Human Resources",
-  "Import and Export",
-  "Individual & Family Services",
-  "Industrial Automation",
-  "Information Services",
-  "Information Technology and Services",
-  "Insurance",
-  "International Affairs",
-  "International Trade and Development",
-  "Internet",
-  "Investment Banking",
-  "Investment Management",
-  "Judiciary",
-  "Law Enforcement",
-  "Law Practice",
-  "Legal Services",
-  "Legislative Office",
-  "Leisure, Travel & Tourism",
-  "Libraries",
-  "Logistics and Supply Chain",
-  "Luxury Goods & Jewelry",
-  "Machinery",
-  "Management Consulting",
-  "Maritime",
-  "Market Research",
-  "Marketing and Advertising",
-  "Mechanical or Industrial Engineering",
-  "Media Production",
-  "Medical Devices",
-  "Medical Practice",
-  "Mental Health Care",
-  "Military",
-  "Mining & Metals",
-  "Motion Pictures and Film",
-  "Museums and Institutions",
-  "Music",
-  "Nanotechnology",
-  "Newspapers",
-  "Non-Profit Organization Management",
-  "Oil & Energy",
-  "Online Media",
-  "Outsourcing/Offshoring",
-  "Package/Freight Delivery",
-  "Packaging and Containers",
-  "Paper & Forest Products",
-  "Performing Arts",
-  "Pharmaceuticals",
-  "Philanthropy",
-  "Photography",
-  "Plastics",
-  "Political Organization",
-  "Primary/Secondary Education",
-  "Printing",
-  "Professional Training & Coaching",
-  "Program Development",
-  "Public Policy",
-  "Public Relations and Communications",
-  "Public Safety",
-  "Publishing",
-  "Railroad Manufacture",
-  "Ranching",
-  "Real Estate",
-  "Recreational Facilities and Services",
-  "Religious Institutions",
-  "Renewables & Environment",
-  "Research",
-  "Restaurants",
-  "Retail",
-  "Security and Investigations",
-  "Semiconductors",
-  "Shipbuilding",
-  "Sporting Goods",
-  "Sports",
-  "Staffing and Recruiting",
-  "Supermarkets",
-  "Telecommunications",
-  "Textiles",
-  "Think Tanks",
-  "Tobacco",
-  "Translation and Localization",
-  "Transportation/Trucking/Railroad",
-  "Utilities",
-  "Venture Capital & Private Equity",
-  "Veterinary",
-  "Warehousing",
-  "Wholesale",
-  "Wine and Spirits",
-  "Wireless",
-  "Writing and Editing"
-];
+
 
 
 export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePhoto, setCoverPhoto, liUrl }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
 
   const showCity = !!basicInfo.postalCode && !!basicInfo.postalCode.trim();
-  const cities = getCitiesByPostalCode(basicInfo.postalCode);
+  const [dynamicCities, setDynamicCities] = useState([]);
+  const [showCitySuggestions, setShowCitySuggestions] = useState(false);
 
-  const [showSuggestions, setShowSuggestions] = useState(false);
+  useEffect(() => {
+    const postcode = basicInfo.postalCode?.trim();
+    if (!postcode) {
+      setDynamicCities([]);
+      return;
+    }
+
+    // If it's a 6-digit Indian PIN code, fetch matching post offices/districts dynamically
+    if (/^\d{6}$/.test(postcode)) {
+      fetch(`https://api.postalpincode.in/pincode/${postcode}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data && data[0] && data[0].Status === 'Success') {
+            const offices = data[0].PostOffice || [];
+            const names = new Set();
+            offices.forEach(office => {
+              if (office.District && office.District !== 'NA') {
+                names.add(office.District);
+              }
+            });
+            setDynamicCities(Array.from(names).sort());
+          }
+        })
+        .catch(err => {
+          console.error("Error fetching PIN code:", err);
+          setDynamicCities(getCitiesByPostalCode(postcode));
+        });
+    } else {
+      setDynamicCities(getCitiesByPostalCode(postcode));
+    }
+  }, [basicInfo.postalCode]);
+
+  const cities = dynamicCities.length > 0 ? dynamicCities : getCitiesByPostalCode(basicInfo.postalCode);
 
   return (
     <SectionCard
@@ -203,7 +87,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
           <input className={inputCls} placeholder="e.g. Alex Johnson"
             value={basicInfo.fullName}
             onChange={e => set('fullName', e.target.value)} />
-          <HelperText>Use your professional name — the name you go by at work.</HelperText>
+          <HelperText>Use the name you go by at work.</HelperText>
         </div>
         <div>
           <FieldLabel value={basicInfo.pronouns}>Pronouns</FieldLabel>
@@ -214,7 +98,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
             <option value="They/Them">They/Them</option>
             <option value="Custom">Custom</option>
           </select>
-          <HelperText>Helps colleagues and recruiters address you respectfully.</HelperText>
+          <HelperText>Help others know how to address you.</HelperText>
         </div>
       </div>
 
@@ -225,43 +109,17 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
           <input className={inputCls} placeholder="e.g. India"
             value={basicInfo.countryRegion || ''}
             onChange={e => set('countryRegion', e.target.value)} />
-          <HelperText>Where you currently reside.</HelperText>
+          <HelperText>Your current country of residence.</HelperText>
         </div>
         <div>
           <FieldLabel value={basicInfo.industry}>Industry</FieldLabel>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none z-10">
-              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </span>
-            <input 
-              className={`${inputCls} !pl-11`} 
-              placeholder="e.g. Software Development"
-              value={basicInfo.industry || ''}
-              onChange={e => set('industry', e.target.value)}
-              onFocus={() => setShowSuggestions(true)}
-              onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-            />
-            {showSuggestions && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200/80 rounded-2xl shadow-lg max-h-60 overflow-y-auto z-50 py-1.5 animate-fadeIn">
-                {INDUSTRIES.filter(ind => 
-                  !basicInfo.industry || 
-                  ind.toLowerCase().includes(basicInfo.industry.toLowerCase())
-                ).slice(0, 10).map((ind) => (
-                  <button
-                    key={ind}
-                    type="button"
-                    onMouseDown={() => set('industry', ind)}
-                    className="w-full text-left px-4 py-2 hover:bg-slate-50 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors block"
-                  >
-                    {ind}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-          <HelperText>Your industry helps LinkedIn show you relevant jobs and people.</HelperText>
+          <input 
+            className={inputCls} 
+            placeholder="e.g. Software Development"
+            value={basicInfo.industry || ''}
+            onChange={e => set('industry', e.target.value)}
+          />
+          <HelperText>Your professional field to match with relevant jobs.</HelperText>
         </div>
       </div>
 
@@ -278,16 +136,44 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
                 setBasicInfo(prev => ({ ...prev, postalCode: '', city: '' }));
               }
             }} />
-          <HelperText>Used to determine your location area.</HelperText>
+          <HelperText>Enter your 6-digit PIN code to find jobs in your area.</HelperText>
         </div>
         {showCity && (
-          <div className="animate-fadeIn">
+          <div className="animate-fadeIn relative">
             <FieldLabel value={basicInfo.city}>City *</FieldLabel>
-            <select className={inputCls} value={basicInfo.city || ''} onChange={e => set('city', e.target.value)}>
-              <option value="">Select a city</option>
-              {cities.map(c => <option key={c} value={c}>{c}</option>)}
-            </select>
-            <HelperText>Select the matching city for your postal code.</HelperText>
+            <div className="relative">
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none z-10">
+                <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </span>
+              <input 
+                className={`${inputCls} !pl-11`} 
+                placeholder="e.g. Coimbatore"
+                value={basicInfo.city || ''}
+                onChange={e => set('city', e.target.value)}
+                onFocus={() => setShowCitySuggestions(true)}
+                onBlur={() => setTimeout(() => setShowCitySuggestions(false), 200)}
+              />
+              {showCitySuggestions && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200/80 rounded-2xl shadow-lg max-h-60 overflow-y-auto z-50 py-1.5 animate-fadeIn">
+                  {cities.filter(c => 
+                    !basicInfo.city || 
+                    c.toLowerCase().includes(basicInfo.city.toLowerCase())
+                  ).map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onMouseDown={() => set('city', c)}
+                      className="w-full text-left px-4 py-2 hover:bg-slate-50 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors block"
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <HelperText>Your current city. This will show on your public profile.</HelperText>
           </div>
         )}
       </div>
@@ -298,7 +184,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         <input className={inputCls} placeholder="e.g. Full Stack Developer | React · Node.js · MongoDB"
           value={basicInfo.headline}
           onChange={e => set('headline', e.target.value)} />
-        <HelperText>Include your role + top skills. Recruiters search for these keywords.</HelperText>
+        <HelperText>Your job title and key skills.</HelperText>
       </div>
 
       {/* Row 5: Profile & Cover Photo */}
@@ -308,14 +194,14 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
           <input type="file" accept="image/*"
             onChange={e => setProfilePhoto(e.target.files[0])}
             className={fileInputCls} />
-          <HelperText>A professional headshot gets 21× more profile views.</HelperText>
+          <HelperText>A clean, professional headshot. Highly recommended for more profile views.</HelperText>
         </div>
         <div>
           <FieldLabel>Cover Photo</FieldLabel>
           <input type="file" accept="image/*"
             onChange={e => setCoverPhoto(e.target.files[0])}
             className={fileInputCls} />
-          <HelperText>Use a branded or professional banner image.</HelperText>
+          <HelperText>A professional background banner for your profile page.</HelperText>
         </div>
       </div>
 

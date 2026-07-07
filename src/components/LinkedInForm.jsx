@@ -24,7 +24,7 @@ import TestScoresSection from './sections/TestScoresSection';
 export default function LinkedInForm({ onGenerate, loading }) {
   // Section 1: Basic Info
   const [basicInfo, setBasicInfo] = useState({
-    fullName: '', pronouns: '', industry: '', headline: '', countryRegion: '', postalCode: '', city: '', linkedinUrl: '',
+    fullName: '', pronouns: '', industry: '', headline: '', location: '', linkedinUrl: '',
   });
   const [profilePhoto, setProfilePhoto] = useState(null);
   const [coverPhoto, setCoverPhoto] = useState(null);
@@ -56,8 +56,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
   ]);
 
   // Section 5: Skills
-  const [skillInput, setSkillInput] = useState('');
-  const [skills, setSkills] = useState([]);
+  const [skills, setSkills] = useState('');
 
   // Section 6: Projects
   const [projects, setProjects] = useState([
@@ -83,14 +82,14 @@ export default function LinkedInForm({ onGenerate, loading }) {
   // Section 9: Career Preferences
   const [careerPreferences, setCareerPreferences] = useState({
     openToWork: {
-      desiredTitles: [],
+      desiredTitles: '',
       jobTypes: [],
       workplaceTypes: [],
-      preferredLocations: [],
+      preferredLocations: '',
       availability: '',
     },
     providingServices: {
-      servicesOffered: [],
+      servicesOffered: '',
       serviceDescription: '',
     }
   });
@@ -141,14 +140,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
   const addItem = (setter, tmpl) => setter((prev) => [...prev, { ...tmpl }]);
   const removeItem = (setter, i) => setter((prev) => prev.filter((_, idx) => idx !== i));
 
-  const handleSkillKeyDown = (e) => {
-    if ((e.key === 'Enter' || e.key === ',') && skillInput.trim()) {
-      e.preventDefault();
-      const s = skillInput.trim().replace(/,$/, '');
-      if (s && !skills.includes(s)) setSkills((p) => [...p, s]);
-      setSkillInput('');
-    }
-  };
+  // handleSkillKeyDown is removed since skills is now a simple text input
 
   // ── Profile Completion Score Calculation ──────────────────────────────────
   const calculateProgress = () => {
@@ -159,7 +151,8 @@ export default function LinkedInForm({ onGenerate, loading }) {
     if (basicInfo.headline.trim()) score += 10;
     if (basicInfo.linkedinUrl.trim()) score += 10;
     if (about.trim()) score += 10;
-    if (skills.length >= 3) score += 10;
+    const skillsCount = typeof skills === 'string' ? skills.split(',').map(s => s.trim()).filter(Boolean).length : (Array.isArray(skills) ? skills.length : 0);
+    if (skillsCount >= 3) score += 10;
     if (experiences.some(exp => exp.jobTitle.trim() && exp.company.trim())) score += 10;
     if (educations.some(edu => edu.school.trim())) score += 10;
 
@@ -167,7 +160,9 @@ export default function LinkedInForm({ onGenerate, loading }) {
     if (contactInfo.email.trim() || contactInfo.phone.trim()) score += 5;
     if (certifications.some(c => c.name.trim())) score += 5;
     if (languages.trim()) score += 5;
-    if (careerPreferences.openToWork.desiredTitles.length > 0 || careerPreferences.providingServices.servicesOffered.length > 0) score += 5;
+    const desiredTitlesCount = typeof careerPreferences.openToWork.desiredTitles === 'string' ? careerPreferences.openToWork.desiredTitles.split(',').map(s => s.trim()).filter(Boolean).length : (Array.isArray(careerPreferences.openToWork.desiredTitles) ? careerPreferences.openToWork.desiredTitles.length : 0);
+    const servicesCount = typeof careerPreferences.providingServices.servicesOffered === 'string' ? careerPreferences.providingServices.servicesOffered.split(',').map(s => s.trim()).filter(Boolean).length : (Array.isArray(careerPreferences.providingServices.servicesOffered) ? careerPreferences.providingServices.servicesOffered.length : 0);
+    if (desiredTitlesCount > 0 || servicesCount > 0) score += 5;
 
     // Standout / Optional (Total: 10 pts)
     if (projects.some(p => p.name.trim())) score += 4;
@@ -198,11 +193,30 @@ export default function LinkedInForm({ onGenerate, loading }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onGenerate) {
+      const skillsArray = typeof skills === 'string' ? skills.split(',').map(s => s.trim()).filter(Boolean) : skills;
+      const desiredTitlesArray = typeof careerPreferences.openToWork.desiredTitles === 'string' ? careerPreferences.openToWork.desiredTitles.split(',').map(s => s.trim()).filter(Boolean) : careerPreferences.openToWork.desiredTitles;
+      const preferredLocationsArray = typeof careerPreferences.openToWork.preferredLocations === 'string' ? careerPreferences.openToWork.preferredLocations.split(',').map(s => s.trim()).filter(Boolean) : careerPreferences.openToWork.preferredLocations;
+      const servicesOfferedArray = typeof careerPreferences.providingServices.servicesOffered === 'string' ? careerPreferences.providingServices.servicesOffered.split(',').map(s => s.trim()).filter(Boolean) : careerPreferences.providingServices.servicesOffered;
+
       onGenerate({
         basicInfo, contactInfo,
         profilePhoto, coverPhoto, about,
-        experiences, educations, skills, projects, certifications, languages,
-        careerPreferences, volunteerExp, awards, courses, recommendations,
+        experiences, educations,
+        skills: skillsArray,
+        projects, certifications, languages,
+        careerPreferences: {
+          ...careerPreferences,
+          openToWork: {
+            ...careerPreferences.openToWork,
+            desiredTitles: desiredTitlesArray,
+            preferredLocations: preferredLocationsArray,
+          },
+          providingServices: {
+            ...careerPreferences.providingServices,
+            servicesOffered: servicesOfferedArray,
+          }
+        },
+        volunteerExp, awards, courses, recommendations,
         organizations, publications, patents, testScores
       });
     }
@@ -282,9 +296,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
         <SkillsSection
           skills={skills}
           setSkills={setSkills}
-          skillInput={skillInput}
-          setSkillInput={setSkillInput}
-          handleSkillKeyDown={handleSkillKeyDown}
           liUrl={LI.skills}
         />
 

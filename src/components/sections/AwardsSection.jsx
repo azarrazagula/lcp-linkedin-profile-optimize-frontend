@@ -1,5 +1,5 @@
 import React from 'react';
-import { OptionalSectionCard, FieldLabel, CollapsibleItem, AddMoreBtn, inputCls, IC, MONTHS, YEARS } from './FormHelpers';
+import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, IC, MONTHS, YEARS } from './FormHelpers';
 
 export default function AwardsSection({ awards, setAwards, updateArr, addItem, removeItem }) {
   const emptyAward = {
@@ -30,12 +30,14 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
                 <input className={inputCls} placeholder="e.g. Employee of the Month, Hackathon Winner"
                   value={award.title}
                   onChange={(e) => updateArr(setAwards, i, 'title', e.target.value)} />
+                <HelperText>The name of the award or honor.</HelperText>
               </div>
               <div>
                 <FieldLabel value={award.issuer}>Issuer *</FieldLabel>
                 <input className={inputCls} placeholder="e.g. Google, Boston University"
                   value={award.issuer}
                   onChange={(e) => updateArr(setAwards, i, 'issuer', e.target.value)} />
+                <HelperText>The company or organization that gave you this award.</HelperText>
               </div>
             </div>
 
@@ -65,6 +67,7 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
                 placeholder="Ex: Selected out of 500+ participants for outstanding UI redesign work..."
                 value={award.description || ''}
                 onChange={(e) => updateArr(setAwards, i, 'description', e.target.value)} />
+              <HelperText>Explain why you received this award and its significance.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

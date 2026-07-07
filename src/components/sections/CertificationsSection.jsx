@@ -33,7 +33,7 @@ export default function CertificationsSection({ certifications, setCertification
               <input className={inputCls} placeholder="e.g. AWS Certified Solutions Architect"
                 value={cert.name}
                 onChange={(e) => updateArr(setCertifications, i, 'name', e.target.value)} />
-              <HelperText>Enter the full official certification name.</HelperText>
+              <HelperText>The official title of your certification.</HelperText>
             </div>
 
             <div>
@@ -41,7 +41,7 @@ export default function CertificationsSection({ certifications, setCertification
               <input className={inputCls} placeholder="e.g. Amazon Web Services"
                 value={cert.issuedBy}
                 onChange={(e) => updateArr(setCertifications, i, 'issuedBy', e.target.value)} />
-              <HelperText>Ex: Microsoft, Google, Udemy, Coursera.</HelperText>
+              <HelperText>The company that issued it.</HelperText>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -94,14 +94,14 @@ export default function CertificationsSection({ certifications, setCertification
                 <input className={inputCls} placeholder="e.g. ABC-123456"
                   value={cert.credentialId || ''}
                   onChange={(e) => updateArr(setCertifications, i, 'credentialId', e.target.value)} />
-                <HelperText>Verification ID of the certificate if available.</HelperText>
+                <HelperText>The unique registration or certificate number.</HelperText>
               </div>
               <div>
                 <FieldLabel value={cert.credentialUrl}>Credential URL</FieldLabel>
                 <input className={inputCls} placeholder="https://certificate-url.com"
                   value={cert.credentialUrl || ''}
                   onChange={(e) => updateArr(setCertifications, i, 'credentialUrl', e.target.value)} />
-                <HelperText>Direct URL to verify certificate online.</HelperText>
+                <HelperText>Link to verify the certificate online.</HelperText>
               </div>
             </div>
           </CollapsibleItem>

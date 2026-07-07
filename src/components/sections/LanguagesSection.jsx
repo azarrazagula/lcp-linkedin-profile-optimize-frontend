@@ -16,7 +16,7 @@ export default function LanguagesSection({ languages, setLanguages, liUrl }) {
         <input className={inputCls} placeholder="e.g. English, Tamil, Hindi"
           value={languages}
           onChange={(e) => setLanguages(e.target.value)} />
-        <HelperText>Enter the languages you are comfortable speaking in professional environments.</HelperText>
+        <HelperText>The language you speak.</HelperText>
       </div>
     </SectionCard>
   );

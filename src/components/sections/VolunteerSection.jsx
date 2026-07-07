@@ -1,5 +1,5 @@
 import React from 'react';
-import { OptionalSectionCard, FieldLabel, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
+import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
 export default function VolunteerSection({ volunteerExp, setVolunteerExp, updateArr, addItem, removeItem }) {
   const emptyVol = {
@@ -31,12 +31,14 @@ export default function VolunteerSection({ volunteerExp, setVolunteerExp, update
                 <input className={inputCls} placeholder="e.g. Volunteer Coordinator"
                   value={vol.role}
                   onChange={(e) => updateArr(setVolunteerExp, i, 'role', e.target.value)} />
+                <HelperText>Your job title or role.</HelperText>
               </div>
               <div>
                 <FieldLabel value={vol.organization}>Organization Name *</FieldLabel>
                 <input className={inputCls} placeholder="e.g. Red Cross"
                   value={vol.organization}
                   onChange={(e) => updateArr(setVolunteerExp, i, 'organization', e.target.value)} />
+                <HelperText>The name of the non-profit or group.</HelperText>
               </div>
             </div>
 
@@ -45,6 +47,7 @@ export default function VolunteerSection({ volunteerExp, setVolunteerExp, update
               <input className={inputCls} placeholder="e.g. Disaster Relief, Education, Health"
                 value={vol.cause}
                 onChange={(e) => updateArr(setVolunteerExp, i, 'cause', e.target.value)} />
+              <HelperText>The social cause this organization supports.</HelperText>
             </div>
 
             <div className="flex items-center gap-2.5 py-1">
@@ -106,6 +109,7 @@ export default function VolunteerSection({ volunteerExp, setVolunteerExp, update
                 placeholder="Describe your volunteer impact, duties, and responsibilities..."
                 value={vol.description}
                 onChange={(e) => updateArr(setVolunteerExp, i, 'description', e.target.value)} />
+              <HelperText>Explain your volunteer work and the impact you made.</HelperText>
             </div>
           </CollapsibleItem>
         ))}

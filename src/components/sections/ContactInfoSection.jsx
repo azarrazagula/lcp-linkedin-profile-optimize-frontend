@@ -19,7 +19,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
         <input type="email" className={inputCls} placeholder="e.g. yourname@example.com"
           value={contactInfo.email || ''}
           onChange={(e) => set('email', e.target.value)} />
-        <HelperText>A professional email address is highly recommended.</HelperText>
+        <HelperText>A professional email address for job opportunities.</HelperText>
       </div>
 
       {/* Phone Number & Phone Type */}
@@ -29,7 +29,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
           <input className={inputCls} placeholder="e.g. +91 98765 43210"
             value={contactInfo.phone || ''}
             onChange={(e) => set('phone', e.target.value)} />
-          <HelperText>Include country code for international recruiters.</HelperText>
+          <HelperText>Include your country code for recruiter calls.</HelperText>
         </div>
         <div>
           <FieldLabel value={contactInfo.phoneType}>Phone type</FieldLabel>
@@ -41,7 +41,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
             <option value="Home">Home</option>
             <option value="Work">Work</option>
           </select>
-          <HelperText>Most recruiters prefer Mobile for quick contact.</HelperText>
+          <HelperText>Choose 'Mobile' so recruiters know it is your personal number.</HelperText>
         </div>
       </div>
 
@@ -51,7 +51,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
         <textarea className={textareaCls} rows={2} placeholder="e.g. Coimbatore, Tamil Nadu, India"
           value={contactInfo.address || ''}
           onChange={(e) => set('address', e.target.value)} />
-        <HelperText>Your location will help match jobs in your commuting zone.</HelperText>
+        <HelperText>Your location helps match you with local commuting jobs.</HelperText>
       </div>
 
       {/* Birthday */}
@@ -77,7 +77,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
             </select>
           </div>
         </div>
-        <HelperText>LinkedIn only displays your birthday (not birth year) to your connections.</HelperText>
+        <HelperText>Your connections can see your birthday, but your birth year is hidden.</HelperText>
       </div>
 
       {/* Website */}
@@ -87,7 +87,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
           <input className={inputCls} placeholder="https://yourportfolio.com"
             value={contactInfo.websiteUrl || ''}
             onChange={(e) => set('websiteUrl', e.target.value)} />
-          <HelperText>Add your portfolio, blog, or company website.</HelperText>
+          <HelperText>Link to your portfolio, blog, or personal website.</HelperText>
         </div>
         <div>
           <FieldLabel value={contactInfo.websiteType}>Website Type</FieldLabel>
@@ -102,7 +102,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
             <option value="RSS">RSS</option>
             <option value="Other">Other</option>
           </select>
-          <HelperText>Categorizing your link helps viewers know what to expect.</HelperText>
+          <HelperText>Select what this link represents so viewers know what to expect.</HelperText>
         </div>
       </div>
     </SectionCard>

@@ -32,7 +32,7 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
               <input className={inputCls} placeholder="e.g. Portfolio Website"
                 value={proj.name}
                 onChange={(e) => updateArr(setProjects, i, 'name', e.target.value)} />
-              <HelperText>Give a short, punchy name to your project.</HelperText>
+              <HelperText>The name of your project.</HelperText>
             </div>
 
             <div>
@@ -41,7 +41,7 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
                 placeholder="What does this project do? What technologies did you use? What was your role?"
                 value={proj.description}
                 onChange={(e) => updateArr(setProjects, i, 'description', e.target.value)} />
-              <HelperText>Explain the problem, your solution, and key tech stack components.</HelperText>
+              <HelperText>Describe the problem, technologies used, and your contribution.</HelperText>
             </div>
 
             <div className="flex items-center gap-2.5 py-1">
