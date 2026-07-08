@@ -122,9 +122,9 @@ export default function UserProfile({ onClose }) {
 
         {/* Premium Dashboard Metrics Cards */}
         <div className="mt-5">
-          <div className="bg-slate-50/70 border border-slate-100 hover:border-slate-200/80 rounded-2xl p-3 text-left transition-all duration-200">
+          <div className="bg-slate-50/70 border border-slate-100 hover:border-slate-200/80 rounded-2xl p-3 text-center transition-all duration-200">
             <span className="text-[10px] text-slate-400 font-black uppercase tracking-wider block">Profile Status</span>
-            <div className="flex items-center gap-1.5 mt-1">
+            <div className="flex items-center justify-center gap-1.5 mt-1">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
               <span className="text-xs font-black text-slate-700">Active</span>
             </div>
