@@ -26,8 +26,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
   const [basicInfo, setBasicInfo] = useState({
     fullName: '', pronouns: '', industry: '', headline: '', location: '', linkedinUrl: '',
   });
-  const [profilePhoto, setProfilePhoto] = useState(null);
-  const [coverPhoto, setCoverPhoto] = useState(null);
 
   // Section 1b: Contact Info
   const [contactInfo, setContactInfo] = useState({
@@ -240,8 +238,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
       });
 
       onGenerate({
-        basicInfo, contactInfo,
-        profilePhoto, coverPhoto, about,
+        basicInfo, contactInfo, about,
         experiences, educations,
         skills: skillsArray,
         projects, certifications, languages,
@@ -295,8 +292,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
         <BasicInfoSection
           basicInfo={basicInfo}
           setBasicInfo={setBasicInfo}
-          setProfilePhoto={setProfilePhoto}
-          setCoverPhoto={setCoverPhoto}
           liUrl={LI.intro}
         />
 

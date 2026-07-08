@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SectionCard, FieldLabel, HelperText, inputCls, fileInputCls, IC, isValidLinkedInUrl } from './FormHelpers';
+import { SectionCard, FieldLabel, HelperText, inputCls, IC, isValidLinkedInUrl } from './FormHelpers';
 
 // Maps postal code prefixes to list of matching cities
 const getCitiesByPostalCode = (postcode) => {
@@ -30,7 +30,7 @@ const getCitiesByPostalCode = (postcode) => {
 
 
 
-export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePhoto, setCoverPhoto, liUrl }) {
+export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
 
   const fullNameId = React.useId();
@@ -40,8 +40,6 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
   const postalCodeId = React.useId();
   const cityId = React.useId();
   const headlineId = React.useId();
-  const profilePhotoId = React.useId();
-  const coverPhotoId = React.useId();
   const linkedinUrlId = React.useId();
 
   const showCity = !!basicInfo.postalCode && !!basicInfo.postalCode.trim();
@@ -200,33 +198,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         <HelperText>Your job title and key skills.</HelperText>
       </div>
 
-      {/* Row 5: Profile & Cover Photo */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <FieldLabel htmlFor={profilePhotoId}>Profile Photo</FieldLabel>
-          <input id={profilePhotoId} type="file" accept="image/*"
-            onChange={e => setProfilePhoto(e.target.files[0])}
-            className={fileInputCls} />
-          <HelperText>A clean, professional headshot. Highly recommended for more profile views.</HelperText>
-        </div>
-        <div>
-          <FieldLabel htmlFor={coverPhotoId}>Cover Photo</FieldLabel>
-          <input id={coverPhotoId} type="file" accept="image/*"
-            onChange={e => setCoverPhoto(e.target.files[0])}
-            className={fileInputCls} />
-          <HelperText>A professional background banner for your profile page.</HelperText>
-        </div>
-      </div>
 
-      {/* Warning/Instructions for Profile & Cover Photo Sync */}
-      <div className="mt-2 p-4 rounded-2xl border border-amber-200 bg-amber-50/50 shadow-3xs">
-        <h4 className="text-xs font-bold text-amber-950 uppercase tracking-wider flex items-center gap-1.5 mb-1">
-          ⚠️ Add this instead (Must)
-        </h4>
-        <p className="text-xs text-amber-900 leading-relaxed font-semibold">
-          Uploading photos in this form will NOT automatically update them on your actual LinkedIn account due to security and API restrictions. You must save your photos and manually upload them directly on your LinkedIn profile page.
-        </p>
-      </div>
 
       {/* Row 6: LinkedIn Profile URL */}
       <div className="mt-4 p-4 rounded-2xl border border-blue-100 bg-blue-50/30 transition-all shadow-3xs">
