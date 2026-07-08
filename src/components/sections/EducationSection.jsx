@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function EducationSection({ educations, setEducations, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
+export default function EducationSection({ educations, setEducations, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField, onReload }) {
   const emptyEdu = {
     school: '', degree: '', fieldOfStudy: '',
     startMonth: '', startYear: '', endMonth: '', endYear: '',
@@ -16,6 +16,7 @@ export default function EducationSection({ educations, setEducations, updateArr,
       badge="required"
       description="Add your academic qualifications, schools, colleges, and degrees. This is important to verify your credentials."
       tip="Adding details of your field of study or coursework can help matching algorithms find related entry-level openings."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {educations.map((edu, i) => (

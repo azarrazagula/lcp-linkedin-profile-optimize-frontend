@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function AwardsSection({ awards, setAwards, updateArr, addItem, removeItem, experiences = [], educations = [], liUrl, onOptimize, optimizingField }) {
+export default function AwardsSection({ awards, setAwards, updateArr, addItem, removeItem, experiences = [], educations = [], liUrl, onOptimize, optimizingField, onReload }) {
   const emptyAward = {
     title: '', associatedWith: '', issuer: '', issueMonth: '', issueYear: '', description: ''
   };
@@ -21,6 +21,7 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
       badge="optional"
       description="Add awards, fellowships, industry recognition, or academic prizes to showcase your achievements."
       tip="Winning awards proves that you go above and beyond in your field, making your profile stand out."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {awards.map((award, i) => (

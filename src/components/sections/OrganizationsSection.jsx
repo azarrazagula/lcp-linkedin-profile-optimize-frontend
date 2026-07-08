@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function OrganizationsSection({ organizations, setOrganizations, updateArr, addItem, removeItem, experiences = [], educations = [], liUrl, onOptimize, optimizingField }) {
+export default function OrganizationsSection({ organizations, setOrganizations, updateArr, addItem, removeItem, experiences = [], educations = [], liUrl, onOptimize, optimizingField, onReload }) {
   const emptyOrg = {
     name: '', position: '', associatedWith: '', currentlyMember: false,
     startMonth: '', startYear: '', endMonth: '', endYear: '', description: ''
@@ -22,6 +22,7 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
       badge="optional"
       description="List professional associations, student bodies, non-profits, or industry memberships you belong to."
       tip="Membership in professional clubs or societies shows leadership capabilities and industry interest."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {organizations.map((org, i) => (

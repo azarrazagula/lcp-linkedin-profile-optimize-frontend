@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, inputCls, IC } from './FormHelpers';
 
-export default function LanguagesSection({ languages, setLanguages, liUrl }) {
+export default function LanguagesSection({ languages, setLanguages, liUrl, onReload }) {
   const langId = React.useId();
 
   return (
@@ -12,6 +12,7 @@ export default function LanguagesSection({ languages, setLanguages, liUrl }) {
       badge="recommended"
       description="List the languages you can speak, write, or communicate in professionally."
       tip="Being bilingual or multilingual is a strong competitive advantage in global or remote-first companies."
+      onReload={onReload}
     >
       <div>
         <FieldLabel htmlFor={langId} value={languages}>Languages * (comma-separated)</FieldLabel>

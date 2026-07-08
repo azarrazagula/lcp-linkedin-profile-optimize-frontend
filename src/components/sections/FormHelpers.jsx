@@ -195,12 +195,12 @@ export function LIBtn({ url, label = 'Edit on LinkedIn' }) {
 }
 
 // ── Section Card v2 (with badge, description, tip, audienceHint) ───────────────
-export function SectionCard({ title, icon, liUrl, liLabel, badge, description, tip, audienceHint, children }) {
+export function SectionCard({ title, icon, liUrl, liLabel, badge, description, tip, audienceHint, onReload, children }) {
   return (
     <div className="bg-white border border-slate-100 rounded-[22px] shadow-[0_4px_24px_rgb(148,163,184,0.06)] hover:shadow-[0_8px_32px_rgb(148,163,184,0.10)] transition-all duration-300 overflow-hidden">
       {/* Header */}
       <div className="px-6 sm:px-7 pt-6 pb-4 border-b border-slate-100/80">
-        {/* Row 1: Icon + Title/Badge + Edit button */}
+        {/* Row 1: Icon + Title/Badge + Actions */}
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
             <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
@@ -213,7 +213,22 @@ export function SectionCard({ title, icon, liUrl, liLabel, badge, description, t
               </div>
             </div>
           </div>
-          {liUrl !== undefined && <LIBtn url={liUrl} label={liLabel} />}
+          
+          <div className="flex items-center gap-2 shrink-0">
+            {onReload && (
+              <button
+                type="button"
+                onClick={onReload}
+                title="Reset Section Data"
+                className="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center cursor-pointer shadow-3xs hover:scale-105 active:scale-95 group shrink-0"
+              >
+                <svg className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+              </button>
+            )}
+            {liUrl !== undefined && <LIBtn url={liUrl} label={liLabel} />}
+          </div>
         </div>
 
         {/* Row 2: Audience Hint & Description (Full width, never squeezed!) */}
@@ -325,7 +340,7 @@ export function RemoveBtn({ onClick }) {
 }
 
 // ── Optional Section Wrapper (collapsed by default) ────────────────────────────
-export function OptionalSectionCard({ title, icon, liUrl, liLabel, badge = 'optional', description, tip, audienceHint, children }) {
+export function OptionalSectionCard({ title, icon, liUrl, liLabel, badge = 'optional', description, tip, audienceHint, onReload, children }) {
   const [open, setOpen] = React.useState(false);
   return (
     <div className="bg-white border border-slate-100 rounded-[22px] shadow-[0_4px_24px_rgb(148,163,184,0.04)] hover:shadow-[0_8px_32px_rgb(148,163,184,0.08)] transition-all duration-300 overflow-hidden">
@@ -347,6 +362,21 @@ export function OptionalSectionCard({ title, icon, liUrl, liLabel, badge = 'opti
             </div>
           </div>
           <div className="flex items-center gap-3 shrink-0">
+            {onReload && (
+              <button
+                type="button"
+                onClick={e => {
+                  e.stopPropagation();
+                  onReload();
+                }}
+                title="Reset Section Data"
+                className="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center cursor-pointer shadow-3xs hover:scale-105 active:scale-95 group shrink-0"
+              >
+                <svg className="w-3.5 h-3.5 group-hover:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+              </button>
+            )}
             {liUrl !== undefined && (
               <div onClick={e => e.stopPropagation()} className="cursor-default">
                 <LIBtn url={liUrl} label={liLabel} />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, inputCls, textareaCls, IC, MONTHS, DAYS } from './FormHelpers';
 
-export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl }) {
+export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl, onReload }) {
   const set = (field, val) => setContactInfo({ ...contactInfo, [field]: val });
 
   const emailId = React.useId();
@@ -21,6 +21,7 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
       badge="recommended"
       description="Help recruiters and clients contact you directly for opportunities, contract roles, or partnerships."
       tip="Adding an active email and phone number makes you 4× more likely to be contacted by headhunters directly."
+      onReload={onReload}
     >
       {/* Email */}
       <div>

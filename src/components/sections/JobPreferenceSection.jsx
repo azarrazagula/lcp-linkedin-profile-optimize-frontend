@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CheckboxRow, inputCls, IC } from './FormHelpers';
 
-export default function JobPreferenceSection({ jobPreferences, setJobPreferences }) {
+export default function JobPreferenceSection({ jobPreferences, setJobPreferences, onReload }) {
   const set = (field, val) => {
     setJobPreferences(prev => ({
       ...prev,
@@ -30,6 +30,7 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
       audienceHint="Recommended for Job Seekers"
       description="Specify your job search choices and preferences to get optimized recommendations."
       tip="Recruiters filter profiles by Open to Work fields. Filling this ensures you show up in relevant search queries."
+      onReload={onReload}
     >
       {/* Alert Banner / Instruction */}
       <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-950 text-xs font-semibold space-y-1 shadow-3xs">

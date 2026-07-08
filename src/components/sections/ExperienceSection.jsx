@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function ExperienceSection({ experiences, setExperiences, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
+export default function ExperienceSection({ experiences, setExperiences, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField, onReload }) {
   const emptyExp = {
     jobTitle: '', company: '', employmentType: '', location: '', locationType: '',
     currentlyWorking: false, startMonth: '', startYear: '', description: '',
@@ -16,6 +16,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
       badge="required"
       description="List your past and current professional roles. This helps show your career progression and core capabilities."
       tip="Add metrics to your experience where possible (e.g., 'Improved database speed by 30%'). Numbers validate your impact."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {experiences.map((exp, i) => (

@@ -29,7 +29,7 @@ const getCitiesByPostalCode = (postcode) => {
 };
 
 
-export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl, onOptimize, optimizingField }) {
+export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl, onOptimize, optimizingField, onReload }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
 
   const fullNameId = React.useId();
@@ -87,6 +87,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl, onOpt
       badge="required"
       description="Tell recruiters who you are and what you do. This information appears at the very top of your LinkedIn profile and is the first thing anyone sees."
       tip="A strong, keyword-rich Headline can increase your profile views by 3×. Think of it as your personal slogan."
+      onReload={onReload}
     >
       {/* Row 1: Full Name & Pronouns */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

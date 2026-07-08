@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, IC } from './FormHelpers';
 
-export default function CoursesSection({ courses, setCourses, updateArr, addItem, removeItem, liUrl }) {
+export default function CoursesSection({ courses, setCourses, updateArr, addItem, removeItem, liUrl, onReload }) {
   const emptyCourse = {
     name: '', associatedWith: '', courseNumber: ''
   };
@@ -14,6 +14,7 @@ export default function CoursesSection({ courses, setCourses, updateArr, addItem
       badge="optional"
       description="Add relevant coursework you completed during school, university, bootcamps, or online platforms."
       tip="Listing specialized courses (e.g., 'Advanced Algorithms') shows your theoretical strength to recruiters."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {courses.map((course, i) => (

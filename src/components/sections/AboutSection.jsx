@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, textareaCls, IC } from './FormHelpers';
 
-export default function AboutSection({ about, setAbout, liUrl, onOptimize, optimizingField }) {
+export default function AboutSection({ about, setAbout, liUrl, onOptimize, optimizingField, onReload }) {
   const charLimit = 2600;
   const currentLength = about ? about.length : 0;
   const aboutId = React.useId();
@@ -14,6 +14,7 @@ export default function AboutSection({ about, setAbout, liUrl, onOptimize, optim
       badge="required"
       description="Introduce yourself, showcase your professional journey, and highlight your core expertise and achievements."
       tip="A professional summary written in first-person ('I am...') that highlights your impact (using numbers where possible) grabs attention instantly."
+      onReload={onReload}
     >
       <div>
         <div className="flex justify-between items-center mb-1">

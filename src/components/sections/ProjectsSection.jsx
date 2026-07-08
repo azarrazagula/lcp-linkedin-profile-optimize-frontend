@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function ProjectsSection({ projects, setProjects, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
+export default function ProjectsSection({ projects, setProjects, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField, onReload }) {
   const emptyProj = {
     name: '', description: '', currentlyWorking: false,
     startMonth: '', startYear: '', endMonth: '', endYear: ''
@@ -16,6 +16,7 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
       audienceHint="Recommended for Developers, Designers & Students"
       description="Showcase practical projects you have built, open-source contributions, or university work."
       tip="Projects are the best way to prove your skill set when you have limited industry experience."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {projects.map((proj, i) => (

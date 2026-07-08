@@ -143,6 +143,7 @@ export default function LinkedInForm() {
             liUrl={LI.intro}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setBasicInfo({ fullName: '', pronouns: '', industry: '', headline: '', location: '', linkedinUrl: '' })}
           />
         );
       case 1:
@@ -151,6 +152,7 @@ export default function LinkedInForm() {
             contactInfo={contactInfo}
             setContactInfo={setContactInfo}
             liUrl={LI.contact}
+            onReload={() => setContactInfo({ email: '', phone: '', phoneType: '', address: '', birthMonth: '', birthDay: '', websiteUrl: '', websiteType: '' })}
           />
         );
       case 2:
@@ -164,6 +166,7 @@ export default function LinkedInForm() {
             liUrl={LI.education}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setEducations([{ school: '', degree: '', fieldOfStudy: '', startMonth: '', startYear: '', endMonth: '', endYear: '', grade: '', activities: '', description: '' }])}
           />
         );
       case 3:
@@ -174,6 +177,7 @@ export default function LinkedInForm() {
             liUrl={LI.skills}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setSkills('')}
           />
         );
       case 4:
@@ -187,6 +191,7 @@ export default function LinkedInForm() {
             liUrl={LI.projects}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setProjects([{ name: '', description: '', currentlyWorking: false, startMonth: '', startYear: '', endMonth: '', endYear: '' }])}
           />
         );
       case 5:
@@ -200,6 +205,7 @@ export default function LinkedInForm() {
             liUrl={LI.experience}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setExperiences([{ jobTitle: '', company: '', employmentType: '', location: '', locationType: '', currentlyWorking: false, startMonth: '', startYear: '', description: '', foundVia: '' }])}
           />
         );
       case 6:
@@ -210,6 +216,7 @@ export default function LinkedInForm() {
             liUrl={LI.about}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setAbout('')}
           />
         );
       case 7:
@@ -218,6 +225,7 @@ export default function LinkedInForm() {
             languages={languages}
             setLanguages={setLanguages}
             liUrl={LI.languages}
+            onReload={() => setLanguages('')}
           />
         );
       case 8:
@@ -229,6 +237,7 @@ export default function LinkedInForm() {
             addItem={addItem}
             removeItem={removeItem}
             liUrl={LI.certifications}
+            onReload={() => setCertifications([{ name: '', issuedBy: '', issueMonth: '', issueYear: '', expirationMonth: '', expirationYear: '', credentialId: '', credentialUrl: '' }])}
           />
         );
       case 9:
@@ -236,6 +245,7 @@ export default function LinkedInForm() {
           <JobPreferenceSection
             jobPreferences={jobPreferences}
             setJobPreferences={setJobPreferences}
+            onReload={() => setJobPreferences({ desiredTitles: '', locationTypes: [], preferredLocations: '', noticePeriod: '', expectedSalary: '' })}
           />
         );
       case 10:
@@ -249,6 +259,7 @@ export default function LinkedInForm() {
             liUrl={LI.volunteer}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setVolunteerExp([{ organization: '', role: '', cause: '', currentlyVolunteering: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' }])}
           />
         );
       case 11:
@@ -264,6 +275,7 @@ export default function LinkedInForm() {
             liUrl={LI.awards}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setAwards([{ title: '', associatedWith: '', issuer: '', issueMonth: '', issueYear: '', description: '' }])}
           />
         );
       case 12:
@@ -275,6 +287,7 @@ export default function LinkedInForm() {
             addItem={addItem}
             removeItem={removeItem}
             liUrl={LI.courses}
+            onReload={() => setCourses([{ name: '', associatedWith: '', courseNumber: '' }])}
           />
         );
       case 13:
@@ -290,6 +303,7 @@ export default function LinkedInForm() {
             liUrl={LI.organizations}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setOrganizations([{ name: '', position: '', associatedWith: '', currentlyMember: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' }])}
           />
         );
       case 14:
@@ -303,6 +317,7 @@ export default function LinkedInForm() {
             liUrl={LI.publications}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setPublications([{ title: '', publisher: '', url: '', pubDate: '', pubMonth: '', pubYear: '', description: '', author: '' }])}
           />
         );
       case 15:
@@ -316,6 +331,7 @@ export default function LinkedInForm() {
             liUrl={LI.patents}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setPatents([{ title: '', patentNumber: '', url: '', patentDate: '', patentMonth: '', patentYear: '', description: '', inventor: '' }])}
           />
         );
       case 16:
@@ -329,6 +345,7 @@ export default function LinkedInForm() {
             liUrl={LI.testScores}
             onOptimize={handleFieldOptimize}
             optimizingField={optimizingField}
+            onReload={() => setTestScores([{ name: '', score: '', associatedWith: '', testMonth: '', testYear: '', description: '' }])}
           />
         );
       default:
@@ -556,7 +573,7 @@ export default function LinkedInForm() {
           </button>
 
           {/* Dots Indicator */}
-          <div className="flex gap-1.5 overflow-x-auto max-w-[120px] sm:max-w-md scrollbar-none py-1">
+          <div className="hidden sm:flex gap-1.5 overflow-x-auto max-w-[120px] sm:max-w-md scrollbar-none py-1">
             {STEPS.map((label, idx) => (
               <button
                 key={idx}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function TestScoresSection({ testScores, setTestScores, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
+export default function TestScoresSection({ testScores, setTestScores, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField, onReload }) {
   const emptyScore = {
     name: '', score: '', associatedWith: '', testMonth: '', testYear: '', description: ''
   };
@@ -15,6 +15,7 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
       audienceHint="Recommended for Students"
       description="List standardized test scores (e.g., GRE, GMAT, SAT, TOEFL, or specialized examinations) that showcase your analytical abilities."
       tip="High test scores show analytical capabilities and academic potential, especially useful for university admissions or entry-level roles."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {testScores.map((scoreObj, i) => (

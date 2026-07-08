@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC } from './FormHelpers';
 
-export default function PatentsSection({ patents, setPatents, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
+export default function PatentsSection({ patents, setPatents, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField, onReload }) {
   const emptyPatent = {
     title: '', patentNumber: '', url: '', patentDate: '', patentMonth: '', patentYear: '', description: '', inventor: ''
   };
@@ -14,6 +14,7 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
       badge="optional"
       description="List patents you've filed, received, or contributed to as an inventor."
       tip="Patents showcase elite problem-solving, innovative design capabilities, and high-value research skills."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {patents.map((patent, i) => (

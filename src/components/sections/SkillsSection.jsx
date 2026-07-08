@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, inputCls, IC } from './FormHelpers';
 
-export default function SkillsSection({ skills, setSkills, liUrl, onOptimize, optimizingField }) {
+export default function SkillsSection({ skills, setSkills, liUrl, onOptimize, optimizingField, onReload }) {
   const skillsId = React.useId();
 
   return (
@@ -12,6 +12,7 @@ export default function SkillsSection({ skills, setSkills, liUrl, onOptimize, op
       badge="required"
       description="Add skills to show your technical strengths, core tools, and professional capabilities."
       tip="Aim for at least 5 skills. Profiles with 5 or more skills are discovered up to 27× more by recruiters searching on LinkedIn."
+      onReload={onReload}
     >
       <div>
         <FieldLabel htmlFor={skillsId} value={skills}>Skills * (comma-separated)</FieldLabel>

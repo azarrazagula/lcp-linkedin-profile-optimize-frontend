@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function CertificationsSection({ certifications, setCertifications, updateArr, addItem, removeItem, liUrl }) {
+export default function CertificationsSection({ certifications, setCertifications, updateArr, addItem, removeItem, liUrl, onReload }) {
   const emptyCert = {
     name: '', issuedBy: '',
     issueMonth: '', issueYear: '',
@@ -17,6 +17,7 @@ export default function CertificationsSection({ certifications, setCertification
       badge="recommended"
       description="Add your professional certifications, course completions, licenses, or credentials."
       tip="Recruiters actively search for candidates with specific certifications. It helps validate your expertise immediately."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {certifications.map((cert, i) => (

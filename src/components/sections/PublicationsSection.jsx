@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC } from './FormHelpers';
 
-export default function PublicationsSection({ publications, setPublications, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
+export default function PublicationsSection({ publications, setPublications, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField, onReload }) {
   const emptyPub = {
     title: '', publisher: '', url: '', pubDate: '', pubMonth: '', pubYear: '', description: '', author: ''
   };
@@ -14,6 +14,7 @@ export default function PublicationsSection({ publications, setPublications, upd
       badge="optional"
       description="Showcase academic papers, books, blog posts, white papers, or research articles you have published."
       tip="Publishing demonstrates subject matter expertise and increases your visibility as a thought leader."
+      onReload={onReload}
     >
       <div className="space-y-4">
         {publications.map((pub, i) => (
