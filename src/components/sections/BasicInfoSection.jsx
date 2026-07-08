@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SectionCard, FieldLabel, HelperText, inputCls, IC, isValidLinkedInUrl } from './FormHelpers';
+import { LINKEDIN_INDUSTRIES } from './linkedin_industries';
 
 // Maps postal code prefixes to list of matching cities
 const getCitiesByPostalCode = (postcode) => {
@@ -28,8 +29,6 @@ const getCitiesByPostalCode = (postcode) => {
 };
 
 
-
-
 export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl, onOptimize, optimizingField }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
 
@@ -45,6 +44,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl, onOpt
   const showCity = !!basicInfo.postalCode && !!basicInfo.postalCode.trim();
   const [dynamicCities, setDynamicCities] = useState([]);
   const [showCitySuggestions, setShowCitySuggestions] = useState(false);
+  const [showIndustrySuggestions, setShowIndustrySuggestions] = useState(false);
 
   useEffect(() => {
     const postcode = basicInfo.postalCode?.trim();
@@ -121,13 +121,54 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl, onOpt
         </div>
         <div>
           <FieldLabel htmlFor={industryId} value={basicInfo.industry}>Industry</FieldLabel>
-          <input 
-            id={industryId}
-            className={inputCls} 
-            placeholder="e.g. Software Development"
-            value={basicInfo.industry || ''}
-            onChange={e => set('industry', e.target.value)}
-          />
+          <div className="relative">
+            <input 
+              id={industryId}
+              className={inputCls} 
+              placeholder="e.g. Technology, Information and Media"
+              value={basicInfo.industry || ''}
+              onChange={e => set('industry', e.target.value)}
+              onFocus={() => setShowIndustrySuggestions(true)}
+              onBlur={() => setTimeout(() => setShowIndustrySuggestions(false), 200)}
+            />
+            {showIndustrySuggestions && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200/80 rounded-2xl shadow-lg max-h-60 overflow-y-auto z-50 py-1.5 animate-fadeIn">
+                {(() => {
+                  const val = (basicInfo.industry || '').trim().toLowerCase();
+                  const filtered = LINKEDIN_INDUSTRIES.filter(ind => {
+                    const lowerInd = ind.toLowerCase();
+                    if (lowerInd.includes(val)) return true;
+                    if (val === 'it') {
+                      return lowerInd.includes('information technology') || 
+                             lowerInd.includes('software') || 
+                             lowerInd.includes('computer') || 
+                             lowerInd.includes('internet');
+                    }
+                    return false;
+                  });
+                  
+                  if (filtered.length === 0) {
+                    return (
+                      <div className="px-4 py-2 text-xs text-slate-400 font-medium italic">
+                        No matching industries found
+                      </div>
+                    );
+                  }
+                  
+                  return filtered.slice(0, 10).map((ind) => (
+                    <button
+                      key={ind}
+                      type="button"
+                      onMouseDown={() => set('industry', ind)}
+                      className="w-full text-left px-4 py-2 hover:bg-slate-50 text-xs font-semibold text-slate-700 hover:text-slate-900 transition-colors block"
+                    >
+                      {ind}
+                    </button>
+                  ));
+                })()}
+              </div>
+            )}
+          </div>
           <HelperText>Your professional field to match with relevant jobs.</HelperText>
         </div>
       </div>

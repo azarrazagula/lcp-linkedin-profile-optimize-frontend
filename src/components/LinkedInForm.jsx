@@ -109,6 +109,233 @@ export default function LinkedInForm() {
     }
   };
 
+  // Slider wizard states
+  const [currentStep, setCurrentStep] = useState(0);
+  const [slideDirection, setSlideDirection] = useState('forward'); // 'forward' or 'backward'
+
+  const STEPS = [
+    'Basic Info',
+    'Contact Info',
+    'Education',
+    'Skills',
+    'Projects',
+    'Experience',
+    'About',
+    'Languages',
+    'Certifications',
+    'Preferences',
+    'Volunteer',
+    'Awards',
+    'Courses',
+    'Organizations',
+    'Publications',
+    'Patents',
+    'Test Scores'
+  ];
+
+  const renderStepContent = (step) => {
+    switch (step) {
+      case 0:
+        return (
+          <BasicInfoSection
+            basicInfo={basicInfo}
+            setBasicInfo={setBasicInfo}
+            liUrl={LI.intro}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 1:
+        return (
+          <ContactInfoSection
+            contactInfo={contactInfo}
+            setContactInfo={setContactInfo}
+            liUrl={LI.contact}
+          />
+        );
+      case 2:
+        return (
+          <EducationSection
+            educations={educations}
+            setEducations={setEducations}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.education}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 3:
+        return (
+          <SkillsSection
+            skills={skills}
+            setSkills={setSkills}
+            liUrl={LI.skills}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 4:
+        return (
+          <ProjectsSection
+            projects={projects}
+            setProjects={setProjects}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.projects}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 5:
+        return (
+          <ExperienceSection
+            experiences={experiences}
+            setExperiences={setExperiences}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.experience}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 6:
+        return (
+          <AboutSection
+            about={about}
+            setAbout={setAbout}
+            liUrl={LI.about}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 7:
+        return (
+          <LanguagesSection
+            languages={languages}
+            setLanguages={setLanguages}
+            liUrl={LI.languages}
+          />
+        );
+      case 8:
+        return (
+          <CertificationsSection
+            certifications={certifications}
+            setCertifications={setCertifications}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.certifications}
+          />
+        );
+      case 9:
+        return (
+          <JobPreferenceSection
+            jobPreferences={jobPreferences}
+            setJobPreferences={setJobPreferences}
+          />
+        );
+      case 10:
+        return (
+          <VolunteerSection
+            volunteerExp={volunteerExp}
+            setVolunteerExp={setVolunteerExp}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.volunteer}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 11:
+        return (
+          <AwardsSection
+            awards={awards}
+            setAwards={setAwards}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            experiences={experiences}
+            educations={educations}
+            liUrl={LI.awards}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 12:
+        return (
+          <CoursesSection
+            courses={courses}
+            setCourses={setCourses}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.courses}
+          />
+        );
+      case 13:
+        return (
+          <OrganizationsSection
+            organizations={organizations}
+            setOrganizations={setOrganizations}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            experiences={experiences}
+            educations={educations}
+            liUrl={LI.organizations}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 14:
+        return (
+          <PublicationsSection
+            publications={publications}
+            setPublications={setPublications}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.publications}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 15:
+        return (
+          <PatentsSection
+            patents={patents}
+            setPatents={setPatents}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.patents}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      case 16:
+        return (
+          <TestScoresSection
+            testScores={testScores}
+            setTestScores={setTestScores}
+            updateArr={updateArr}
+            addItem={addItem}
+            removeItem={removeItem}
+            liUrl={LI.testScores}
+            onOptimize={handleFieldOptimize}
+            optimizingField={optimizingField}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
 
   // Section 1: Basic Info
   const [basicInfo, setBasicInfo] = useState({
@@ -288,186 +515,77 @@ export default function LinkedInForm() {
         </div>
       </div>
 
-      <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-        {/* 1. Basic Info */}
-        <BasicInfoSection
-          basicInfo={basicInfo}
-          setBasicInfo={setBasicInfo}
-          liUrl={LI.intro}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
+      <style>{`
+        @keyframes slideInRight {
+          0% { transform: translateX(30px); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideInLeft {
+          0% { transform: translateX(-30px); opacity: 0; }
+          100% { transform: translateX(0); opacity: 1; }
+        }
+        .animate-slide-in-right {
+          animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-slide-in-left {
+          animation: slideInLeft 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+      `}</style>
 
-        {/* 2. Contact Info */}
-        <ContactInfoSection
-          contactInfo={contactInfo}
-          setContactInfo={setContactInfo}
-          liUrl={LI.contact}
-        />
+      {/* Slide-in Animated Section Container */}
+      <div className="space-y-4">
 
-        {/* 3. Education */}
-        <EducationSection
-          educations={educations}
-          setEducations={setEducations}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.education}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
+        <div key={currentStep} className={slideDirection === 'forward' ? 'animate-slide-in-right' : 'animate-slide-in-left'}>
+          <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+            {renderStepContent(currentStep)}
+          </form>
+        </div>
 
-        {/* 4. Skills */}
-        <SkillsSection
-          skills={skills}
-          setSkills={setSkills}
-          liUrl={LI.skills}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
+        {/* Wizard Navigation Footer */}
+        <div className="flex justify-between items-center p-4 bg-white border border-slate-200/80 rounded-2xl shadow-3xs">
+          <button
+            type="button"
+            disabled={currentStep === 0}
+            onClick={() => {
+              setSlideDirection('backward');
+              setCurrentStep(prev => prev - 1);
+            }}
+            className="px-5 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-3xs hover:scale-105 active:scale-95"
+          >
+            ← Previous
+          </button>
 
-        {/* 5. Projects */}
-        <ProjectsSection
-          projects={projects}
-          setProjects={setProjects}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.projects}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
+          {/* Dots Indicator */}
+          <div className="flex gap-1.5 overflow-x-auto max-w-[120px] sm:max-w-md scrollbar-none py-1">
+            {STEPS.map((label, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => {
+                  setSlideDirection(idx > currentStep ? 'forward' : 'backward');
+                  setCurrentStep(idx);
+                }}
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  idx === currentStep ? 'w-5 bg-blue-600' : 'w-2 bg-slate-200 hover:bg-slate-300'
+                }`}
+                title={label}
+              />
+            ))}
+          </div>
 
-        {/* 6. Experience */}
-        <ExperienceSection
-          experiences={experiences}
-          setExperiences={setExperiences}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.experience}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
-
-        {/* 7. About / Summary */}
-        <AboutSection
-          about={about}
-          setAbout={setAbout}
-          liUrl={LI.about}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
-
-        {/* 8. Languages */}
-        <LanguagesSection
-          languages={languages}
-          setLanguages={setLanguages}
-          liUrl={LI.languages}
-        />
-
-        {/* 9. Licenses & Certifications */}
-        <CertificationsSection
-          certifications={certifications}
-          setCertifications={setCertifications}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.certifications}
-        />
-
-        {/* 10. Job Preferences */}
-        <JobPreferenceSection
-          jobPreferences={jobPreferences}
-          setJobPreferences={setJobPreferences}
-        />
-
-        {/* 11. Volunteer Experience */}
-        <VolunteerSection
-          volunteerExp={volunteerExp}
-          setVolunteerExp={setVolunteerExp}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.volunteer}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
-
-        {/* 12. Awards & Honors */}
-        <AwardsSection
-          awards={awards}
-          setAwards={setAwards}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          experiences={experiences}
-          educations={educations}
-          liUrl={LI.awards}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
-
-        {/* 13. Courses */}
-        <CoursesSection
-          courses={courses}
-          setCourses={setCourses}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.courses}
-        />
-
-        {/* 14. Organizations */}
-        <OrganizationsSection
-          organizations={organizations}
-          setOrganizations={setOrganizations}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          experiences={experiences}
-          educations={educations}
-          liUrl={LI.organizations}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
-
-        {/* 15. Publications */}
-        <PublicationsSection
-          publications={publications}
-          setPublications={setPublications}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.publications}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
-
-        {/* 16. Patents */}
-        <PatentsSection
-          patents={patents}
-          setPatents={setPatents}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.patents}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
-
-        {/* 17. Test Scores */}
-        <TestScoresSection
-          testScores={testScores}
-          setTestScores={setTestScores}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.testScores}
-          onOptimize={handleFieldOptimize}
-          optimizingField={optimizingField}
-        />
-      </form>
+          <button
+            type="button"
+            disabled={currentStep === STEPS.length - 1}
+            onClick={() => {
+              setSlideDirection('forward');
+              setCurrentStep(prev => prev + 1);
+            }}
+            className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-black transition-all disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer shadow-sm hover:scale-105 active:scale-95"
+          >
+            Next →
+          </button>
+        </div>
+      </div>
 
       {/* Premium custom floating notification card */}
       {notification && (
