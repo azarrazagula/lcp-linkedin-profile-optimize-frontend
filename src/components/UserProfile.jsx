@@ -121,20 +121,13 @@ export default function UserProfile({ onClose }) {
         <p className="text-xs text-slate-500 font-bold mt-0.5">{profile?.email}</p>
 
         {/* Premium Dashboard Metrics Cards */}
-        <div className="grid grid-cols-2 gap-3 mt-5">
+        <div className="mt-5">
           <div className="bg-slate-50/70 border border-slate-100 hover:border-slate-200/80 rounded-2xl p-3 text-left transition-all duration-200">
             <span className="text-[10px] text-slate-400 font-black uppercase tracking-wider block">Profile Status</span>
-            <div className="flex items-center gap-1 mt-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span className="text-xs font-black text-slate-700">All-Star</span>
+            <div className="flex items-center gap-1.5 mt-1">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span className="text-xs font-black text-slate-700">Active</span>
             </div>
-          </div>
-          
-          <div className="bg-slate-50/70 border border-slate-100 hover:border-slate-200/80 rounded-2xl p-3 text-left transition-all duration-200">
-            <span className="text-[10px] text-slate-400 font-black uppercase tracking-wider block">Account Tier</span>
-            <span className="inline-flex items-center gap-1.5 text-xs font-black text-amber-700 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/70 px-2.5 py-0.5 rounded-full mt-1.5">
-              👑 Premium
-            </span>
           </div>
         </div>
 
