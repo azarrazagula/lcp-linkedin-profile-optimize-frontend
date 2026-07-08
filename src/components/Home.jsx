@@ -176,8 +176,14 @@ export default function Home({ currentUser, onLoginSuccess, onLogout }) {
 
       {/* ── User Profile Modal Overlay ────────────────────────────────────── */}
       {showProfileModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn">
-          <div className="relative w-full max-w-sm bg-white border border-slate-200/80 rounded-[32px] shadow-2xl animate-slideUp overflow-hidden">
+        <div 
+          onClick={() => setShowProfileModal(false)}
+          className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn cursor-pointer"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-sm bg-white border border-slate-200/80 rounded-[32px] shadow-2xl animate-slideUp overflow-hidden cursor-default"
+          >
             <UserProfile onClose={() => setShowProfileModal(false)} />
           </div>
         </div>

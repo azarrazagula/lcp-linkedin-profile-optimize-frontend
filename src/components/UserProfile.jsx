@@ -131,13 +131,6 @@ export default function UserProfile({ onClose }) {
           </div>
         </div>
 
-        {/* Action Button */}
-        <button
-          onClick={onClose}
-          className="mt-6 w-full py-2.5 px-4 bg-slate-800 hover:bg-slate-900 active:scale-98 text-white text-xs font-black rounded-2xl shadow-md shadow-slate-800/10 hover:shadow-lg transition-all duration-200 cursor-pointer"
-        >
-          Back to Dashboard
-        </button>
       </div>
     </div>
   );
