@@ -26,15 +26,15 @@ export default function RecommendationsSection({ recommendations, setRecommendat
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <FieldLabel value={rec.recommenderName}>Recommender Name *</FieldLabel>
-                <input className={inputCls} placeholder="e.g. Sarah Jenkins"
+                <FieldLabel htmlFor={`rec-recommenderName-${i}`} value={rec.recommenderName}>Recommender Name *</FieldLabel>
+                <input id={`rec-recommenderName-${i}`} className={inputCls} placeholder="e.g. Sarah Jenkins"
                   value={rec.recommenderName}
                   onChange={(e) => updateArr(setRecommendations, i, 'recommenderName', e.target.value)} />
                 <HelperText>The name of the person giving you the recommendation.</HelperText>
               </div>
               <div>
-                <FieldLabel value={rec.relationship}>Relationship *</FieldLabel>
-                <input className={inputCls} placeholder="e.g. Managed you directly, Worked in same team"
+                <FieldLabel htmlFor={`rec-relationship-${i}`} value={rec.relationship}>Relationship *</FieldLabel>
+                <input id={`rec-relationship-${i}`} className={inputCls} placeholder="e.g. Managed you directly, Worked in same team"
                   value={rec.relationship}
                   onChange={(e) => updateArr(setRecommendations, i, 'relationship', e.target.value)} />
                 <HelperText>How you worked with this person.</HelperText>
@@ -42,8 +42,8 @@ export default function RecommendationsSection({ recommendations, setRecommendat
             </div>
 
             <div>
-              <FieldLabel value={rec.text}>Recommendation Text</FieldLabel>
-              <textarea className={textareaCls} rows={4}
+              <FieldLabel htmlFor={`rec-text-${i}`} value={rec.text}>Recommendation Text</FieldLabel>
+              <textarea id={`rec-text-${i}`} className={textareaCls} rows={4}
                 placeholder="Ex: 'Alex is an exceptional developer who always goes the extra mile. They delivered the React project ahead of schedule with premium quality...'"
                 value={rec.text}
                 onChange={(e) => updateArr(setRecommendations, i, 'text', e.target.value)} />

@@ -172,7 +172,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
   const completionPct = calculateProgress();
 
   const getCompletionBadge = (pct) => {
-    if (pct < 20) return { label: 'Starter', emoji: '🥚', color: 'text-slate-400 border-slate-200 bg-slate-50' };
+    if (pct < 20) return { label: 'Starter', emoji: '🥚', color: 'text-slate-600 border-slate-200 bg-slate-50' };
     if (pct < 40) return { label: 'Getting Started', emoji: '🌱', color: 'text-amber-600 border-amber-200 bg-amber-50' };
     if (pct < 60) return { label: 'Good Progress', emoji: '📈', color: 'text-blue-600 border-blue-200 bg-blue-50' };
     if (pct < 80) return { label: 'Professional', emoji: '💼', color: 'text-emerald-600 border-emerald-200 bg-emerald-50' };
@@ -274,7 +274,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
         <div className="flex items-center gap-2">
           <span className="text-xl">{badgeInfo.emoji}</span>
           <div>
-            <h4 className="text-xs font-extrabold text-slate-800 tracking-wide uppercase">Profile Completeness</h4>
+            <h2 className="text-xs font-extrabold text-slate-800 tracking-wide uppercase">Profile Completeness</h2>
             <span className={`inline-block text-[10px] font-extrabold border px-1.5 py-0.5 rounded-md mt-0.5 ${badgeInfo.color}`}>
               {badgeInfo.label} ({completionPct}%)
             </span>

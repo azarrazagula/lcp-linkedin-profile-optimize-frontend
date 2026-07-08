@@ -36,8 +36,8 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
             <div className="space-y-4">
               {/* Organization name */}
               <div>
-                <FieldLabel value={org.name}>Organization name *</FieldLabel>
-                <input className={inputCls} placeholder="Ex: IEEE, Toastmasters"
+                <FieldLabel htmlFor={`org-name-${i}`} value={org.name}>Organization name *</FieldLabel>
+                <input id={`org-name-${i}`} className={inputCls} placeholder="Ex: IEEE, Toastmasters"
                   value={org.name}
                   onChange={(e) => updateArr(setOrganizations, i, 'name', e.target.value)} />
                 <HelperText>The name of the organization you are a member of.</HelperText>
@@ -45,8 +45,8 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
 
               {/* Position held */}
               <div>
-                <FieldLabel value={org.position}>Position held</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Member, Vice President"
+                <FieldLabel htmlFor={`org-position-${i}`} value={org.position}>Position held</FieldLabel>
+                <input id={`org-position-${i}`} className={inputCls} placeholder="Ex: Member, Vice President"
                   value={org.position}
                   onChange={(e) => updateArr(setOrganizations, i, 'position', e.target.value)} />
                 <HelperText>Your title or role within the organization.</HelperText>
@@ -54,8 +54,8 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
 
               {/* Associated with */}
               <div>
-                <FieldLabel value={org.associatedWith}>Associated with</FieldLabel>
-                <select className={inputCls} value={org.associatedWith || ''} onChange={(e) => updateArr(setOrganizations, i, 'associatedWith', e.target.value)}>
+                <FieldLabel htmlFor={`org-associatedWith-${i}`} value={org.associatedWith}>Associated with</FieldLabel>
+                <select id={`org-associatedWith-${i}`} className={inputCls} value={org.associatedWith || ''} onChange={(e) => updateArr(setOrganizations, i, 'associatedWith', e.target.value)}>
                   <option value="">Please select</option>
                   {uniqueAssociations.map((assoc) => (
                     <option key={assoc} value={assoc}>{assoc}</option>
@@ -69,15 +69,15 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
                 <FieldLabel value={org.startMonth && org.startYear ? `${org.startMonth} ${org.startYear}` : ''}>Start date</FieldLabel>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                    <select className={inputCls} value={org.startMonth || ''} onChange={(e) => updateArr(setOrganizations, i, 'startMonth', e.target.value)}>
+                    <label htmlFor={`org-startMonth-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Month</label>
+                    <select id={`org-startMonth-${i}`} className={inputCls} value={org.startMonth || ''} onChange={(e) => updateArr(setOrganizations, i, 'startMonth', e.target.value)}>
                       <option value="">Month</option>
                       {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
                     </select>
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year *</span>
-                    <select className={inputCls} value={org.startYear || ''} onChange={(e) => updateArr(setOrganizations, i, 'startYear', e.target.value)}>
+                    <label htmlFor={`org-startYear-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Year *</label>
+                    <select id={`org-startYear-${i}`} className={inputCls} value={org.startYear || ''} onChange={(e) => updateArr(setOrganizations, i, 'startYear', e.target.value)}>
                       <option value="">Year</option>
                       {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                     </select>
@@ -90,15 +90,15 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
                 <FieldLabel value={org.endMonth && org.endYear ? `${org.endMonth} ${org.endYear}` : ''}>End date</FieldLabel>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                    <select className={inputCls} value={org.endMonth || ''} onChange={(e) => updateArr(setOrganizations, i, 'endMonth', e.target.value)}>
+                    <label htmlFor={`org-endMonth-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Month</label>
+                    <select id={`org-endMonth-${i}`} className={inputCls} value={org.endMonth || ''} onChange={(e) => updateArr(setOrganizations, i, 'endMonth', e.target.value)}>
                       <option value="">Month</option>
                       {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
                     </select>
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year *</span>
-                    <select className={inputCls} value={org.endYear || ''} onChange={(e) => updateArr(setOrganizations, i, 'endYear', e.target.value)}>
+                    <label htmlFor={`org-endYear-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Year *</label>
+                    <select id={`org-endYear-${i}`} className={inputCls} value={org.endYear || ''} onChange={(e) => updateArr(setOrganizations, i, 'endYear', e.target.value)}>
                       <option value="">Year</option>
                       {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                     </select>
@@ -108,8 +108,8 @@ export default function OrganizationsSection({ organizations, setOrganizations, 
 
               {/* Description */}
               <div>
-                <FieldLabel value={org.description}>Description</FieldLabel>
-                <textarea className={textareaCls} rows={3}
+                <FieldLabel htmlFor={`org-description-${i}`} value={org.description}>Description</FieldLabel>
+                <textarea id={`org-description-${i}`} className={textareaCls} rows={3}
                   placeholder="Describe your role, key contributions, or events organized..."
                   value={org.description || ''}
                   onChange={(e) => updateArr(setOrganizations, i, 'description', e.target.value)} />

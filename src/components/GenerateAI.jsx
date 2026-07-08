@@ -29,7 +29,7 @@ export default function GenerateAI({ result }) {
             </svg>
             Gemini AI Optimized Profile
           </h2>
-          <p className="text-xs text-slate-500 font-medium mt-0.5">Copy & paste these optimized inputs directly into LinkedIn</p>
+          <p className="text-xs text-slate-600 font-medium mt-0.5">Copy & paste these optimized inputs directly into LinkedIn</p>
         </div>
         <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200 flex items-center gap-1.5 shadow-2xs">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>

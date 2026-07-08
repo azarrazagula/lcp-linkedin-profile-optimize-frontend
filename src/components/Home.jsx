@@ -92,7 +92,7 @@ export default function Home({ currentUser, onLoginSuccess, onLogout }) {
               <h1 className="text-base font-extrabold text-slate-800 leading-tight">
                 LinkedIn Profile <span className="text-blue-600">Optimizer</span>
               </h1>
-              <span className="text-[10px] text-slate-500 font-medium">Powered by Gemini AI + MERN</span>
+              <span className="text-[10px] text-slate-700 font-medium">Powered by Gemini AI + MERN</span>
             </div>
           </div>
 

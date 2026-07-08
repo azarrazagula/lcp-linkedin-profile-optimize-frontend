@@ -4,6 +4,15 @@ import { SectionCard, FieldLabel, HelperText, inputCls, textareaCls, IC, MONTHS,
 export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl }) {
   const set = (field, val) => setContactInfo({ ...contactInfo, [field]: val });
 
+  const emailId = React.useId();
+  const phoneId = React.useId();
+  const phoneTypeId = React.useId();
+  const addressId = React.useId();
+  const birthMonthId = React.useId();
+  const birthDayId = React.useId();
+  const websiteUrlId = React.useId();
+  const websiteTypeId = React.useId();
+
   return (
     <SectionCard
       title="Contact Info"
@@ -15,8 +24,8 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
     >
       {/* Email */}
       <div>
-        <FieldLabel value={contactInfo.email}>Email</FieldLabel>
-        <input type="email" className={inputCls} placeholder="e.g. yourname@example.com"
+        <FieldLabel htmlFor={emailId} value={contactInfo.email}>Email</FieldLabel>
+        <input id={emailId} type="email" className={inputCls} placeholder="e.g. yourname@example.com"
           value={contactInfo.email || ''}
           onChange={(e) => set('email', e.target.value)} />
         <HelperText>A professional email address for job opportunities.</HelperText>
@@ -25,15 +34,15 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
       {/* Phone Number & Phone Type */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel value={contactInfo.phone}>Phone number</FieldLabel>
-          <input className={inputCls} placeholder="e.g. +91 98765 43210"
+          <FieldLabel htmlFor={phoneId} value={contactInfo.phone}>Phone number</FieldLabel>
+          <input id={phoneId} className={inputCls} placeholder="e.g. +91 98765 43210"
             value={contactInfo.phone || ''}
             onChange={(e) => set('phone', e.target.value)} />
           <HelperText>Include your country code for recruiter calls.</HelperText>
         </div>
         <div>
-          <FieldLabel value={contactInfo.phoneType}>Phone type</FieldLabel>
-          <select className={inputCls}
+          <FieldLabel htmlFor={phoneTypeId} value={contactInfo.phoneType}>Phone type</FieldLabel>
+          <select id={phoneTypeId} className={inputCls}
             value={contactInfo.phoneType || ''}
             onChange={(e) => set('phoneType', e.target.value)}>
             <option value="">Please select</option>
@@ -47,8 +56,8 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
 
       {/* Address */}
       <div>
-        <FieldLabel value={contactInfo.address}>Address</FieldLabel>
-        <textarea className={textareaCls} rows={2} placeholder="e.g. Coimbatore, Tamil Nadu, India"
+        <FieldLabel htmlFor={addressId} value={contactInfo.address}>Address</FieldLabel>
+        <textarea id={addressId} className={textareaCls} rows={2} placeholder="e.g. Coimbatore, Tamil Nadu, India"
           value={contactInfo.address || ''}
           onChange={(e) => set('address', e.target.value)} />
         <HelperText>Your location helps match you with local commuting jobs.</HelperText>
@@ -59,8 +68,8 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
         <FieldLabel value={contactInfo.birthMonth && contactInfo.birthDay ? `${contactInfo.birthMonth} ${contactInfo.birthDay}` : ''}>Birthday</FieldLabel>
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Month</span>
-            <select className={inputCls}
+            <label htmlFor={birthMonthId} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1.5">Month</label>
+            <select id={birthMonthId} className={inputCls}
               value={contactInfo.birthMonth || ''}
               onChange={(e) => set('birthMonth', e.target.value)}>
               <option value="">Month</option>
@@ -68,8 +77,8 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
             </select>
           </div>
           <div>
-            <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Day</span>
-            <select className={inputCls}
+            <label htmlFor={birthDayId} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1.5">Day</label>
+            <select id={birthDayId} className={inputCls}
               value={contactInfo.birthDay || ''}
               onChange={(e) => set('birthDay', e.target.value)}>
               <option value="">Day</option>
@@ -83,15 +92,15 @@ export default function ContactInfoSection({ contactInfo, setContactInfo, liUrl 
       {/* Website */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel value={contactInfo.websiteUrl}>Website URL</FieldLabel>
-          <input className={inputCls} placeholder="https://yourportfolio.com"
+          <FieldLabel htmlFor={websiteUrlId} value={contactInfo.websiteUrl}>Website URL</FieldLabel>
+          <input id={websiteUrlId} className={inputCls} placeholder="https://yourportfolio.com"
             value={contactInfo.websiteUrl || ''}
             onChange={(e) => set('websiteUrl', e.target.value)} />
           <HelperText>Link to your portfolio, blog, or personal website.</HelperText>
         </div>
         <div>
-          <FieldLabel value={contactInfo.websiteType}>Website Type</FieldLabel>
-          <select className={inputCls}
+          <FieldLabel htmlFor={websiteTypeId} value={contactInfo.websiteType}>Website Type</FieldLabel>
+          <select id={websiteTypeId} className={inputCls}
             value={contactInfo.websiteType || ''}
             onChange={(e) => set('websiteType', e.target.value)}>
             <option value="">Please select</option>

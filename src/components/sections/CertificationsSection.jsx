@@ -29,16 +29,16 @@ export default function CertificationsSection({ certifications, setCertification
             onRemove={() => removeItem(setCertifications, i)}
           >
             <div>
-              <FieldLabel value={cert.name}>Name *</FieldLabel>
-              <input className={inputCls} placeholder="e.g. AWS Certified Solutions Architect"
+              <FieldLabel htmlFor={`cert-name-${i}`} value={cert.name}>Name *</FieldLabel>
+              <input id={`cert-name-${i}`} className={inputCls} placeholder="e.g. AWS Certified Solutions Architect"
                 value={cert.name}
                 onChange={(e) => updateArr(setCertifications, i, 'name', e.target.value)} />
               <HelperText>The official title of your certification.</HelperText>
             </div>
 
             <div>
-              <FieldLabel value={cert.issuedBy}>Issuing organization *</FieldLabel>
-              <input className={inputCls} placeholder="e.g. Amazon Web Services"
+              <FieldLabel htmlFor={`cert-issuedBy-${i}`} value={cert.issuedBy}>Issuing organization *</FieldLabel>
+              <input id={`cert-issuedBy-${i}`} className={inputCls} placeholder="e.g. Amazon Web Services"
                 value={cert.issuedBy}
                 onChange={(e) => updateArr(setCertifications, i, 'issuedBy', e.target.value)} />
               <HelperText>The company that issued it.</HelperText>
@@ -50,15 +50,15 @@ export default function CertificationsSection({ certifications, setCertification
                 <FieldLabel value={cert.issueMonth && cert.issueYear ? `${cert.issueMonth} ${cert.issueYear}` : ''}>Issue date</FieldLabel>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                    <select className={inputCls} value={cert.issueMonth || ''} onChange={(e) => updateArr(setCertifications, i, 'issueMonth', e.target.value)}>
+                    <label htmlFor={`cert-issueMonth-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Month</label>
+                    <select id={`cert-issueMonth-${i}`} className={inputCls} value={cert.issueMonth || ''} onChange={(e) => updateArr(setCertifications, i, 'issueMonth', e.target.value)}>
                       <option value="">Month</option>
                       {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
                     </select>
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year</span>
-                    <select className={inputCls} value={cert.issueYear || ''} onChange={(e) => updateArr(setCertifications, i, 'issueYear', e.target.value)}>
+                    <label htmlFor={`cert-issueYear-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Year</label>
+                    <select id={`cert-issueYear-${i}`} className={inputCls} value={cert.issueYear || ''} onChange={(e) => updateArr(setCertifications, i, 'issueYear', e.target.value)}>
                       <option value="">Year</option>
                       {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                     </select>
@@ -71,15 +71,15 @@ export default function CertificationsSection({ certifications, setCertification
                 <FieldLabel value={cert.expirationMonth && cert.expirationYear ? `${cert.expirationMonth} ${cert.expirationYear}` : ''}>Expiration date</FieldLabel>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                    <select className={inputCls} value={cert.expirationMonth || ''} onChange={(e) => updateArr(setCertifications, i, 'expirationMonth', e.target.value)}>
+                    <label htmlFor={`cert-expirationMonth-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Month</label>
+                    <select id={`cert-expirationMonth-${i}`} className={inputCls} value={cert.expirationMonth || ''} onChange={(e) => updateArr(setCertifications, i, 'expirationMonth', e.target.value)}>
                       <option value="">Month</option>
                       {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
                     </select>
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year</span>
-                    <select className={inputCls} value={cert.expirationYear || ''} onChange={(e) => updateArr(setCertifications, i, 'expirationYear', e.target.value)}>
+                    <label htmlFor={`cert-expirationYear-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Year</label>
+                    <select id={`cert-expirationYear-${i}`} className={inputCls} value={cert.expirationYear || ''} onChange={(e) => updateArr(setCertifications, i, 'expirationYear', e.target.value)}>
                       <option value="">Year</option>
                       {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                     </select>
@@ -90,15 +90,15 @@ export default function CertificationsSection({ certifications, setCertification
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <FieldLabel value={cert.credentialId}>Credential ID</FieldLabel>
-                <input className={inputCls} placeholder="e.g. ABC-123456"
+                <FieldLabel htmlFor={`cert-credentialId-${i}`} value={cert.credentialId}>Credential ID</FieldLabel>
+                <input id={`cert-credentialId-${i}`} className={inputCls} placeholder="e.g. ABC-123456"
                   value={cert.credentialId || ''}
                   onChange={(e) => updateArr(setCertifications, i, 'credentialId', e.target.value)} />
                 <HelperText>The unique registration or certificate number.</HelperText>
               </div>
               <div>
-                <FieldLabel value={cert.credentialUrl}>Credential URL</FieldLabel>
-                <input className={inputCls} placeholder="https://certificate-url.com"
+                <FieldLabel htmlFor={`cert-credentialUrl-${i}`} value={cert.credentialUrl}>Credential URL</FieldLabel>
+                <input id={`cert-credentialUrl-${i}`} className={inputCls} placeholder="https://certificate-url.com"
                   value={cert.credentialUrl || ''}
                   onChange={(e) => updateArr(setCertifications, i, 'credentialUrl', e.target.value)} />
                 <HelperText>Link to verify the certificate online.</HelperText>

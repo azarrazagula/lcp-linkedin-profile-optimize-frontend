@@ -28,16 +28,16 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
             onRemove={() => removeItem(setProjects, i)}
           >
             <div>
-              <FieldLabel value={proj.name}>Project Name *</FieldLabel>
-              <input className={inputCls} placeholder="e.g. Portfolio Website"
+              <FieldLabel htmlFor={`proj-name-${i}`} value={proj.name}>Project Name *</FieldLabel>
+              <input id={`proj-name-${i}`} className={inputCls} placeholder="e.g. Portfolio Website"
                 value={proj.name}
                 onChange={(e) => updateArr(setProjects, i, 'name', e.target.value)} />
               <HelperText>The name of your project.</HelperText>
             </div>
 
             <div>
-              <FieldLabel value={proj.description}>Description</FieldLabel>
-              <textarea className={textareaCls} rows={3}
+              <FieldLabel htmlFor={`proj-description-${i}`} value={proj.description}>Description</FieldLabel>
+              <textarea id={`proj-description-${i}`} className={textareaCls} rows={3}
                 placeholder="What does this project do? What technologies did you use? What was your role?"
                 value={proj.description}
                 onChange={(e) => updateArr(setProjects, i, 'description', e.target.value)} />
@@ -58,15 +58,15 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
               <FieldLabel value={proj.startMonth && proj.startYear ? `${proj.startMonth} ${proj.startYear}` : ''}>Start date</FieldLabel>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                  <select className={inputCls} value={proj.startMonth || ''} onChange={(e) => updateArr(setProjects, i, 'startMonth', e.target.value)}>
+                  <label htmlFor={`proj-startMonth-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Month</label>
+                  <select id={`proj-startMonth-${i}`} className={inputCls} value={proj.startMonth || ''} onChange={(e) => updateArr(setProjects, i, 'startMonth', e.target.value)}>
                     <option value="">Month</option>
                     {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
                   </select>
                 </div>
                 <div>
-                  <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year *</span>
-                  <select className={inputCls} value={proj.startYear || ''} onChange={(e) => updateArr(setProjects, i, 'startYear', e.target.value)}>
+                  <label htmlFor={`proj-startYear-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Year *</label>
+                  <select id={`proj-startYear-${i}`} className={inputCls} value={proj.startYear || ''} onChange={(e) => updateArr(setProjects, i, 'startYear', e.target.value)}>
                     <option value="">Year</option>
                     {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                   </select>
@@ -80,15 +80,15 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
                 <FieldLabel value={proj.endMonth && proj.endYear ? `${proj.endMonth} ${proj.endYear}` : ''}>End date</FieldLabel>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                    <select className={inputCls} value={proj.endMonth || ''} onChange={(e) => updateArr(setProjects, i, 'endMonth', e.target.value)}>
+                    <label htmlFor={`proj-endMonth-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Month</label>
+                    <select id={`proj-endMonth-${i}`} className={inputCls} value={proj.endMonth || ''} onChange={(e) => updateArr(setProjects, i, 'endMonth', e.target.value)}>
                       <option value="">Month</option>
                       {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
                     </select>
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year *</span>
-                    <select className={inputCls} value={proj.endYear || ''} onChange={(e) => updateArr(setProjects, i, 'endYear', e.target.value)}>
+                    <label htmlFor={`proj-endYear-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Year *</label>
+                    <select id={`proj-endYear-${i}`} className={inputCls} value={proj.endYear || ''} onChange={(e) => updateArr(setProjects, i, 'endYear', e.target.value)}>
                       <option value="">Year</option>
                       {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                     </select>

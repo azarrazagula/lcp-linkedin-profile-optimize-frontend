@@ -82,7 +82,7 @@ const BADGE_CONFIG = {
   required:    { emoji: '🔴', label: 'Required',    cls: 'bg-rose-50 border-rose-200 text-rose-700' },
   recommended: { emoji: '🟢', label: 'Recommended', cls: 'bg-emerald-50 border-emerald-200 text-emerald-700' },
   standout:    { emoji: '🔵', label: 'Stand Out',   cls: 'bg-blue-50 border-blue-200 text-blue-700' },
-  optional:    { emoji: '⚪', label: 'Optional',    cls: 'bg-slate-50 border-slate-200 text-slate-500' },
+  optional:    { emoji: '⚪', label: 'Optional',    cls: 'bg-slate-50 border-slate-200 text-slate-600' },
 };
 
 export function Badge({ type = 'optional' }) {
@@ -98,7 +98,7 @@ export function Badge({ type = 'optional' }) {
 export function HelperText({ children }) {
   if (!children) return null;
   return (
-    <p className="mt-1.5 text-[11px] text-slate-400 font-medium leading-snug flex items-start gap-1">
+    <p className="mt-1.5 text-[11px] text-slate-600 font-medium leading-snug flex items-start gap-1">
       <span className="mt-0.5 shrink-0">💡</span>
       <span>{children}</span>
     </p>
@@ -130,7 +130,7 @@ export function AudienceHint({ children }) {
 }
 
 // ── Field Label with Copy button ───────────────────────────────────────────────
-export function FieldLabel({ children, required, value }) {
+export function FieldLabel({ children, required, value, htmlFor }) {
   const [copied, setCopied] = React.useState(false);
 
   const handleCopy = (e) => {
@@ -152,7 +152,7 @@ export function FieldLabel({ children, required, value }) {
 
   return (
     <div className="flex items-center justify-between mb-1.5">
-      <label className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
+      <label htmlFor={htmlFor} className="block text-xs font-bold text-slate-600 uppercase tracking-wider">
         {renderText()}
       </label>
       {value !== undefined && value !== null && String(value).trim() !== '' && (
@@ -225,7 +225,7 @@ export function SectionCard({ title, icon, liUrl, liLabel, badge, description, t
               </div>
             )}
             {description && (
-              <p className="text-xs text-slate-500 font-medium leading-relaxed">{description}</p>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">{description}</p>
             )}
           </div>
         )}
@@ -261,7 +261,7 @@ export function CollapsibleItem({ index, label, subtitle, onRemove, canRemove, c
           </span>
           <div className="min-w-0">
             <span className="text-xs font-bold text-slate-700 truncate block">{label || `Entry ${index + 1}`}</span>
-            {subtitle && <span className="text-[10px] text-slate-400 font-medium truncate block">{subtitle}</span>}
+            {subtitle && <span className="text-[10px] text-slate-600 font-medium truncate block">{subtitle}</span>}
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
@@ -271,7 +271,7 @@ export function CollapsibleItem({ index, label, subtitle, onRemove, canRemove, c
               tabIndex={0}
               onClick={e => { e.stopPropagation(); onRemove(); }}
               onKeyDown={e => e.key === 'Enter' && (e.stopPropagation(), onRemove())}
-              className="text-[10px] text-slate-400 hover:text-rose-600 font-bold flex items-center gap-0.5 transition-colors cursor-pointer px-1.5 py-0.5 rounded-md hover:bg-rose-50"
+              className="text-[10px] text-slate-600 hover:text-rose-600 font-bold flex items-center gap-0.5 transition-colors cursor-pointer px-1.5 py-0.5 rounded-md hover:bg-rose-50"
             >
               <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -300,7 +300,7 @@ export function CollapsibleItem({ index, label, subtitle, onRemove, canRemove, c
 export function AddMoreBtn({ onClick, label = 'Add Another' }) {
   return (
     <button type="button" onClick={onClick}
-      className="w-full py-3 rounded-2xl border border-dashed border-slate-200 hover:border-blue-400 bg-slate-50/50 hover:bg-blue-50/40 text-slate-500 hover:text-blue-600 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer group">
+      className="w-full py-3 rounded-2xl border border-dashed border-slate-200 hover:border-blue-400 bg-slate-50/50 hover:bg-blue-50/40 text-slate-600 hover:text-blue-600 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer group">
       <span className="w-5 h-5 rounded-full border border-current flex items-center justify-center group-hover:scale-110 transition-transform">
         <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 4v16m8-8H4" />
@@ -315,7 +315,7 @@ export function AddMoreBtn({ onClick, label = 'Add Another' }) {
 export function RemoveBtn({ onClick }) {
   return (
     <button type="button" onClick={onClick}
-      className="text-[11px] text-slate-400 hover:text-rose-600 transition-colors flex items-center gap-1 font-semibold cursor-pointer">
+      className="text-[11px] text-slate-600 hover:text-rose-600 transition-colors flex items-center gap-1 font-semibold cursor-pointer">
       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
       </svg>
@@ -336,7 +336,7 @@ export function OptionalSectionCard({ title, icon, liUrl, liLabel, badge = 'opti
       >
         <div className="flex items-center justify-between gap-3 w-full">
           <div className="flex items-center gap-3 min-w-0">
-            <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 flex items-center justify-center text-slate-500 shrink-0 group-hover:from-blue-50 group-hover:to-indigo-50 group-hover:border-blue-100 group-hover:text-blue-600 transition-all">
+            <span className="w-9 h-9 rounded-xl bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200 flex items-center justify-center text-slate-600 shrink-0 group-hover:from-blue-50 group-hover:to-indigo-50 group-hover:border-blue-100 group-hover:text-blue-600 transition-all">
               {icon}
             </span>
             <div className="min-w-0">
@@ -368,7 +368,7 @@ export function OptionalSectionCard({ title, icon, liUrl, liLabel, badge = 'opti
               </div>
             )}
             {description && (
-              <p className="text-[11px] text-slate-400 font-medium leading-relaxed truncate">{description}</p>
+              <p className="text-[11px] text-slate-600 font-medium leading-relaxed truncate">{description}</p>
             )}
           </div>
         )}
@@ -380,7 +380,7 @@ export function OptionalSectionCard({ title, icon, liUrl, liLabel, badge = 'opti
           {/* Sub header */}
           <div className="px-6 sm:px-7 pt-4 pb-3">
             {description && (
-              <p className="text-xs text-slate-500 font-medium leading-relaxed">{description}</p>
+              <p className="text-xs text-slate-600 font-medium leading-relaxed">{description}</p>
             )}
             {tip && <div className="mt-2"><SmartTip>{tip}</SmartTip></div>}
           </div>
@@ -408,18 +408,20 @@ export function CheckboxRow({ id, checked, onChange, label }) {
 
 // ── Date Row (Month + Year side by side) ───────────────────────────────────────
 export function DateRow({ monthVal, yearVal, onMonthChange, onYearChange, labelValue }) {
+  const monthId = React.useId();
+  const yearId = React.useId();
   return (
     <div className="grid grid-cols-2 gap-3">
       <div>
-        <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Month</span>
-        <select className={inputCls} value={monthVal || ''} onChange={onMonthChange}>
+        <label htmlFor={monthId} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1.5">Month</label>
+        <select id={monthId} className={inputCls} value={monthVal || ''} onChange={onMonthChange}>
           <option value="">Month</option>
           {MONTHS.map(m => <option key={m} value={m}>{m}</option>)}
         </select>
       </div>
       <div>
-        <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1.5">Year</span>
-        <select className={inputCls} value={yearVal || ''} onChange={onYearChange}>
+        <label htmlFor={yearId} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1.5">Year</label>
+        <select id={yearId} className={inputCls} value={yearVal || ''} onChange={onYearChange}>
           <option value="">Year</option>
           {YEARS.map(y => <option key={y} value={y}>{y}</option>)}
         </select>

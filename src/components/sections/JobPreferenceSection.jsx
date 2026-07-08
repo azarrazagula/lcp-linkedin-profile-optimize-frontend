@@ -17,6 +17,11 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
     set(listField, updated);
   };
 
+  const desiredTitlesId = React.useId();
+  const preferredLocationsId = React.useId();
+  const noticePeriodId = React.useId();
+  const expectedSalaryId = React.useId();
+
   return (
     <SectionCard
       title="Job Preferences"
@@ -27,12 +32,12 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
       tip="Recruiters filter profiles by Open to Work fields. Filling this ensures you show up in relevant search queries."
     >
       {/* Alert Banner / Instruction */}
-      <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-800 text-xs font-semibold space-y-1 shadow-3xs">
-        <div className="flex items-center gap-2 text-sm font-bold text-amber-800">
+      <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-950 text-xs font-semibold space-y-1 shadow-3xs">
+        <div className="flex items-center gap-2 text-sm font-bold text-amber-950">
           <span>⚠️</span>
-          <h4>Note: Due to technical limitations, we cannot open this edit page directly on LinkedIn.</h4>
+          <span className="font-bold">Note: Due to technical limitations, we cannot open this edit page directly on LinkedIn.</span>
         </div>
-        <p className="text-amber-700/95 font-medium leading-relaxed mt-1">
+        <p className="text-amber-900 font-medium leading-relaxed mt-1">
           You will be redirected to your LinkedIn Profile page instead. To edit this: Go to your profile header ➔ click on the <strong>'Open to Work'</strong> box under your name ➔ click the pencil (edit) icon to open the preferences modal.
         </p>
       </div>
@@ -40,8 +45,8 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
       <div className="space-y-4 pt-2">
         {/* Job Titles */}
         <div>
-          <FieldLabel value={jobPreferences.desiredTitles}>Job titles *</FieldLabel>
-          <input className={inputCls} placeholder="e.g. Frontend Developer, Software Engineer"
+          <FieldLabel htmlFor={desiredTitlesId} value={jobPreferences.desiredTitles}>Job titles *</FieldLabel>
+          <input id={desiredTitlesId} className={inputCls} placeholder="e.g. Frontend Developer, Software Engineer"
             value={jobPreferences.desiredTitles}
             onChange={e => set('desiredTitles', e.target.value)} />
           <HelperText>Enter the job titles you are targeting, separated by commas.</HelperText>
@@ -66,8 +71,8 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
 
         {/* Locations (on-site) */}
         <div>
-          <FieldLabel value={jobPreferences.preferredLocations}>Locations (on-site) *</FieldLabel>
-          <input className={inputCls} placeholder="e.g. Coimbatore, Tamil Nadu, India"
+          <FieldLabel htmlFor={preferredLocationsId} value={jobPreferences.preferredLocations}>Locations (on-site) *</FieldLabel>
+          <input id={preferredLocationsId} className={inputCls} placeholder="e.g. Coimbatore, Tamil Nadu, India"
             value={jobPreferences.preferredLocations}
             onChange={e => set('preferredLocations', e.target.value)} />
           <HelperText>Specify the cities or regions where you want to work.</HelperText>
@@ -76,8 +81,8 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
         {/* Notice period */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <FieldLabel value={jobPreferences.noticePeriod}>Notice period</FieldLabel>
-            <select className={inputCls}
+            <FieldLabel htmlFor={noticePeriodId} value={jobPreferences.noticePeriod}>Notice period</FieldLabel>
+            <select id={noticePeriodId} className={inputCls}
               value={jobPreferences.noticePeriod || ''}
               onChange={e => set('noticePeriod', e.target.value)}>
               <option value="">Select notice period</option>
@@ -93,8 +98,8 @@ export default function JobPreferenceSection({ jobPreferences, setJobPreferences
 
           {/* Expected annual salary */}
           <div>
-            <FieldLabel value={jobPreferences.expectedSalary}>Expected annual salary</FieldLabel>
-            <select className={inputCls}
+            <FieldLabel htmlFor={expectedSalaryId} value={jobPreferences.expectedSalary}>Expected annual salary</FieldLabel>
+            <select id={expectedSalaryId} className={inputCls}
               value={jobPreferences.expectedSalary || ''}
               onChange={e => set('expectedSalary', e.target.value)}>
               <option value="">Select expected salary</option>

@@ -35,8 +35,8 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
             <div className="space-y-4">
               {/* Title */}
               <div>
-                <FieldLabel value={award.title}>Title *</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Employee of the Month, Hackathon Winner"
+                <FieldLabel htmlFor={`award-title-${i}`} value={award.title}>Title *</FieldLabel>
+                <input id={`award-title-${i}`} className={inputCls} placeholder="Ex: Employee of the Month, Hackathon Winner"
                   value={award.title}
                   onChange={(e) => updateArr(setAwards, i, 'title', e.target.value)} />
                 <HelperText>The name of the award or honor.</HelperText>
@@ -44,8 +44,8 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
 
               {/* Associated with */}
               <div>
-                <FieldLabel value={award.associatedWith}>Associated with</FieldLabel>
-                <select className={inputCls} value={award.associatedWith || ''} onChange={(e) => updateArr(setAwards, i, 'associatedWith', e.target.value)}>
+                <FieldLabel htmlFor={`award-associatedWith-${i}`} value={award.associatedWith}>Associated with</FieldLabel>
+                <select id={`award-associatedWith-${i}`} className={inputCls} value={award.associatedWith || ''} onChange={(e) => updateArr(setAwards, i, 'associatedWith', e.target.value)}>
                   <option value="">Please select</option>
                   {uniqueAssociations.map((assoc) => (
                     <option key={assoc} value={assoc}>{assoc}</option>
@@ -56,8 +56,8 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
 
               {/* Issuer */}
               <div>
-                <FieldLabel value={award.issuer}>Issuer</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Google, Boston University"
+                <FieldLabel htmlFor={`award-issuer-${i}`} value={award.issuer}>Issuer</FieldLabel>
+                <input id={`award-issuer-${i}`} className={inputCls} placeholder="Ex: Google, Boston University"
                   value={award.issuer}
                   onChange={(e) => updateArr(setAwards, i, 'issuer', e.target.value)} />
                 <HelperText>The organization that issued the award.</HelperText>
@@ -68,15 +68,15 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
                 <FieldLabel value={award.issueMonth && award.issueYear ? `${award.issueMonth} ${award.issueYear}` : ''}>Issue date</FieldLabel>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                    <select className={inputCls} value={award.issueMonth || ''} onChange={(e) => updateArr(setAwards, i, 'issueMonth', e.target.value)}>
+                    <label htmlFor={`award-issueMonth-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Month</label>
+                    <select id={`award-issueMonth-${i}`} className={inputCls} value={award.issueMonth || ''} onChange={(e) => updateArr(setAwards, i, 'issueMonth', e.target.value)}>
                       <option value="">Month</option>
                       {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
                     </select>
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year *</span>
-                    <select className={inputCls} value={award.issueYear || ''} onChange={(e) => updateArr(setAwards, i, 'issueYear', e.target.value)}>
+                    <label htmlFor={`award-issueYear-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Year *</label>
+                    <select id={`award-issueYear-${i}`} className={inputCls} value={award.issueYear || ''} onChange={(e) => updateArr(setAwards, i, 'issueYear', e.target.value)}>
                       <option value="">Year</option>
                       {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                     </select>
@@ -86,8 +86,8 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
 
               {/* Description */}
               <div>
-                <FieldLabel value={award.description}>Description</FieldLabel>
-                <textarea className={textareaCls} rows={3}
+                <FieldLabel htmlFor={`award-description-${i}`} value={award.description}>Description</FieldLabel>
+                <textarea id={`award-description-${i}`} className={textareaCls} rows={3}
                   placeholder="Ex: Selected out of 500+ participants for outstanding UI redesign work..."
                   value={award.description || ''}
                   onChange={(e) => updateArr(setAwards, i, 'description', e.target.value)} />

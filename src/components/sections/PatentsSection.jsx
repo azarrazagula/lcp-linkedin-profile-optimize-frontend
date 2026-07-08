@@ -28,8 +28,8 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
             <div className="space-y-4">
               {/* Patent title */}
               <div>
-                <FieldLabel value={patent.title}>Patent title *</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Technologies for ascribing..."
+                <FieldLabel htmlFor={`patent-title-${i}`} value={patent.title}>Patent title *</FieldLabel>
+                <input id={`patent-title-${i}`} className={inputCls} placeholder="Ex: Technologies for ascribing..."
                   value={patent.title}
                   onChange={(e) => updateArr(setPatents, i, 'title', e.target.value)} />
                 <HelperText>The title of the patent.</HelperText>
@@ -37,8 +37,8 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
 
               {/* Patent or application number */}
               <div>
-                <FieldLabel value={patent.patentNumber}>Patent or application number *</FieldLabel>
-                <input className={inputCls} placeholder="Ex: US 9229900"
+                <FieldLabel htmlFor={`patent-number-${i}`} value={patent.patentNumber}>Patent or application number *</FieldLabel>
+                <input id={`patent-number-${i}`} className={inputCls} placeholder="Ex: US 9229900"
                   value={patent.patentNumber}
                   onChange={(e) => updateArr(setPatents, i, 'patentNumber', e.target.value)} />
                 <HelperText>The unique patent number or application number.</HelperText>
@@ -46,8 +46,8 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
 
               {/* Inventor */}
               <div>
-                <FieldLabel value={patent.inventor}>Inventor</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Search for people / Enter inventor name"
+                <FieldLabel htmlFor={`patent-inventor-${i}`} value={patent.inventor}>Inventor</FieldLabel>
+                <input id={`patent-inventor-${i}`} className={inputCls} placeholder="Ex: Search for people / Enter inventor name"
                   value={patent.inventor || ''}
                   onChange={(e) => updateArr(setPatents, i, 'inventor', e.target.value)} />
                 <HelperText>Specify inventors or contributors to the patent.</HelperText>
@@ -55,8 +55,8 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
 
               {/* Issue date */}
               <div>
-                <FieldLabel value={patent.patentDate}>Issue date</FieldLabel>
-                <input type="date" className={inputCls}
+                <FieldLabel htmlFor={`patent-date-${i}`} value={patent.patentDate}>Issue date</FieldLabel>
+                <input id={`patent-date-${i}`} type="date" className={inputCls}
                   value={patent.patentDate || ''}
                   onChange={(e) => updateArr(setPatents, i, 'patentDate', e.target.value)} />
                 <HelperText>Select the filing or issue date of the patent.</HelperText>
@@ -64,8 +64,8 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
 
               {/* Patent URL */}
               <div>
-                <FieldLabel value={patent.url}>Patent URL</FieldLabel>
-                <input className={inputCls} placeholder="https://patents.google.com/patent/..."
+                <FieldLabel htmlFor={`patent-url-${i}`} value={patent.url}>Patent URL</FieldLabel>
+                <input id={`patent-url-${i}`} className={inputCls} placeholder="https://patents.google.com/patent/..."
                   value={patent.url}
                   onChange={(e) => updateArr(setPatents, i, 'url', e.target.value)} />
                 <HelperText>Link to view the patent documents online.</HelperText>
@@ -73,8 +73,8 @@ export default function PatentsSection({ patents, setPatents, updateArr, addItem
 
               {/* Description */}
               <div>
-                <FieldLabel value={patent.description}>Description</FieldLabel>
-                <textarea className={textareaCls} rows={3}
+                <FieldLabel htmlFor={`patent-description-${i}`} value={patent.description}>Description</FieldLabel>
+                <textarea id={`patent-description-${i}`} className={textareaCls} rows={3}
                   placeholder="Briefly explain the invention, technology area, or utility..."
                   value={patent.description || ''}
                   onChange={(e) => updateArr(setPatents, i, 'description', e.target.value)} />

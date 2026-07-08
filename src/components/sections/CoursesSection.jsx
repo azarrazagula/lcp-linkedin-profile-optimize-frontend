@@ -28,8 +28,8 @@ export default function CoursesSection({ courses, setCourses, updateArr, addItem
             <div className="space-y-4">
               {/* Course name */}
               <div>
-                <FieldLabel value={course.name}>Course name *</FieldLabel>
-                <input className={inputCls} placeholder="Ex: World History"
+                <FieldLabel htmlFor={`course-name-${i}`} value={course.name}>Course name *</FieldLabel>
+                <input id={`course-name-${i}`} className={inputCls} placeholder="Ex: World History"
                   value={course.name}
                   onChange={(e) => updateArr(setCourses, i, 'name', e.target.value)} />
                 <HelperText>The name of the course or subject.</HelperText>
@@ -37,8 +37,8 @@ export default function CoursesSection({ courses, setCourses, updateArr, addItem
 
               {/* Number */}
               <div>
-                <FieldLabel value={course.courseNumber}>Number</FieldLabel>
-                <input className={inputCls} placeholder="Ex: HIST 101"
+                <FieldLabel htmlFor={`course-number-${i}`} value={course.courseNumber}>Number</FieldLabel>
+                <input id={`course-number-${i}`} className={inputCls} placeholder="Ex: HIST 101"
                   value={course.courseNumber || ''}
                   onChange={(e) => updateArr(setCourses, i, 'courseNumber', e.target.value)} />
                 <HelperText>The course code or number, if applicable.</HelperText>
@@ -46,8 +46,8 @@ export default function CoursesSection({ courses, setCourses, updateArr, addItem
 
               {/* Associated with */}
               <div>
-                <FieldLabel value={course.associatedWith}>Associated with</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Boston University"
+                <FieldLabel htmlFor={`course-associatedWith-${i}`} value={course.associatedWith}>Associated with</FieldLabel>
+                <input id={`course-associatedWith-${i}`} className={inputCls} placeholder="Ex: Boston University"
                   value={course.associatedWith}
                   onChange={(e) => updateArr(setCourses, i, 'associatedWith', e.target.value)} />
                 <HelperText>The school, university, or company where you took this course.</HelperText>

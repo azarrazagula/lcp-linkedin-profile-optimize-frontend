@@ -2,6 +2,8 @@ import React from 'react';
 import { SectionCard, FieldLabel, HelperText, inputCls, IC } from './FormHelpers';
 
 export default function LanguagesSection({ languages, setLanguages, liUrl }) {
+  const langId = React.useId();
+
   return (
     <SectionCard
       title="Languages"
@@ -12,8 +14,8 @@ export default function LanguagesSection({ languages, setLanguages, liUrl }) {
       tip="Being bilingual or multilingual is a strong competitive advantage in global or remote-first companies."
     >
       <div>
-        <FieldLabel value={languages}>Languages * (comma-separated)</FieldLabel>
-        <input className={inputCls} placeholder="e.g. English, Tamil, Hindi"
+        <FieldLabel htmlFor={langId} value={languages}>Languages * (comma-separated)</FieldLabel>
+        <input id={langId} className={inputCls} placeholder="e.g. English, Tamil, Hindi"
           value={languages}
           onChange={(e) => setLanguages(e.target.value)} />
         <HelperText>The language you speak.</HelperText>

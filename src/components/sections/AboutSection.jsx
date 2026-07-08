@@ -4,6 +4,7 @@ import { SectionCard, FieldLabel, HelperText, textareaCls, IC } from './FormHelp
 export default function AboutSection({ about, setAbout, liUrl }) {
   const charLimit = 2600;
   const currentLength = about ? about.length : 0;
+  const aboutId = React.useId();
 
   return (
     <SectionCard
@@ -16,12 +17,12 @@ export default function AboutSection({ about, setAbout, liUrl }) {
     >
       <div>
         <div className="flex justify-between items-center mb-1">
-          <FieldLabel value={about}>About / Summary *</FieldLabel>
-          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${currentLength > charLimit ? 'bg-rose-50 text-rose-600' : 'bg-slate-100 text-slate-500'}`}>
+          <FieldLabel htmlFor={aboutId} value={about}>About / Summary *</FieldLabel>
+          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md ${currentLength > charLimit ? 'bg-rose-50 text-rose-600' : 'bg-slate-100 text-slate-700'}`}>
             {currentLength} / {charLimit}
           </span>
         </div>
-        <textarea className={textareaCls} rows={6}
+        <textarea id={aboutId} className={textareaCls} rows={6}
           placeholder="Write a brief summary of your career, skills, achievements, and goals. Ex: 'I am a passionate Full Stack Developer with 3+ years of experience building responsive web applications...'"
           value={about}
           onChange={(e) => setAbout(e.target.value)} />

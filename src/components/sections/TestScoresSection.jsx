@@ -29,8 +29,8 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
             <div className="space-y-4">
               {/* Title */}
               <div>
-                <FieldLabel value={scoreObj.name}>Title *</FieldLabel>
-                <input className={inputCls} placeholder="Ex: GRE, GMAT, TOEFL"
+                <FieldLabel htmlFor={`score-name-${i}`} value={scoreObj.name}>Title *</FieldLabel>
+                <input id={`score-name-${i}`} className={inputCls} placeholder="Ex: GRE, GMAT, TOEFL"
                   value={scoreObj.name}
                   onChange={(e) => updateArr(setTestScores, i, 'name', e.target.value)} />
                 <HelperText>The name of the exam or test.</HelperText>
@@ -38,8 +38,8 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
 
               {/* Associated with */}
               <div>
-                <FieldLabel value={scoreObj.associatedWith}>Associated with</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Boston University"
+                <FieldLabel htmlFor={`score-associatedWith-${i}`} value={scoreObj.associatedWith}>Associated with</FieldLabel>
+                <input id={`score-associatedWith-${i}`} className={inputCls} placeholder="Ex: Boston University"
                   value={scoreObj.associatedWith || ''}
                   onChange={(e) => updateArr(setTestScores, i, 'associatedWith', e.target.value)} />
                 <HelperText>The school, college, or company associated with this test.</HelperText>
@@ -47,8 +47,8 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
 
               {/* Score */}
               <div>
-                <FieldLabel value={scoreObj.score}>Score *</FieldLabel>
-                <input className={inputCls} placeholder="Ex: 330/340, Band 8.5"
+                <FieldLabel htmlFor={`score-val-${i}`} value={scoreObj.score}>Score *</FieldLabel>
+                <input id={`score-val-${i}`} className={inputCls} placeholder="Ex: 330/340, Band 8.5"
                   value={scoreObj.score}
                   onChange={(e) => updateArr(setTestScores, i, 'score', e.target.value)} />
                 <HelperText>Your test score or percentile.</HelperText>
@@ -59,15 +59,15 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
                 <FieldLabel value={scoreObj.testMonth && scoreObj.testYear ? `${scoreObj.testMonth} ${scoreObj.testYear}` : ''}>Test date</FieldLabel>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Month</span>
-                    <select className={inputCls} value={scoreObj.testMonth || ''} onChange={(e) => updateArr(setTestScores, i, 'testMonth', e.target.value)}>
+                    <label htmlFor={`score-testMonth-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Month</label>
+                    <select id={`score-testMonth-${i}`} className={inputCls} value={scoreObj.testMonth || ''} onChange={(e) => updateArr(setTestScores, i, 'testMonth', e.target.value)}>
                       <option value="">Month</option>
                       {MONTHS.map((m) => <option key={m} value={m}>{m}</option>)}
                     </select>
                   </div>
                   <div>
-                    <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider block mb-1">Year *</span>
-                    <select className={inputCls} value={scoreObj.testYear || ''} onChange={(e) => updateArr(setTestScores, i, 'testYear', e.target.value)}>
+                    <label htmlFor={`score-testYear-${i}`} className="text-[11px] text-slate-600 font-bold uppercase tracking-wider block mb-1">Year *</label>
+                    <select id={`score-testYear-${i}`} className={inputCls} value={scoreObj.testYear || ''} onChange={(e) => updateArr(setTestScores, i, 'testYear', e.target.value)}>
                       <option value="">Year</option>
                       {YEARS.map((y) => <option key={y} value={y}>{y}</option>)}
                     </select>
@@ -77,8 +77,8 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
 
               {/* Description */}
               <div>
-                <FieldLabel value={scoreObj.description}>Description</FieldLabel>
-                <textarea className={textareaCls} rows={3}
+                <FieldLabel htmlFor={`score-description-${i}`} value={scoreObj.description}>Description</FieldLabel>
+                <textarea id={`score-description-${i}`} className={textareaCls} rows={3}
                   placeholder="Ex: Percentiles or sections breakdown (e.g. Quantitative: 170, Verbal: 160)..."
                   value={scoreObj.description || ''}
                   onChange={(e) => updateArr(setTestScores, i, 'description', e.target.value)} />

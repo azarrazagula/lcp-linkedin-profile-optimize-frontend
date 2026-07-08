@@ -28,8 +28,8 @@ export default function PublicationsSection({ publications, setPublications, upd
             <div className="space-y-4">
               {/* Title */}
               <div>
-                <FieldLabel value={pub.title}>Title *</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Giving and receiving feedback"
+                <FieldLabel htmlFor={`pub-title-${i}`} value={pub.title}>Title *</FieldLabel>
+                <input id={`pub-title-${i}`} className={inputCls} placeholder="Ex: Giving and receiving feedback"
                   value={pub.title}
                   onChange={(e) => updateArr(setPublications, i, 'title', e.target.value)} />
                 <HelperText>The title of your paper, article, or book.</HelperText>
@@ -37,8 +37,8 @@ export default function PublicationsSection({ publications, setPublications, upd
 
               {/* Publication/Publisher */}
               <div>
-                <FieldLabel value={pub.publisher}>Publication/Publisher</FieldLabel>
-                <input className={inputCls} placeholder="Ex: Harvard Business Review"
+                <FieldLabel htmlFor={`pub-publisher-${i}`} value={pub.publisher}>Publication/Publisher</FieldLabel>
+                <input id={`pub-publisher-${i}`} className={inputCls} placeholder="Ex: Harvard Business Review"
                   value={pub.publisher}
                   onChange={(e) => updateArr(setPublications, i, 'publisher', e.target.value)} />
                 <HelperText>The journal, website, or publishing company.</HelperText>
@@ -46,8 +46,8 @@ export default function PublicationsSection({ publications, setPublications, upd
 
               {/* Publication date */}
               <div>
-                <FieldLabel value={pub.pubDate}>Publication date</FieldLabel>
-                <input type="date" className={inputCls}
+                <FieldLabel htmlFor={`pub-date-${i}`} value={pub.pubDate}>Publication date</FieldLabel>
+                <input id={`pub-date-${i}`} type="date" className={inputCls}
                   value={pub.pubDate || ''}
                   onChange={(e) => updateArr(setPublications, i, 'pubDate', e.target.value)} />
                 <HelperText>Select the date this work was published.</HelperText>
@@ -55,8 +55,8 @@ export default function PublicationsSection({ publications, setPublications, upd
 
               {/* Author */}
               <div>
-                <FieldLabel value={pub.author}>Author</FieldLabel>
-                <input className={inputCls} placeholder="Add author or contributors"
+                <FieldLabel htmlFor={`pub-author-${i}`} value={pub.author}>Author</FieldLabel>
+                <input id={`pub-author-${i}`} className={inputCls} placeholder="Add author or contributors"
                   value={pub.author || ''}
                   onChange={(e) => updateArr(setPublications, i, 'author', e.target.value)} />
                 <HelperText>Specify authors or contributors to the publication.</HelperText>
@@ -64,8 +64,8 @@ export default function PublicationsSection({ publications, setPublications, upd
 
               {/* Publication URL */}
               <div>
-                <FieldLabel value={pub.url}>Publication URL</FieldLabel>
-                <input className={inputCls} placeholder="https://journal.com/article"
+                <FieldLabel htmlFor={`pub-url-${i}`} value={pub.url}>Publication URL</FieldLabel>
+                <input id={`pub-url-${i}`} className={inputCls} placeholder="https://journal.com/article"
                   value={pub.url}
                   onChange={(e) => updateArr(setPublications, i, 'url', e.target.value)} />
                 <HelperText>Link to read the publication online.</HelperText>
@@ -73,8 +73,8 @@ export default function PublicationsSection({ publications, setPublications, upd
 
               {/* Description */}
               <div>
-                <FieldLabel value={pub.description}>Description</FieldLabel>
-                <textarea className={textareaCls} rows={3}
+                <FieldLabel htmlFor={`pub-description-${i}`} value={pub.description}>Description</FieldLabel>
+                <textarea id={`pub-description-${i}`} className={textareaCls} rows={3}
                   placeholder="Give a short summary of the publication, key findings, or impact..."
                   value={pub.description || ''}
                   onChange={(e) => updateArr(setPublications, i, 'description', e.target.value)} />

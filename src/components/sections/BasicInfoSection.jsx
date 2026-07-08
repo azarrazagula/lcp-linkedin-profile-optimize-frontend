@@ -33,6 +33,17 @@ const getCitiesByPostalCode = (postcode) => {
 export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePhoto, setCoverPhoto, liUrl }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
 
+  const fullNameId = React.useId();
+  const pronounsId = React.useId();
+  const countryRegionId = React.useId();
+  const industryId = React.useId();
+  const postalCodeId = React.useId();
+  const cityId = React.useId();
+  const headlineId = React.useId();
+  const profilePhotoId = React.useId();
+  const coverPhotoId = React.useId();
+  const linkedinUrlId = React.useId();
+
   const showCity = !!basicInfo.postalCode && !!basicInfo.postalCode.trim();
   const [dynamicCities, setDynamicCities] = useState([]);
   const [showCitySuggestions, setShowCitySuggestions] = useState(false);
@@ -83,15 +94,15 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
       {/* Row 1: Full Name & Pronouns */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel value={basicInfo.fullName}>Full Name *</FieldLabel>
-          <input className={inputCls} placeholder="e.g. Alex Johnson"
+          <FieldLabel htmlFor={fullNameId} value={basicInfo.fullName}>Full Name *</FieldLabel>
+          <input id={fullNameId} className={inputCls} placeholder="e.g. Alex Johnson"
             value={basicInfo.fullName}
             onChange={e => set('fullName', e.target.value)} />
           <HelperText>Use the name you go by at work.</HelperText>
         </div>
         <div>
-          <FieldLabel value={basicInfo.pronouns}>Pronouns</FieldLabel>
-          <select className={inputCls} value={basicInfo.pronouns || ''} onChange={e => set('pronouns', e.target.value)}>
+          <FieldLabel htmlFor={pronounsId} value={basicInfo.pronouns}>Pronouns</FieldLabel>
+          <select id={pronounsId} className={inputCls} value={basicInfo.pronouns || ''} onChange={e => set('pronouns', e.target.value)}>
             <option value="">Please select</option>
             <option value="He/Him">He/Him</option>
             <option value="She/Her">She/Her</option>
@@ -105,15 +116,16 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
       {/* Row 2: Country/Region & Industry */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel value={basicInfo.countryRegion}>Country/Region *</FieldLabel>
-          <input className={inputCls} placeholder="e.g. India"
+          <FieldLabel htmlFor={countryRegionId} value={basicInfo.countryRegion}>Country/Region *</FieldLabel>
+          <input id={countryRegionId} className={inputCls} placeholder="e.g. India"
             value={basicInfo.countryRegion || ''}
             onChange={e => set('countryRegion', e.target.value)} />
           <HelperText>Your current country of residence.</HelperText>
         </div>
         <div>
-          <FieldLabel value={basicInfo.industry}>Industry</FieldLabel>
+          <FieldLabel htmlFor={industryId} value={basicInfo.industry}>Industry</FieldLabel>
           <input 
+            id={industryId}
             className={inputCls} 
             placeholder="e.g. Software Development"
             value={basicInfo.industry || ''}
@@ -126,8 +138,8 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
       {/* Row 3: Postal Code & City (Dynamic reveal) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel value={basicInfo.postalCode}>Postal Code</FieldLabel>
-          <input className={inputCls} placeholder="e.g. 641026"
+          <FieldLabel htmlFor={postalCodeId} value={basicInfo.postalCode}>Postal Code</FieldLabel>
+          <input id={postalCodeId} className={inputCls} placeholder="e.g. 641026"
             value={basicInfo.postalCode || ''}
             onChange={e => {
               set('postalCode', e.target.value);
@@ -140,7 +152,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         </div>
         {showCity && (
           <div className="animate-fadeIn relative">
-            <FieldLabel value={basicInfo.city}>City *</FieldLabel>
+            <FieldLabel htmlFor={cityId} value={basicInfo.city}>City *</FieldLabel>
             <div className="relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4 pointer-events-none z-10">
                 <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -148,6 +160,7 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
                 </svg>
               </span>
               <input 
+                id={cityId}
                 className={`${inputCls} !pl-11`} 
                 placeholder="e.g. Coimbatore"
                 value={basicInfo.city || ''}
@@ -180,8 +193,8 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
 
       {/* Row 4: Headline */}
       <div>
-        <FieldLabel value={basicInfo.headline}>Headline *</FieldLabel>
-        <input className={inputCls} placeholder="e.g. Full Stack Developer | React · Node.js · MongoDB"
+        <FieldLabel htmlFor={headlineId} value={basicInfo.headline}>Headline *</FieldLabel>
+        <input id={headlineId} className={inputCls} placeholder="e.g. Full Stack Developer | React · Node.js · MongoDB"
           value={basicInfo.headline}
           onChange={e => set('headline', e.target.value)} />
         <HelperText>Your job title and key skills.</HelperText>
@@ -190,15 +203,15 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
       {/* Row 5: Profile & Cover Photo */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <FieldLabel>Profile Photo</FieldLabel>
-          <input type="file" accept="image/*"
+          <FieldLabel htmlFor={profilePhotoId}>Profile Photo</FieldLabel>
+          <input id={profilePhotoId} type="file" accept="image/*"
             onChange={e => setProfilePhoto(e.target.files[0])}
             className={fileInputCls} />
           <HelperText>A clean, professional headshot. Highly recommended for more profile views.</HelperText>
         </div>
         <div>
-          <FieldLabel>Cover Photo</FieldLabel>
-          <input type="file" accept="image/*"
+          <FieldLabel htmlFor={coverPhotoId}>Cover Photo</FieldLabel>
+          <input id={coverPhotoId} type="file" accept="image/*"
             onChange={e => setCoverPhoto(e.target.files[0])}
             className={fileInputCls} />
           <HelperText>A professional background banner for your profile page.</HelperText>
@@ -207,8 +220,9 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
 
       {/* Row 6: LinkedIn Profile URL */}
       <div className="mt-4 p-4 rounded-2xl border border-blue-100 bg-blue-50/30 transition-all shadow-3xs">
-        <FieldLabel>LinkedIn Profile URL *</FieldLabel>
+        <FieldLabel htmlFor={linkedinUrlId}>LinkedIn Profile URL *</FieldLabel>
         <input 
+          id={linkedinUrlId}
           className={`${inputCls} ${
             !basicInfo.linkedinUrl
               ? 'border-amber-300 focus:border-amber-500 focus:ring-amber-500/10 bg-amber-50/10'
@@ -222,17 +236,17 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         />
         
         {!basicInfo.linkedinUrl ? (
-          <div className="mt-2.5 flex items-start gap-2 text-xs text-amber-700 bg-amber-50 border border-amber-200/60 rounded-xl p-3 font-semibold">
+          <div className="mt-2.5 flex items-start gap-2 text-xs text-amber-900 bg-amber-50 border border-amber-200/60 rounded-xl p-3 font-semibold">
             <span className="text-sm shrink-0">⚠️</span>
             <span>Important: Paste your exact LinkedIn URL here. This unlocks the direct "Edit on LinkedIn" buttons for all sections in the form.</span>
           </div>
         ) : !isValidLinkedInUrl(basicInfo.linkedinUrl) ? (
-          <div className="mt-2.5 flex items-start gap-2 text-xs text-rose-700 bg-rose-50 border border-rose-200/60 rounded-xl p-3 font-semibold animate-fadeIn">
+          <div className="mt-2.5 flex items-start gap-2 text-xs text-rose-900 bg-rose-50 border border-rose-200/60 rounded-xl p-3 font-semibold animate-fadeIn">
             <span className="text-sm shrink-0">❌</span>
             <span>Invalid LinkedIn URL. Please enter a valid profile link (e.g. https://www.linkedin.com/in/yourname).</span>
           </div>
         ) : (
-          <div className="mt-2.5 flex items-start gap-2 text-xs text-emerald-700 bg-emerald-50 border border-emerald-200/60 rounded-xl p-3 font-semibold animate-fadeIn">
+          <div className="mt-2.5 flex items-start gap-2 text-xs text-emerald-900 bg-emerald-50 border border-emerald-200/60 rounded-xl p-3 font-semibold animate-fadeIn">
             <span className="text-sm shrink-0">🎉</span>
             <span>URL Connected! One-click direct edit buttons are now active for all sections.</span>
           </div>
