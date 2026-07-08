@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function AwardsSection({ awards, setAwards, updateArr, addItem, removeItem, experiences = [], educations = [], liUrl }) {
+export default function AwardsSection({ awards, setAwards, updateArr, addItem, removeItem, experiences = [], educations = [], liUrl, onOptimize, optimizingField }) {
   const emptyAward = {
     title: '', associatedWith: '', issuer: '', issueMonth: '', issueYear: '', description: ''
   };
@@ -87,10 +87,32 @@ export default function AwardsSection({ awards, setAwards, updateArr, addItem, r
               {/* Description */}
               <div>
                 <FieldLabel htmlFor={`award-description-${i}`} value={award.description}>Description</FieldLabel>
-                <textarea id={`award-description-${i}`} className={textareaCls} rows={3}
-                  placeholder="Ex: Selected out of 500+ participants for outstanding UI redesign work..."
-                  value={award.description || ''}
-                  onChange={(e) => updateArr(setAwards, i, 'description', e.target.value)} />
+                <div className="relative">
+                  <textarea id={`award-description-${i}`} className={`${textareaCls} !pb-12`} rows={3}
+                    placeholder="Ex: Selected out of 500+ participants for outstanding UI redesign work..."
+                    value={award.description || ''}
+                    onChange={(e) => updateArr(setAwards, i, 'description', e.target.value)} />
+                  {award.description && award.description.trim() && (
+                    <button
+                      type="button"
+                      disabled={optimizingField?.type === 'award' && optimizingField?.index === i}
+                      onClick={() => onOptimize('award', i)}
+                      className="absolute bottom-2.5 right-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-black shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                    >
+                      {optimizingField?.type === 'award' && optimizingField?.index === i ? (
+                        <>
+                          <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          <span>Optimizing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>✨</span>
+                          <span>Optimize with AI</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
                 <HelperText>Explain why you received this award and its significance.</HelperText>
               </div>
             </div>

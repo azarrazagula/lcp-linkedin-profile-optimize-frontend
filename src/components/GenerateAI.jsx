@@ -173,6 +173,216 @@ export default function GenerateAI({ result }) {
             ))}
           </div>
         )}
+
+        {/* 6. Optimized Educations */}
+        {Array.isArray(result.educations) && result.educations.length > 0 && (
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+              <span>🎓</span> Optimized Education Descriptions
+            </span>
+            {result.educations.map((edu, idx) => (
+              <div key={idx} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-800">
+                    {edu.degree || 'Degree'} {edu.school ? `at ${edu.school}` : ''}
+                  </span>
+                  {edu.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(edu.description, `edu-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 text-[11px] font-bold border border-blue-200 transition-all cursor-pointer"
+                    >
+                      {copiedKey === `edu-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {edu.description && (
+                  <p className="text-xs text-slate-700 font-medium whitespace-pre-line leading-relaxed">{edu.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 7. Optimized Volunteer Experience */}
+        {Array.isArray(result.volunteerExp) && result.volunteerExp.length > 0 && (
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+              <span>🤝</span> Optimized Volunteer Descriptions
+            </span>
+            {result.volunteerExp.map((vol, idx) => (
+              <div key={idx} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-800">
+                    {vol.role || 'Volunteer'} {vol.organization ? `at ${vol.organization}` : ''}
+                  </span>
+                  {vol.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(vol.description, `vol-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 text-[11px] font-bold border border-blue-200 transition-all cursor-pointer"
+                    >
+                      {copiedKey === `vol-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {vol.description && (
+                  <p className="text-xs text-slate-700 font-medium whitespace-pre-line leading-relaxed">{vol.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 8. Optimized Awards & Honors */}
+        {Array.isArray(result.awards) && result.awards.length > 0 && (
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+              <span>🏆</span> Optimized Award Descriptions
+            </span>
+            {result.awards.map((award, idx) => (
+              <div key={idx} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-800">
+                    {award.title || 'Award'} {award.issuer ? `from ${award.issuer}` : ''}
+                  </span>
+                  {award.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(award.description, `award-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 text-[11px] font-bold border border-blue-200 transition-all cursor-pointer"
+                    >
+                      {copiedKey === `award-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {award.description && (
+                  <p className="text-xs text-slate-700 font-medium whitespace-pre-line leading-relaxed">{award.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 9. Optimized Organizations */}
+        {Array.isArray(result.organizations) && result.organizations.length > 0 && (
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+              <span>🏢</span> Optimized Organization Descriptions
+            </span>
+            {result.organizations.map((org, idx) => (
+              <div key={idx} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-800">
+                    {org.position || 'Member'} {org.name ? `at ${org.name}` : ''}
+                  </span>
+                  {org.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(org.description, `org-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 text-[11px] font-bold border border-blue-200 transition-all cursor-pointer"
+                    >
+                      {copiedKey === `org-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {org.description && (
+                  <p className="text-xs text-slate-700 font-medium whitespace-pre-line leading-relaxed">{org.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 10. Optimized Publications */}
+        {Array.isArray(result.publications) && result.publications.length > 0 && (
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+              <span>📖</span> Optimized Publication Descriptions
+            </span>
+            {result.publications.map((pub, idx) => (
+              <div key={idx} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-800">
+                    {pub.title || 'Publication'} {pub.publisher ? `in ${pub.publisher}` : ''}
+                  </span>
+                  {pub.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(pub.description, `pub-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 text-[11px] font-bold border border-blue-200 transition-all cursor-pointer"
+                    >
+                      {copiedKey === `pub-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {pub.description && (
+                  <p className="text-xs text-slate-700 font-medium whitespace-pre-line leading-relaxed">{pub.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 11. Optimized Patents */}
+        {Array.isArray(result.patents) && result.patents.length > 0 && (
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+              <span>📜</span> Optimized Patent Descriptions
+            </span>
+            {result.patents.map((pat, idx) => (
+              <div key={idx} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-800">
+                    {pat.title || 'Patent'} {pat.patentNumber ? `(${pat.patentNumber})` : ''}
+                  </span>
+                  {pat.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(pat.description, `pat-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 text-[11px] font-bold border border-blue-200 transition-all cursor-pointer"
+                    >
+                      {copiedKey === `pat-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {pat.description && (
+                  <p className="text-xs text-slate-700 font-medium whitespace-pre-line leading-relaxed">{pat.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 12. Optimized Test Scores */}
+        {Array.isArray(result.testScores) && result.testScores.length > 0 && (
+          <div className="bg-white p-4 rounded-2xl border border-slate-200/90 shadow-xs space-y-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-blue-600 flex items-center gap-1.5">
+              <span>✍️</span> Optimized Test Score Descriptions
+            </span>
+            {result.testScores.map((score, idx) => (
+              <div key={idx} className="bg-slate-50 p-3.5 rounded-xl border border-slate-200/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-bold text-slate-800">
+                    {score.name || 'Test'} {score.score ? `(Score: ${score.score})` : ''}
+                  </span>
+                  {score.description && (
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard(score.description, `score-${idx}`)}
+                      className="px-2.5 py-0.5 rounded-md bg-blue-50 hover:bg-blue-100 text-blue-700 text-[11px] font-bold border border-blue-200 transition-all cursor-pointer"
+                    >
+                      {copiedKey === `score-${idx}` ? '✓ Copied!' : 'Copy'}
+                    </button>
+                  )}
+                </div>
+                {score.description && (
+                  <p className="text-xs text-slate-700 font-medium whitespace-pre-line leading-relaxed">{score.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

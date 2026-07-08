@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function EducationSection({ educations, setEducations, updateArr, addItem, removeItem, liUrl }) {
+export default function EducationSection({ educations, setEducations, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
   const emptyEdu = {
     school: '', degree: '', fieldOfStudy: '',
     startMonth: '', startYear: '', endMonth: '', endYear: '',
@@ -115,10 +115,32 @@ export default function EducationSection({ educations, setEducations, updateArr,
 
             <div>
               <FieldLabel htmlFor={`edu-description-${i}`} value={edu.description}>Description</FieldLabel>
-              <textarea id={`edu-description-${i}`} className={textareaCls} rows={3}
-                placeholder="Describe your coursework, honors, key academic projects, thesis..."
-                value={edu.description}
-                onChange={(e) => updateArr(setEducations, i, 'description', e.target.value)} />
+              <div className="relative">
+                <textarea id={`edu-description-${i}`} className={`${textareaCls} !pb-12`} rows={3}
+                  placeholder="Describe your coursework, honors, key academic projects, thesis..."
+                  value={edu.description}
+                  onChange={(e) => updateArr(setEducations, i, 'description', e.target.value)} />
+                {edu.description && edu.description.trim() && (
+                  <button
+                    type="button"
+                    disabled={optimizingField?.type === 'education' && optimizingField?.index === i}
+                    onClick={() => onOptimize('education', i)}
+                    className="absolute bottom-2.5 right-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-black shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    {optimizingField?.type === 'education' && optimizingField?.index === i ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        <span>Optimizing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>✨</span>
+                        <span>Optimize with AI</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
               <HelperText>Summarize your key courses, academic projects, or achievements.</HelperText>
             </div>
           </CollapsibleItem>

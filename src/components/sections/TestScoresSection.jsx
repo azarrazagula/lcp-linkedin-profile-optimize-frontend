@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function TestScoresSection({ testScores, setTestScores, updateArr, addItem, removeItem, liUrl }) {
+export default function TestScoresSection({ testScores, setTestScores, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
   const emptyScore = {
     name: '', score: '', associatedWith: '', testMonth: '', testYear: '', description: ''
   };
@@ -78,10 +78,32 @@ export default function TestScoresSection({ testScores, setTestScores, updateArr
               {/* Description */}
               <div>
                 <FieldLabel htmlFor={`score-description-${i}`} value={scoreObj.description}>Description</FieldLabel>
-                <textarea id={`score-description-${i}`} className={textareaCls} rows={3}
-                  placeholder="Ex: Percentiles or sections breakdown (e.g. Quantitative: 170, Verbal: 160)..."
-                  value={scoreObj.description || ''}
-                  onChange={(e) => updateArr(setTestScores, i, 'description', e.target.value)} />
+                <div className="relative">
+                  <textarea id={`score-description-${i}`} className={`${textareaCls} !pb-12`} rows={3}
+                    placeholder="Ex: Percentiles or sections breakdown (e.g. Quantitative: 170, Verbal: 160)..."
+                    value={scoreObj.description || ''}
+                    onChange={(e) => updateArr(setTestScores, i, 'description', e.target.value)} />
+                  {scoreObj.description && scoreObj.description.trim() && (
+                    <button
+                      type="button"
+                      disabled={optimizingField?.type === 'testScore' && optimizingField?.index === i}
+                      onClick={() => onOptimize('testScore', i)}
+                      className="absolute bottom-2.5 right-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-black shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                    >
+                      {optimizingField?.type === 'testScore' && optimizingField?.index === i ? (
+                        <>
+                          <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          <span>Optimizing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>✨</span>
+                          <span>Optimize with AI</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
                 <HelperText>Any additional details about the test or your performance.</HelperText>
               </div>
             </div>

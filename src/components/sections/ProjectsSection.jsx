@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function ProjectsSection({ projects, setProjects, updateArr, addItem, removeItem, liUrl }) {
+export default function ProjectsSection({ projects, setProjects, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
   const emptyProj = {
     name: '', description: '', currentlyWorking: false,
     startMonth: '', startYear: '', endMonth: '', endYear: ''
@@ -37,10 +37,32 @@ export default function ProjectsSection({ projects, setProjects, updateArr, addI
 
             <div>
               <FieldLabel htmlFor={`proj-description-${i}`} value={proj.description}>Description</FieldLabel>
-              <textarea id={`proj-description-${i}`} className={textareaCls} rows={3}
-                placeholder="What does this project do? What technologies did you use? What was your role?"
-                value={proj.description}
-                onChange={(e) => updateArr(setProjects, i, 'description', e.target.value)} />
+              <div className="relative">
+                <textarea id={`proj-description-${i}`} className={`${textareaCls} !pb-12`} rows={3}
+                  placeholder="What does this project do? What technologies did you use? What was your role?"
+                  value={proj.description}
+                  onChange={(e) => updateArr(setProjects, i, 'description', e.target.value)} />
+                {proj.description && proj.description.trim() && (
+                  <button
+                    type="button"
+                    disabled={optimizingField?.type === 'project' && optimizingField?.index === i}
+                    onClick={() => onOptimize('project', i)}
+                    className="absolute bottom-2.5 right-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-black shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    {optimizingField?.type === 'project' && optimizingField?.index === i ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        <span>Optimizing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>✨</span>
+                        <span>Optimize with AI</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
               <HelperText>Describe the problem, technologies used, and your contribution.</HelperText>
             </div>
 

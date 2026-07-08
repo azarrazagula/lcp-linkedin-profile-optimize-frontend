@@ -1,81 +1,18 @@
 import React, { useState } from 'react';
 import LinkedInForm from './LinkedInForm';
-import GenerateAI from './GenerateAI';
 import LoginPage from './LoginPage';
 import UserProfile from './UserProfile';
 
-const API_BASE_URL = 'http://localhost:5001/api';
-
 export default function Home({ currentUser, onLoginSuccess, onLogout }) {
-  const [loading, setLoading] = useState(false);
-  const [aiResult, setAiResult] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
 
   // Modal flow states
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [pendingFormData, setPendingFormData] = useState(null);
-
-  const handleGenerate = async (formData, userOverride = null) => {
-    const activeUser = userOverride || currentUser;
-
-    if (!activeUser) {
-      // User is not logged in: save form data and prompt login
-      setPendingFormData(formData);
-      setShowLoginModal(true);
-      return;
-    }
-
-    setLoading(true);
-    setErrorMsg('');
-    setAiResult(null);
-
-    try {
-      const token = activeUser.token || localStorage.getItem('user_token');
-
-      const res = await fetch(`${API_BASE_URL}/optimize`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token ? `Bearer ${token}` : '',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setAiResult(data);
-      } else {
-        setErrorMsg(data.message || 'Backend API error');
-        setAiResult({
-          headline: `${formData.basicInfo?.headline || 'Professional'} | AI Optimized`,
-          about: formData.about || 'AI optimized profile.',
-          skills: formData.skills || [],
-        });
-      }
-    } catch (err) {
-      console.error('AI Optimize call error:', err);
-      setErrorMsg('Cannot reach backend. Showing preview result.');
-      setAiResult({
-        headline: `${formData.basicInfo?.headline || 'Developer'} | Gemini AI Optimized`,
-        about: formData.about || 'AI optimized profile.',
-        skills: formData.skills || [],
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleLoginSuccessWrapper = (userData) => {
     onLoginSuccess(userData);
     setShowLoginModal(false);
-
-    // If there is pending form data, trigger generation immediately
-    if (pendingFormData) {
-      handleGenerate(pendingFormData, userData);
-      setPendingFormData(null);
-    }
   };
 
   return (
@@ -142,10 +79,7 @@ export default function Home({ currentUser, onLoginSuccess, onLogout }) {
         )}
 
         {/* LinkedIn Profile Optimizer Form */}
-        <LinkedInForm onGenerate={handleGenerate} loading={loading} />
-
-        {/* AI Result */}
-        {aiResult && <GenerateAI result={aiResult} />}
+        <LinkedInForm />
       </main>
 
       {/* ── Login Modal Overlay ──────────────────────────────────────────── */}
@@ -156,7 +90,6 @@ export default function Home({ currentUser, onLoginSuccess, onLogout }) {
             <button
               onClick={() => {
                 setShowLoginModal(false);
-                setPendingFormData(null); // Clear pending generation request
               }}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors z-20 cursor-pointer"
               aria-label="Close modal"

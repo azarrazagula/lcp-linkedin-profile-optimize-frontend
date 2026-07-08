@@ -20,7 +20,96 @@ import PublicationsSection from './sections/PublicationsSection';
 import PatentsSection from './sections/PatentsSection';
 import TestScoresSection from './sections/TestScoresSection';
 
-export default function LinkedInForm({ onGenerate, loading }) {
+export default function LinkedInForm() {
+  const [optimizingField, setOptimizingField] = useState(null); // e.g. { type: 'headline', index: null }
+  const [notification, setNotification] = useState(null);
+
+  const showNotification = (type, message) => {
+    setNotification({ type, message });
+    setTimeout(() => {
+      setNotification(prev => prev && prev.message === message ? null : prev);
+    }, 4000);
+  };
+
+  const handleFieldOptimize = async (type, index = null) => {
+    const activeToken = localStorage.getItem('user_token');
+    if (!activeToken) {
+      showNotification('warning', 'Please Sign In first to use AI features!');
+      return;
+    }
+
+    // Set loading indicator
+    setOptimizingField({ type, index });
+
+    try {
+      // Compile the entire current form state to send to Gemini for contextual optimization
+      const formData = {
+        basicInfo,
+        contactInfo,
+        about,
+        experiences,
+        educations,
+        skills: typeof skills === 'string' ? skills.split(',').map(s => s.trim()).filter(Boolean) : skills,
+        projects,
+        certifications,
+        languages,
+        volunteerExp,
+        awards,
+        courses,
+        organizations,
+        publications,
+        patents,
+        testScores
+      };
+
+      const res = await fetch('http://localhost:5001/api/optimize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': activeToken ? `Bearer ${activeToken}` : '',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        if (type === 'headline') {
+          setBasicInfo(prev => ({ ...prev, headline: data.headline }));
+        } else if (type === 'about') {
+          setAbout(data.about);
+        } else if (type === 'skills') {
+          setSkills(Array.isArray(data.skills) ? data.skills.join(', ') : data.skills);
+        } else if (type === 'experience' && index !== null) {
+          setExperiences(prev => prev.map((exp, idx) => idx === index ? { ...exp, description: data.experiences[idx]?.description || exp.description } : exp));
+        } else if (type === 'project' && index !== null) {
+          setProjects(prev => prev.map((proj, idx) => idx === index ? { ...proj, description: data.projects[idx]?.description || proj.description } : proj));
+        } else if (type === 'education' && index !== null) {
+          setEducations(prev => prev.map((edu, idx) => idx === index ? { ...edu, description: data.educations[idx]?.description || edu.description } : edu));
+        } else if (type === 'volunteer' && index !== null) {
+          setVolunteerExp(prev => prev.map((vol, idx) => idx === index ? { ...vol, description: data.volunteerExp[idx]?.description || vol.description } : vol));
+        } else if (type === 'award' && index !== null) {
+          setAwards(prev => prev.map((aw, idx) => idx === index ? { ...aw, description: data.awards[idx]?.description || aw.description } : aw));
+        } else if (type === 'organization' && index !== null) {
+          setOrganizations(prev => prev.map((org, idx) => idx === index ? { ...org, description: data.organizations[idx]?.description || org.description } : org));
+        } else if (type === 'publication' && index !== null) {
+          setPublications(prev => prev.map((pub, idx) => idx === index ? { ...pub, description: data.publications[idx]?.description || pub.description } : pub));
+        } else if (type === 'patent' && index !== null) {
+          setPatents(prev => prev.map((pat, idx) => idx === index ? { ...pat, description: data.patents[idx]?.description || pat.description } : pat));
+        } else if (type === 'testScore' && index !== null) {
+          setTestScores(prev => prev.map((ts, idx) => idx === index ? { ...ts, description: data.testScores[idx]?.description || ts.description } : ts));
+        }
+      } else {
+        showNotification('error', data.message || 'AI Optimization failed.');
+      }
+    } catch (error) {
+      console.error('AI field optimize error:', error);
+      showNotification('error', 'Cannot connect to backend server. Make sure it is running on port 5001.');
+    } finally {
+      setOptimizingField(null);
+    }
+  };
+
+
   // Section 1: Basic Info
   const [basicInfo, setBasicInfo] = useState({
     fullName: '', pronouns: '', industry: '', headline: '', location: '', linkedinUrl: '',
@@ -173,87 +262,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
 
   const badgeInfo = getCompletionBadge(completionPct);
 
-  // ── Submit ────────────────────────────────────────────────────────────────
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (onGenerate) {
-      const skillsArray = typeof skills === 'string' ? skills.split(',').map(s => s.trim()).filter(Boolean) : skills;
-      const desiredTitlesArray = typeof jobPreferences.desiredTitles === 'string' ? jobPreferences.desiredTitles.split(',').map(s => s.trim()).filter(Boolean) : [];
-      const preferredLocationsArray = typeof jobPreferences.preferredLocations === 'string' ? jobPreferences.preferredLocations.split(',').map(s => s.trim()).filter(Boolean) : [];
-      const mappedPublications = publications.map(pub => {
-        let pubMonth = pub.pubMonth;
-        let pubYear = pub.pubYear;
-        if (pub.pubDate) {
-          const dateParts = pub.pubDate.split('-');
-          if (dateParts[0]) pubYear = dateParts[0];
-          if (dateParts[1]) {
-            const monthIdx = parseInt(dateParts[1], 10) - 1;
-            const monthNames = [
-              'January', 'February', 'March', 'April', 'May', 'June',
-              'July', 'August', 'September', 'October', 'November', 'December'
-            ];
-            if (monthNames[monthIdx]) pubMonth = monthNames[monthIdx];
-          }
-        }
-        return {
-          title: pub.title,
-          publisher: pub.publisher,
-          url: pub.url,
-          pubMonth,
-          pubYear,
-          description: pub.description
-        };
-      });
-
-      const mappedPatents = patents.map(pat => {
-        let patentMonth = pat.patentMonth;
-        let patentYear = pat.patentYear;
-        if (pat.patentDate) {
-          const dateParts = pat.patentDate.split('-');
-          if (dateParts[0]) patentYear = dateParts[0];
-          if (dateParts[1]) {
-            const monthIdx = parseInt(dateParts[1], 10) - 1;
-            const monthNames = [
-              'January', 'February', 'March', 'April', 'May', 'June',
-              'July', 'August', 'September', 'October', 'November', 'December'
-            ];
-            if (monthNames[monthIdx]) patentMonth = monthNames[monthIdx];
-          }
-        }
-        return {
-          title: pat.title,
-          patentNumber: pat.patentNumber,
-          url: pat.url,
-          patentMonth,
-          patentYear,
-          description: pat.description
-        };
-      });
-
-      onGenerate({
-        basicInfo, contactInfo, about,
-        experiences, educations,
-        skills: skillsArray,
-        projects, certifications, languages,
-        careerPreferences: {
-          openToWork: {
-            desiredTitles: desiredTitlesArray,
-            jobTypes: [],
-            workplaceTypes: jobPreferences.locationTypes,
-            preferredLocations: preferredLocationsArray,
-            availability: jobPreferences.noticePeriod,
-          },
-          providingServices: {
-            servicesOffered: [],
-            serviceDescription: '',
-          }
-        },
-        volunteerExp, awards, courses,
-        organizations, publications: mappedPublications, patents: mappedPatents, testScores
-      });
-    }
-  };
-
   // ── Dynamic LinkedIn URLs ───────────────────────────────────────────────────
   const LI = getLIUrls(basicInfo.linkedinUrl);
 
@@ -280,12 +288,14 @@ export default function LinkedInForm({ onGenerate, loading }) {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
         {/* 1. Basic Info */}
         <BasicInfoSection
           basicInfo={basicInfo}
           setBasicInfo={setBasicInfo}
           liUrl={LI.intro}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
         {/* 2. Contact Info */}
@@ -295,24 +305,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           liUrl={LI.contact}
         />
 
-        {/* 3. About */}
-        <AboutSection
-          about={about}
-          setAbout={setAbout}
-          liUrl={LI.about}
-        />
-
-        {/* 4. Experience */}
-        <ExperienceSection
-          experiences={experiences}
-          setExperiences={setExperiences}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-          liUrl={LI.experience}
-        />
-
-        {/* 5. Education */}
+        {/* 3. Education */}
         <EducationSection
           educations={educations}
           setEducations={setEducations}
@@ -320,16 +313,20 @@ export default function LinkedInForm({ onGenerate, loading }) {
           addItem={addItem}
           removeItem={removeItem}
           liUrl={LI.education}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
-        {/* 6. Skills */}
+        {/* 4. Skills */}
         <SkillsSection
           skills={skills}
           setSkills={setSkills}
           liUrl={LI.skills}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
-        {/* 7. Projects */}
+        {/* 5. Projects */}
         <ProjectsSection
           projects={projects}
           setProjects={setProjects}
@@ -337,9 +334,39 @@ export default function LinkedInForm({ onGenerate, loading }) {
           addItem={addItem}
           removeItem={removeItem}
           liUrl={LI.projects}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
-        {/* 8. Certifications */}
+        {/* 6. Experience */}
+        <ExperienceSection
+          experiences={experiences}
+          setExperiences={setExperiences}
+          updateArr={updateArr}
+          addItem={addItem}
+          removeItem={removeItem}
+          liUrl={LI.experience}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
+        />
+
+        {/* 7. About / Summary */}
+        <AboutSection
+          about={about}
+          setAbout={setAbout}
+          liUrl={LI.about}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
+        />
+
+        {/* 8. Languages */}
+        <LanguagesSection
+          languages={languages}
+          setLanguages={setLanguages}
+          liUrl={LI.languages}
+        />
+
+        {/* 9. Licenses & Certifications */}
         <CertificationsSection
           certifications={certifications}
           setCertifications={setCertifications}
@@ -347,13 +374,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
           addItem={addItem}
           removeItem={removeItem}
           liUrl={LI.certifications}
-        />
-
-        {/* 9. Languages */}
-        <LanguagesSection
-          languages={languages}
-          setLanguages={setLanguages}
-          liUrl={LI.languages}
         />
 
         {/* 10. Job Preferences */}
@@ -370,9 +390,11 @@ export default function LinkedInForm({ onGenerate, loading }) {
           addItem={addItem}
           removeItem={removeItem}
           liUrl={LI.volunteer}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
-        {/* 12. Awards */}
+        {/* 12. Awards & Honors */}
         <AwardsSection
           awards={awards}
           setAwards={setAwards}
@@ -382,6 +404,8 @@ export default function LinkedInForm({ onGenerate, loading }) {
           experiences={experiences}
           educations={educations}
           liUrl={LI.awards}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
         {/* 13. Courses */}
@@ -394,8 +418,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
           liUrl={LI.courses}
         />
 
-
-        {/* 15. Organizations */}
+        {/* 14. Organizations */}
         <OrganizationsSection
           organizations={organizations}
           setOrganizations={setOrganizations}
@@ -405,9 +428,11 @@ export default function LinkedInForm({ onGenerate, loading }) {
           experiences={experiences}
           educations={educations}
           liUrl={LI.organizations}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
-        {/* 16. Publications */}
+        {/* 15. Publications */}
         <PublicationsSection
           publications={publications}
           setPublications={setPublications}
@@ -415,9 +440,11 @@ export default function LinkedInForm({ onGenerate, loading }) {
           addItem={addItem}
           removeItem={removeItem}
           liUrl={LI.publications}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
-        {/* 17. Patents */}
+        {/* 16. Patents */}
         <PatentsSection
           patents={patents}
           setPatents={setPatents}
@@ -425,9 +452,11 @@ export default function LinkedInForm({ onGenerate, loading }) {
           addItem={addItem}
           removeItem={removeItem}
           liUrl={LI.patents}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
 
-        {/* 18. Test Scores */}
+        {/* 17. Test Scores */}
         <TestScoresSection
           testScores={testScores}
           setTestScores={setTestScores}
@@ -435,32 +464,47 @@ export default function LinkedInForm({ onGenerate, loading }) {
           addItem={addItem}
           removeItem={removeItem}
           liUrl={LI.testScores}
+          onOptimize={handleFieldOptimize}
+          optimizingField={optimizingField}
         />
-
-        {/* Generate Button */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full py-4 px-6 rounded-2xl font-bold text-base bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-600/30 active:scale-[0.99] transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-        >
-          {loading ? (
-            <>
-              <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-              </svg>
-              Generating with Gemini AI...
-            </>
-          ) : (
-            <>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-              Generate with AI
-            </>
-          )}
-        </button>
       </form>
+
+      {/* Premium custom floating notification card */}
+      {notification && (
+        <div className="fixed bottom-6 right-6 z-[9999] animate-slideUp">
+          <div className={`backdrop-blur-xl bg-white/90 border ${notification.type === 'error' ? 'border-rose-200 shadow-rose-500/10' :
+            notification.type === 'warning' ? 'border-amber-200 shadow-amber-500/10' :
+              'border-blue-200 shadow-blue-500/10'
+            } p-4 rounded-2xl shadow-xl flex items-start gap-3 max-w-sm border-l-4 ${notification.type === 'error' ? 'border-l-rose-500' :
+              notification.type === 'warning' ? 'border-l-amber-500' :
+                'border-l-blue-500'
+            } transition-all duration-300`}>
+            <span className="text-base shrink-0 mt-0.5">
+              {notification.type === 'error' ? '❌' :
+                notification.type === 'warning' ? '⚠️' :
+                  '✨'}
+            </span>
+            <div className="flex-1 space-y-0.5">
+              <h4 className="text-xs font-black text-slate-800 uppercase tracking-wider">
+                {notification.type === 'error' ? 'Error' :
+                  notification.type === 'warning' ? 'Alert' :
+                    'Success'}
+              </h4>
+              <p className="text-[11px] text-slate-600 font-bold leading-normal">
+                {notification.message}
+              </p>
+            </div>
+            <button
+              onClick={() => setNotification(null)}
+              className="text-slate-400 hover:text-slate-600 p-0.5 rounded-lg hover:bg-slate-100 transition-all cursor-pointer"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

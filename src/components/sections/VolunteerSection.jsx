@@ -1,7 +1,7 @@
 import React from 'react';
 import { OptionalSectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function VolunteerSection({ volunteerExp, setVolunteerExp, updateArr, addItem, removeItem, liUrl }) {
+export default function VolunteerSection({ volunteerExp, setVolunteerExp, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
   const emptyVol = {
     organization: '', role: '', cause: '',
     currentlyVolunteering: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: ''
@@ -102,10 +102,32 @@ export default function VolunteerSection({ volunteerExp, setVolunteerExp, update
               {/* Description */}
               <div>
                 <FieldLabel htmlFor={`vol-description-${i}`} value={vol.description}>Description</FieldLabel>
-                <textarea id={`vol-description-${i}`} className={textareaCls} rows={3}
-                  placeholder="Describe your volunteer impact, duties, and responsibilities..."
-                  value={vol.description}
-                  onChange={(e) => updateArr(setVolunteerExp, i, 'description', e.target.value)} />
+                <div className="relative">
+                  <textarea id={`vol-description-${i}`} className={`${textareaCls} !pb-12`} rows={3}
+                    placeholder="Describe your volunteer impact, duties, and responsibilities..."
+                    value={vol.description}
+                    onChange={(e) => updateArr(setVolunteerExp, i, 'description', e.target.value)} />
+                  {vol.description && vol.description.trim() && (
+                    <button
+                      type="button"
+                      disabled={optimizingField?.type === 'volunteer' && optimizingField?.index === i}
+                      onClick={() => onOptimize('volunteer', i)}
+                      className="absolute bottom-2.5 right-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-black shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                    >
+                      {optimizingField?.type === 'volunteer' && optimizingField?.index === i ? (
+                        <>
+                          <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          <span>Optimizing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>✨</span>
+                          <span>Optimize with AI</span>
+                        </>
+                      )}
+                    </button>
+                  )}
+                </div>
                 <HelperText>Explain your volunteer work and the impact you made.</HelperText>
               </div>
             </div>

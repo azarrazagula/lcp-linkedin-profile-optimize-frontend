@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, CollapsibleItem, AddMoreBtn, inputCls, textareaCls, IC, MONTHS, YEARS } from './FormHelpers';
 
-export default function ExperienceSection({ experiences, setExperiences, updateArr, addItem, removeItem, liUrl }) {
+export default function ExperienceSection({ experiences, setExperiences, updateArr, addItem, removeItem, liUrl, onOptimize, optimizingField }) {
   const emptyExp = {
     jobTitle: '', company: '', employmentType: '', location: '', locationType: '',
     currentlyWorking: false, startMonth: '', startYear: '', description: '',
@@ -112,10 +112,32 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
 
             <div>
               <FieldLabel htmlFor={`exp-description-${i}`} value={exp.description}>Description</FieldLabel>
-              <textarea id={`exp-description-${i}`} className={textareaCls} rows={4}
-                placeholder="Describe your responsibilities, key achievements, impact..."
-                value={exp.description}
-                onChange={(e) => updateArr(setExperiences, i, 'description', e.target.value)} />
+              <div className="relative">
+                <textarea id={`exp-description-${i}`} className={`${textareaCls} !pb-12`} rows={4}
+                  placeholder="Describe your responsibilities, key achievements, impact..."
+                  value={exp.description}
+                  onChange={(e) => updateArr(setExperiences, i, 'description', e.target.value)} />
+                {exp.description && exp.description.trim() && (
+                  <button
+                    type="button"
+                    disabled={optimizingField?.type === 'experience' && optimizingField?.index === i}
+                    onClick={() => onOptimize('experience', i)}
+                    className="absolute bottom-2.5 right-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-black shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+                  >
+                    {optimizingField?.type === 'experience' && optimizingField?.index === i ? (
+                      <>
+                        <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        <span>Optimizing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>✨</span>
+                        <span>Optimize with AI</span>
+                      </>
+                    )}
+                  </button>
+                )}
+              </div>
               <HelperText>List your key responsibilities and accomplishments in bullet points.</HelperText>
             </div>
           </CollapsibleItem>

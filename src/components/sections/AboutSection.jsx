@@ -1,7 +1,7 @@
 import React from 'react';
 import { SectionCard, FieldLabel, HelperText, textareaCls, IC } from './FormHelpers';
 
-export default function AboutSection({ about, setAbout, liUrl }) {
+export default function AboutSection({ about, setAbout, liUrl, onOptimize, optimizingField }) {
   const charLimit = 2600;
   const currentLength = about ? about.length : 0;
   const aboutId = React.useId();
@@ -22,10 +22,32 @@ export default function AboutSection({ about, setAbout, liUrl }) {
             {currentLength} / {charLimit}
           </span>
         </div>
-        <textarea id={aboutId} className={textareaCls} rows={6}
-          placeholder="Write a brief summary of your career, skills, achievements, and goals. Ex: 'I am a passionate Full Stack Developer with 3+ years of experience building responsive web applications...'"
-          value={about}
-          onChange={(e) => setAbout(e.target.value)} />
+        <div className="relative">
+          <textarea id={aboutId} className={`${textareaCls} !pb-12`} rows={6}
+            placeholder="Write a brief summary of your career, skills, achievements, and goals. Ex: 'I am a passionate Full Stack Developer with 3+ years of experience building responsive web applications...'"
+            value={about}
+            onChange={(e) => setAbout(e.target.value)} />
+          {about && about.trim() && (
+            <button
+              type="button"
+              disabled={optimizingField?.type === 'about'}
+              onClick={() => onOptimize('about')}
+              className="absolute bottom-2.5 right-2 px-3 py-1.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-black shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer flex items-center gap-1.5 disabled:opacity-50"
+            >
+              {optimizingField?.type === 'about' ? (
+                <>
+                  <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  <span>Optimizing...</span>
+                </>
+              ) : (
+                <>
+                  <span>✨</span>
+                  <span>Optimize with AI</span>
+                </>
+              )}
+            </button>
+          )}
+        </div>
         <HelperText>Write a short 3-4 paragraph summary of your experience, key skills, and career goals.</HelperText>
       </div>
     </SectionCard>

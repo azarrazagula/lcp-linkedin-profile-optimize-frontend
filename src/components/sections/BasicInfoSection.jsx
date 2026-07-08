@@ -30,7 +30,7 @@ const getCitiesByPostalCode = (postcode) => {
 
 
 
-export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl }) {
+export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl, onOptimize, optimizingField }) {
   const set = (field, val) => setBasicInfo({ ...basicInfo, [field]: val });
 
   const fullNameId = React.useId();
@@ -53,7 +53,6 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl }) {
       return;
     }
 
-    // If it's a 6-digit Indian PIN code, fetch matching post offices/districts dynamically
     if (/^\d{6}$/.test(postcode)) {
       fetch(`https://api.postalpincode.in/pincode/${postcode}`)
         .then(res => res.json())
@@ -192,9 +191,25 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, liUrl }) {
       {/* Row 4: Headline */}
       <div>
         <FieldLabel htmlFor={headlineId} value={basicInfo.headline}>Headline *</FieldLabel>
-        <input id={headlineId} className={inputCls} placeholder="e.g. Full Stack Developer | React · Node.js · MongoDB"
-          value={basicInfo.headline}
-          onChange={e => set('headline', e.target.value)} />
+        <div className="relative flex items-center">
+          <input id={headlineId} className={`${inputCls} !pr-16`} placeholder="e.g. Full Stack Developer | React · Node.js · MongoDB"
+            value={basicInfo.headline}
+            onChange={e => set('headline', e.target.value)} />
+          {basicInfo.headline && basicInfo.headline.trim() && (
+            <button
+              type="button"
+              disabled={optimizingField?.type === 'headline'}
+              onClick={() => onOptimize('headline')}
+              className="absolute right-2 px-2.5 py-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-[10px] font-black shadow-xs hover:shadow transition-all active:scale-95 cursor-pointer flex items-center gap-1 disabled:opacity-50"
+            >
+              {optimizingField?.type === 'headline' ? (
+                <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+              ) : (
+                <span>✨ AI</span>
+              )}
+            </button>
+          )}
+        </div>
         <HelperText>Your job title and key skills.</HelperText>
       </div>
 
