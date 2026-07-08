@@ -15,7 +15,6 @@ import JobPreferenceSection from './sections/JobPreferenceSection';
 import VolunteerSection from './sections/VolunteerSection';
 import AwardsSection from './sections/AwardsSection';
 import CoursesSection from './sections/CoursesSection';
-import RecommendationsSection from './sections/RecommendationsSection';
 import OrganizationsSection from './sections/OrganizationsSection';
 import PublicationsSection from './sections/PublicationsSection';
 import PatentsSection from './sections/PatentsSection';
@@ -40,7 +39,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
     {
       jobTitle: '', company: '', employmentType: '', location: '', locationType: '',
       currentlyWorking: false, startMonth: '', startYear: '', description: '',
-      profileHeadline: '', foundVia: ''
+      foundVia: ''
     },
   ]);
 
@@ -101,11 +100,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
     { name: '', associatedWith: '', courseNumber: '' }
   ]);
 
-  // Optional Section 4: Recommendations
-  const [recommendations, setRecommendations] = useState([
-    { recommenderName: '', relationship: '', text: '' }
-  ]);
-
   // Optional Section 5: Organizations
   const [organizations, setOrganizations] = useState([
     { name: '', position: '', associatedWith: '', currentlyMember: false, startMonth: '', startYear: '', endMonth: '', endYear: '', description: '' }
@@ -156,11 +150,10 @@ export default function LinkedInForm({ onGenerate, loading }) {
     if (desiredTitlesCount > 0) score += 5;
 
     // Standout / Optional (Total: 10 pts)
-    if (projects.some(p => p.name.trim())) score += 4;
+    if (projects.some(p => p.name.trim())) score += 5;
     if (volunteerExp.some(v => v.organization.trim())) score += 1;
     if (awards.some(a => a.title.trim())) score += 1;
     if (courses.some(c => c.name.trim())) score += 1;
-    if (recommendations.some(r => r.recommenderName.trim())) score += 1;
     if (organizations.some(o => o.name.trim())) score += 1;
     if (publications.some(p => p.title.trim())) score += 1;
 
@@ -255,7 +248,7 @@ export default function LinkedInForm({ onGenerate, loading }) {
             serviceDescription: '',
           }
         },
-        volunteerExp, awards, courses, recommendations,
+        volunteerExp, awards, courses,
         organizations, publications: mappedPublications, patents: mappedPatents, testScores
       });
     }
@@ -401,14 +394,6 @@ export default function LinkedInForm({ onGenerate, loading }) {
           liUrl={LI.courses}
         />
 
-        {/* 14. Recommendations */}
-        <RecommendationsSection
-          recommendations={recommendations}
-          setRecommendations={setRecommendations}
-          updateArr={updateArr}
-          addItem={addItem}
-          removeItem={removeItem}
-        />
 
         {/* 15. Organizations */}
         <OrganizationsSection

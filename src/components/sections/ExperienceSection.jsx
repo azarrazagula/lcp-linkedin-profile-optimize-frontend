@@ -5,7 +5,7 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
   const emptyExp = {
     jobTitle: '', company: '', employmentType: '', location: '', locationType: '',
     currentlyWorking: false, startMonth: '', startYear: '', description: '',
-    profileHeadline: '', foundVia: ''
+    foundVia: ''
   };
 
   return (
@@ -117,14 +117,6 @@ export default function ExperienceSection({ experiences, setExperiences, updateA
                 value={exp.description}
                 onChange={(e) => updateArr(setExperiences, i, 'description', e.target.value)} />
               <HelperText>List your key responsibilities and accomplishments in bullet points.</HelperText>
-            </div>
-
-            <div>
-              <FieldLabel htmlFor={`exp-profileHeadline-${i}`} value={exp.profileHeadline}>Profile headline</FieldLabel>
-              <input id={`exp-profileHeadline-${i}`} className={inputCls} placeholder="Appears below your name at top of profile"
-                value={exp.profileHeadline}
-                onChange={(e) => updateArr(setExperiences, i, 'profileHeadline', e.target.value)} />
-              <HelperText>An optional headline for this role. Leave blank to use your main profile headline.</HelperText>
             </div>
           </CollapsibleItem>
         ))}
