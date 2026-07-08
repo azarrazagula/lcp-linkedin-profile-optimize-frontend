@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import LinkedInForm from './LinkedInForm';
 import GenerateAI from './GenerateAI';
 import LoginPage from './LoginPage';
+import UserProfile from './UserProfile';
 
 const API_BASE_URL = 'http://localhost:5001/api';
 
@@ -12,6 +13,7 @@ export default function Home({ currentUser, onLoginSuccess, onLogout }) {
 
   // Modal flow states
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
   const [pendingFormData, setPendingFormData] = useState(null);
 
   const handleGenerate = async (formData, userOverride = null) => {
@@ -99,7 +101,11 @@ export default function Home({ currentUser, onLoginSuccess, onLogout }) {
           <div className="flex items-center space-x-3">
             {currentUser ? (
               <>
-                <div className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs">
+                <div 
+                  onClick={() => setShowProfileModal(true)}
+                  className="hidden sm:flex items-center space-x-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs cursor-pointer hover:bg-slate-200 transition-all"
+                  title="View Profile"
+                >
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                   <span className="text-slate-700 font-bold">{currentUser?.name || 'User'}</span>
                 </div>
@@ -164,6 +170,15 @@ export default function Home({ currentUser, onLoginSuccess, onLogout }) {
             <div className="mt-2">
               <LoginPage onLoginSuccess={handleLoginSuccessWrapper} isModal={true} />
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── User Profile Modal Overlay ────────────────────────────────────── */}
+      {showProfileModal && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn">
+          <div className="relative w-full max-w-sm bg-white border border-slate-200/80 rounded-[32px] shadow-2xl animate-slideUp overflow-hidden">
+            <UserProfile onClose={() => setShowProfileModal(false)} />
           </div>
         </div>
       )}
