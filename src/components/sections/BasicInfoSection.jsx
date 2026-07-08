@@ -218,6 +218,16 @@ export default function BasicInfoSection({ basicInfo, setBasicInfo, setProfilePh
         </div>
       </div>
 
+      {/* Warning/Instructions for Profile & Cover Photo Sync */}
+      <div className="mt-2 p-4 rounded-2xl border border-amber-200 bg-amber-50/50 shadow-3xs">
+        <h4 className="text-xs font-bold text-amber-950 uppercase tracking-wider flex items-center gap-1.5 mb-1">
+          ⚠️ Add this instead (Must)
+        </h4>
+        <p className="text-xs text-amber-900 leading-relaxed font-semibold">
+          Uploading photos in this form will NOT automatically update them on your actual LinkedIn account due to security and API restrictions. You must save your photos and manually upload them directly on your LinkedIn profile page.
+        </p>
+      </div>
+
       {/* Row 6: LinkedIn Profile URL */}
       <div className="mt-4 p-4 rounded-2xl border border-blue-100 bg-blue-50/30 transition-all shadow-3xs">
         <FieldLabel htmlFor={linkedinUrlId}>LinkedIn Profile URL *</FieldLabel>
